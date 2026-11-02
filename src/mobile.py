@@ -78,6 +78,44 @@ DATES = day_dates()
 def dkey(d): return DATES[id(d)].isoformat()
 
 # --- rendu des blocs -----------------------------------------------------------
+
+MONTHS = {"déc": 12, "dec": 12, "janv": 1, "jan": 1}
+def day_matches(dstr, d):
+    """True si la chaîne 'day' d'une adresse vise la date d (datetime.date)."""
+    if not dstr: return False
+    t = dstr.lower().replace("1er", "1")
+    parts = re.split(r";| ou bien | sinon ", t)
+    for part in parts:
+        m = re.search(r"(déc|dec|janv|jan)", part)
+        if not m: continue
+        month = MONTHS[m.group(1)]
+        if month != d.month: continue
+        nums = [int(x) for x in re.findall(r"\b(\d{1,2})\b", part[:m.start()])]
+        if " au " in part[:m.start()] and len(nums) >= 2:
+            a, b = nums[0], nums[1]
+            if a <= d.day <= b: return True
+        if d.day in nums: return True
+    return False
+
+def render_night(k):
+    if MODE != 'allibert': return ""
+    if k in E.NIGHT_OTHER:
+        return f'<div class="night"><div class="lbl">{ico("plane")} La nuit</div><b>{esc(E.NIGHT_OTHER[k])}</b></div>'
+    ref = E.HOTEL_BY_DATE.get(k)
+    if not ref: return ""
+    name, when, addr, mq, site, notes = E.HOTELS[ref[0]][ref[1]]
+    links = f'<a class="pill" href="{maps_url(mq)}" target="_blank" rel="noopener">{ico("pin")} Google Maps</a>'
+    if site: links += f'<a class="pill" href="{site}" target="_blank" rel="noopener">{ico("ext")} Site</a>'
+    return f'''<div class="night" data-s="hotel" data-title="{esc(name)}"><div class="lbl">{ico("bed")} La nuit · {esc(when)}</div><b>{esc(name)}</b><div class="addr">{esc(addr)}</div><details class="more"><summary>Accès, bains, horaires</summary><p>{notes}</p></details><div class="links">{links}</div></div>'''
+
+def render_day_addresses(d_date):
+    if not G or MODE != 'allibert': return ""
+    items = [g for g in G.GUIDE if day_matches(g.get("day", ""), d_date)]
+    if not items: return ""
+    items.sort(key=lambda x: list(KINDS).index(x["kind"]) if x["kind"] in KINDS else 9)
+    rows = "".join(f'<a class="dad" href="#adresses" data-go="guide" data-target="g-{slug(g["name"])}"><span class="dk">{KINDS.get(g["kind"], (g["kind"], ""))[1]}</span><span class="dn"><b>{esc(g["name"])}</b><small>{esc(KINDS.get(g["kind"], (g["kind"], ""))[0])}{(" · " + esc(g["zone"])) if g.get("zone") else ""}</small></span>{ico("chev","chev")}</a>' for g in items)
+    return f'<div class="dayaddr"><div class="lbl">{ico("pin")} Adresses du jour</div>{rows}</div>'
+
 def render_day(ch, d):
     k = dkey(d)
     if MODE == 'allibert':
@@ -112,7 +150,7 @@ def render_day(ch, d):
     stars = f'<span class="st">{d["stars"]}</span>' if d.get('stars') else ""
     return f'''<details class="day" id="d-{k}" data-date="{k}" data-s="day">
 <summary><div class="dnum">{d["num"]}</div><div class="dtt"><div class="dow">{esc(d["dow"])}</div><div class="ttl">{esc(d["title"])}{stars}</div><div class="heads">{head}</div></div>{ico("chev","chev")}</summary>
-<div class="dbody">{photos}{secs}{side}{traj}{coince}{opts}</div></details>'''
+<div class="dbody">{photos}{secs}{side}{traj}{coince}{opts}{render_night(k)}{render_day_addresses(date.fromisoformat(k))}</div></details>'''
 
 def render_strip(st):
     nodes, segs = st['nodes'], st['segs']
@@ -144,9 +182,6 @@ def guide_link(ch):
     if not G: return ""
     areas = CH_AREAS.get(ch['key'], [])
     out = "".join(f'<a class="btn ghost" href="#adresses" data-go="guide" data-target="area-{slug(a)}">{ico("pin")} Adresses : {esc(a)}</a>' for a in areas if any(g["area"] == a for g in G.GUIDE))
-    runs = [g for g in G.GUIDE if g["kind"] == "course" and g["area"] in areas]
-    if runs:
-        out += '<div class="runs"><div class="lbl">🏃 Courir ici</div>' + "".join(f'<a class="runl" href="#adresses" data-go="guide" data-target="g-{slug(g["name"])}">{esc(g["name"])}<small>{esc(g.get("day",""))}</small>{ico("chev","chev")}</a>' for g in runs) + '</div>'
     return out
 
 def render_guide():
@@ -200,7 +235,7 @@ def render_chapter(ch):
 {locals_html}
 {mp}{strips}
 <div class="days">{days}</div>
-{render_hotels(ch) if MODE == 'allibert' else f'<a class="btn ghost" href="#sleep/{key}" data-go="sleep" data-target="lg-{key}">{ico("bed")} Où dormir : {esc(ch["lodging"]["title"])}</a>'}
+{'' if MODE == 'allibert' else f'<a class="btn ghost" href="#sleep/{key}" data-go="sleep" data-target="lg-{key}">{ico("bed")} Où dormir : {esc(ch["lodging"]["title"])}</a>'}
 {guide_link(ch)}
 </div></section>'''
 
@@ -253,7 +288,6 @@ def render_info_allibert():
     before = "".join(f'<details class="sub" data-s="info" data-title="{esc(t)}"><summary>{esc(cap(t))}</summary><div class="rich">{b}</div></details>' for t, b in E.BEFORE_BOXES + [A.BEFORE['boxes'][0], A.BEFORE['boxes'][1]])
     prac = "".join(f'<details class="sub" data-s="info" data-title="{esc(t)}"><summary>{esc(cap(t))}</summary><p>{E.PRACTICAL_OVERRIDES.get(t, b)}</p></details>' for t, b in C.PRACTICAL['items'] + E.PRACTICAL_EXTRA)
     mode = "".join(f'<details class="sub" data-s="mode" data-title="{esc(t)}"><summary>{esc(cap(t))}</summary><p>{b}</p></details>' for t, b in D.MODE_EMPLOI['items'] if "RÉSERVÉS" not in t)
-    bud = "".join(f'<tr><td>{esc(a)}</td><td>{esc(b)}</td><td>{esc(c)}</td></tr>' for a, b, c in E.BUDGET['rows']) + f'<tr class="tot"><td>{esc(E.BUDGET["total"][0])}</td><td>{esc(E.BUDGET["total"][1])}</td><td></td></tr>'
     src = "".join(f'<li><a href="{u}" target="_blank" rel="noopener">{esc(t)} {ico("ext")}</a></li>' for t, u in C.SOURCES)
     return f'''<div class="pad">
 <div class="kicker">AVANT DE PARTIR</div><h1>Le voyage avec Allibert</h1><p class="intro">{E.INTRO}</p>
@@ -263,8 +297,6 @@ def render_info_allibert():
 {before}
 <div class="kicker">SUR PLACE</div><h1>{esc(C.PRACTICAL["title"])}</h1>{prac}
 <div class="kicker">{esc(D.MODE_EMPLOI["kicker"])}</div><h1>{esc(D.MODE_EMPLOI["title"])}</h1><p class="intro">{D.MODE_EMPLOI["intro"]}</p>{mode}
-<div class="kicker">{esc(E.BUDGET["kicker"])}</div><h1>{esc(E.BUDGET["title"])}</h1><p class="intro">{E.BUDGET["intro"]}</p>
-<table class="tbl cmp"><thead><tr><th>{esc(E.BUDGET["col0"])}</th><th>{esc(E.BUDGET["col1"])}</th><th>{esc(E.BUDGET["col2"])}</th></tr></thead><tbody>{bud}</tbody></table><p class="note">{E.BUDGET["note"]}</p>
 <div class="kicker">SOURCES</div><h1>Sources et crédits</h1><ul class="src">{src}</ul><p class="note">{C.SOURCES_FOOT} Photos : Wikimedia Commons, crédits dans le carnet PDF. {esc(E.FOOT)}. Version mobile générée le {GEN}.</p>
 </div>'''
 
@@ -317,15 +349,15 @@ lodgings = "".join(render_lodging(ch) for ch in CHAPTERS)
 toc = "".join(f'<a class="tocl t-{ch["theme"]}" href="#voyage" data-target="ch-{ch["key"]}"><span class="kj">{ch["kanji"]}</span><div><b>{esc(ch["title"])}</b><small>{esc(ch["subtitle"])}</small></div>{ico("chev","chev")}</a>' for ch in CHAPTERS)
 
 CSS = r'''
-:root{--paper:#fbfaf6;--paper2:#f4f1ea;--card:#ffffff;--ink:#262626;--ink2:#595959;--mute:#8a8580;--rule:#e3dfd5;--rule2:#cfc9bb;--shu:#b9432e;--ai:#2f4a6b;--moss:#5f7a5b;--kin:#a88a4a;--theme:var(--ai);
+:root{--paper:#fafaf9;--paper2:#f5f5f4;--card:#ffffff;--ink:#1c1917;--ink2:#44403c;--mute:#78716c;--rule:#e7e5e4;--rule2:#d6d3d1;--shu:#b91c1c;--ai:#334155;--moss:#3f6212;--kin:#a16207;--theme:var(--ai);
  --ui:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP",Arial,sans-serif;--jp:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%;color-scheme:light}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:15.5px;line-height:1.55;padding-right:34px;padding-bottom:calc(32px + env(safe-area-inset-bottom));font-feature-settings:"kern","liga"}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);font-size:15px;line-height:1.6;padding-bottom:calc(72px + env(safe-area-inset-bottom));font-feature-settings:"kern","liga";-webkit-font-smoothing:antialiased}
 a{color:var(--shu);text-decoration-thickness:1px;text-underline-offset:2px} b{font-weight:600}
-h1{font-weight:500;font-size:24px;line-height:1.2;letter-spacing:-.01em;margin:4px 0 12px}
-h2{font-weight:500;font-size:19px;line-height:1.25;margin:0 0 8px}
-.kicker{font-size:10.5px;font-weight:600;letter-spacing:.18em;color:var(--shu);text-transform:uppercase;margin-top:30px;display:flex;align-items:center;gap:10px} .kicker::after{content:"";flex:1;height:1px;background:var(--rule)}
+h1{font-weight:600;font-size:24px;line-height:1.2;letter-spacing:-.02em;margin:4px 0 12px}
+h2{font-weight:600;font-size:18px;line-height:1.3;letter-spacing:-.01em;margin:0 0 8px}
+.kicker{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--shu);text-transform:uppercase;margin-top:32px;display:flex;align-items:center;gap:10px} .kicker::after{content:"";flex:1;height:1px;background:var(--rule)}
 .lbl{font-size:10.5px;font-weight:600;letter-spacing:.16em;color:var(--shu);text-transform:uppercase;margin:12px 0 4px}
 .pad{padding:0 16px}
 p{margin:0 0 10px} .intro{font-size:16px;line-height:1.55;color:var(--ink)}
@@ -343,23 +375,23 @@ p{margin:0 0 10px} .intro{font-size:16px;line-height:1.55;color:var(--ink)}
 .search .row{display:flex;gap:8px;align-items:center}
 .search input{flex:1;font:15px var(--ui);padding:10px 14px;border-radius:8px;border:1px solid var(--rule2);background:#fff;color:var(--ink)} .search input:focus{outline:none;border-color:var(--ai)}
 .search button{background:none;border:0;color:var(--ink);padding:6px}
-#results{position:fixed;inset:0;top:64px;z-index:19;background:var(--paper);overflow:auto;padding:8px 50px 90px 16px}
+#results{position:fixed;inset:0;top:64px;z-index:19;background:var(--paper);overflow:auto;padding:8px 16px 90px}
 .res{display:block;padding:12px 0;border-bottom:1px solid var(--rule);color:var(--ink);text-decoration:none}
 .res .rk{font-size:10px;letter-spacing:.14em;color:var(--shu);font-weight:600;text-transform:uppercase}
 .res b{display:block;font-weight:600;font-size:15.5px;margin:2px 0}
 .res small{display:block;color:var(--ink2);font-size:13px;line-height:1.45} mark{background:#f3e6b4;color:#111;border-radius:2px;padding:0 1px}
 /* onglets latéraux, façon index de carnet */
-.tabs{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:20;display:flex;flex-direction:column;gap:6px}
-.tabs button{width:34px;height:66px;border:0;border-radius:7px 0 0 7px;background:var(--paper2);color:var(--mute);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;border:1px solid var(--rule);border-right:0;font-family:var(--ui)}
-.tabs button .i{width:16px;height:16px} .tabs button .tk{font-family:var(--jp);font-size:14px;line-height:1;color:currentColor} .tabs button .tl{font-size:7.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
-.tabs button.on{background:#fff;color:var(--shu);width:40px;border-color:var(--rule2);box-shadow:-2px 2px 6px rgba(0,0,0,.05)}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-top:1px solid var(--rule);padding-bottom:env(safe-area-inset-bottom)}
+.tabs button{flex:1;background:none;border:0;color:var(--mute);font-family:var(--ui);padding:8px 0 7px;display:flex;flex-direction:column;align-items:center;gap:3px}
+.tabs button .tk{font-family:var(--jp);font-size:19px;line-height:1.1;color:currentColor} .tabs button .tlab{font-size:10px;letter-spacing:.04em;font-weight:500}
+.tabs button.on{color:var(--shu)}
 main>section.view{display:none} main>section.view.on{display:block}
 /* couverture */
-.cover{position:relative;background:#fff;border-bottom:1px solid var(--rule);padding:30px 20px 24px;overflow:hidden;background-image:linear-gradient(var(--rule) 1px,transparent 1px);background-size:100% 28px;background-position:0 22px}
+.cover{position:relative;background:#fff;border-bottom:1px solid var(--rule);padding:32px 20px 26px;overflow:hidden}
 .cover .ckj{position:absolute;right:-4px;top:-18px;font-family:var(--jp);font-size:150px;color:var(--paper2);line-height:1;z-index:0}
 .cover>*{position:relative;z-index:1}
 .cover .ck1{font-size:10px;letter-spacing:.18em;font-weight:600;color:var(--shu);text-transform:uppercase}
-.cover .ct{font-size:44px;font-weight:300;letter-spacing:-.02em;margin:8px 0 2px;line-height:1} .cover .ct i{display:block;font-style:normal;font-family:var(--jp);font-size:26px;color:var(--ai);font-weight:400;margin-top:2px}
+.cover .ct{font-size:46px;font-weight:600;letter-spacing:-.03em;margin:10px 0 2px;line-height:1} .cover .ct i{display:block;font-style:normal;font-family:var(--jp);font-size:26px;color:var(--ai);font-weight:400;margin-top:2px}
 .cover .cd{font-size:13px;color:var(--ink2);margin-top:8px} .cover p{font-size:14px;color:var(--ink2);margin-top:6px}
 .cover .stops{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px} .cover .stops span{font-size:11px;border:1px solid var(--rule2);padding:3px 9px;border-radius:999px;color:var(--ink2);background:#fff}
 .btn{display:inline-flex;align-items:center;gap:8px;font:500 14px var(--ui);background:var(--shu);color:#fff;border:0;border-radius:8px;padding:10px 16px;text-decoration:none}
@@ -385,7 +417,7 @@ main>section.view{display:none} main>section.view.on{display:block}
 .hero .reg{font-size:10px;letter-spacing:.16em;color:var(--shu);font-weight:600;text-transform:uppercase} .hero h2{font-size:22px;font-weight:500;margin:2px 0 1px} .hero .sub{font-size:12.5px;color:var(--ink2)}
 .chbody{padding:16px 16px 20px}
 .stats{display:flex;gap:8px;margin:6px 0 12px} .stats div{flex:1;background:#fff;border:1px solid var(--rule);border-radius:8px;padding:8px 10px;border-top:2px solid var(--theme)} .stats b{font-weight:500;font-size:20px;display:block;line-height:1.1;color:var(--theme)} .stats small{font-size:11px;color:var(--mute)}
-details.sub{background:#fff;border:1px solid var(--rule);border-radius:8px;margin:8px 0;padding:0 12px}
+details.sub{background:#fff;border:1px solid var(--rule);border-radius:12px;margin:8px 0;padding:0 14px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
 details.sub>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:11px 0;font-weight:600;font-size:14px;color:var(--ink)}
 details.sub>summary::-webkit-details-marker{display:none} details.sub>summary::after{content:"";margin-left:auto;width:7px;height:7px;border-right:1.5px solid var(--mute);border-bottom:1.5px solid var(--mute);transform:rotate(45deg);transition:transform .2s;flex:none}
 details.sub[open]>summary::after{transform:rotate(-135deg)} details.sub>*:not(summary){margin-bottom:10px} details.sub>p:last-child,details.sub>div:last-child{padding-bottom:12px;margin-bottom:0}
@@ -397,17 +429,17 @@ details.sub.warn>summary{color:var(--shu)} details.sub.loc .lbl:first-of-type{ma
 .sseg{font-size:12.5px;color:var(--mute);padding:4px 0 6px} .sseg.s-c{color:var(--shu)} .sseg.s-t,.sseg.s-b{color:var(--ai)}
 /* journées */
 .days{margin-top:14px}
-details.day{background:#fff;border:1px solid var(--rule);border-radius:8px;margin:10px 0;border-left:3px solid var(--theme)}
+details.day{background:#fff;border:1px solid var(--rule);border-radius:12px;margin:12px 0;box-shadow:0 1px 2px rgba(0,0,0,.03)}
 details.day.today{box-shadow:0 0 0 2px var(--kin)}
 details.day>summary{list-style:none;display:flex;gap:12px;padding:12px 12px 12px 10px;cursor:pointer;align-items:flex-start} details.day>summary::-webkit-details-marker{display:none}
-.dnum{font-weight:300;font-size:34px;line-height:.9;color:var(--theme);width:44px;flex:none;text-align:center;padding-top:4px;letter-spacing:-.03em} .dnum sup{font-size:13px;font-weight:500}
-.dtt{flex:1} .dow{font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--shu);text-transform:uppercase} .dtt .ttl{font-weight:600;font-size:16.5px;line-height:1.2;margin:2px 0 4px} .st{color:var(--kin);margin-left:6px;font-size:13px}
+.dnum{font-weight:600;font-size:30px;line-height:1;color:var(--shu);width:44px;flex:none;text-align:center;padding-top:5px;letter-spacing:-.04em} .dnum sup{font-size:13px;font-weight:500}
+.dtt{flex:1} .dow{font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--shu);text-transform:uppercase} .dtt .ttl{font-weight:600;font-size:17px;line-height:1.25;letter-spacing:-.01em;margin:3px 0 5px} .st{color:var(--kin);margin-left:6px;font-size:13px}
 .heads{display:flex;flex-wrap:wrap;gap:3px 10px} .hd{font-size:11.5px;color:var(--mute)} .hd b{color:var(--ink2);font-weight:600}
 details.day>summary .chev{color:var(--rule2);margin-top:6px;transition:transform .2s} details.day[open]>summary .chev{transform:rotate(90deg)}
 .dbody{padding:0 12px 12px}
 .photos{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -12px 10px;padding:0 12px;-webkit-overflow-scrolling:touch}
 .photos figure{flex:0 0 78%;margin:0;scroll-snap-align:start} .photos img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;display:block} .photos figcaption{font-size:11px;color:var(--mute);padding:4px 2px}
-.sec{margin-bottom:6px} .sec .lbl{margin-top:8px} .sec p{font-size:15px;line-height:1.6}
+.sec{margin-bottom:6px} .sec .lbl{margin-top:8px} .sec p{font-size:15px;line-height:1.65}
 .box{background:var(--paper2);border-radius:8px;padding:8px 12px;margin:10px 0} .box .lbl{margin-top:0} .box ul{margin:0;padding-left:18px} .box li{margin-bottom:4px;font-size:14px} .box p{margin:0;font-size:14px}
 .box.rep p{color:var(--ink2)}
 .traj{padding-bottom:8px} .tr{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--rule)} .tt{font-size:12px;font-weight:600;color:var(--shu);width:60px;flex:none;padding-top:2px;line-height:1.3;font-variant-numeric:tabular-nums} .tb{flex:1;font-size:14px} .tb b{display:block;line-height:1.3} .tb small{display:block;color:var(--ink2);font-size:12.5px;line-height:1.4}
@@ -431,6 +463,8 @@ details.day>summary .chev{color:var(--rule2);margin-top:6px;transition:transform
 .gc{background:#fff;border:1px solid var(--rule);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--rule2)} .gc.k-manger{border-left-color:var(--shu)} .gc.k-cafe{border-left-color:#8a6d3b} .gc.k-bain{border-left-color:#3b7ea1} .gc.k-photo{border-left-color:var(--ink)} .gc.k-voir{border-left-color:var(--kin)} .gc.k-boutique{border-left-color:#6b5b95} .gc.k-course{border-left-color:var(--moss)} .gc.k-papeterie{border-left-color:#8a5a2b}
 .gc .gk{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)} .gc b{font-weight:600;font-size:15.5px;display:block;line-height:1.25;margin:2px 0} .gc p{font-size:13.5px;line-height:1.5;margin:2px 0 4px;color:var(--ink2)} .gc .meta{font-size:12px;color:var(--mute);line-height:1.45;margin-bottom:4px}
 .runs{margin:10px 0 4px} .runl{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--rule);border-radius:8px;padding:9px 12px;margin-bottom:6px;color:var(--ink);text-decoration:none;font:500 14px var(--ui);border-left:3px solid var(--moss)} .runl small{color:var(--mute);font-weight:400;margin-left:auto;font-size:11.5px} .runl .chev{color:var(--rule2)}
+.night{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:10px 14px;margin:14px 0 6px;border-left:3px solid var(--kin)} .night .lbl{margin-top:0;display:flex;align-items:center;gap:6px;color:var(--kin)} .night b{font-weight:600;font-size:15.5px;display:block;line-height:1.25} .night .addr{font-size:12px;color:var(--mute);margin:2px 0 6px} .night details.more{margin:4px 0 8px} .night details.more summary{list-style:none;cursor:pointer;font-size:12.5px;color:var(--ai);font-weight:500} .night details.more summary::-webkit-details-marker{display:none} .night details.more p{font-size:13.5px;color:var(--ink2);line-height:1.55;margin:6px 0 0}
+.dayaddr{margin:12px 0 2px} .dayaddr .lbl{display:flex;align-items:center;gap:6px} .dad{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--rule);color:var(--ink);text-decoration:none} .dad:first-of-type{border-top:0} .dad .dk{font-size:16px;width:24px;text-align:center;flex:none} .dad .dn{flex:1;min-width:0} .dad .dn b{display:block;font-weight:500;font-size:14px;line-height:1.3} .dad .dn small{display:block;color:var(--mute);font-size:11.5px} .dad .chev{color:var(--rule2)}
 .zone{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:14px 0 6px}
 /* infos */
 .tbl{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0 4px;background:#fff;border:1px solid var(--rule);border-radius:8px;overflow:hidden} .tbl th{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:8px;background:var(--paper2);color:var(--ink2);border-bottom:1px solid var(--rule2)} .tbl td{padding:7px 8px;border-top:1px solid var(--rule);vertical-align:top} .tbl td:nth-child(n+2){white-space:nowrap;text-align:right} .tbl.cmp td:nth-child(n+2){white-space:normal;text-align:left;width:25%}
@@ -476,7 +510,7 @@ $$('#v-voyage details.sub[data-s]').forEach(d=>add(d,'Chapitre',d.dataset.title,
 $$('#v-todo .ck').forEach(d=>add(d,'À faire',d.dataset.title,'todo'));
 $$('#v-sleep .lodge').forEach(d=>add(d,'Dormir',d.dataset.title,'sleep'));
 $$('#v-guide .gc').forEach(d=>add(d,'Adresse · '+d.closest('.garea').querySelector('h2').firstChild.textContent,d.dataset.title,'guide'));
-$$('#v-voyage .hotel').forEach(d=>add(d,'Hôtel',d.dataset.title,'voyage'));
+$$('#v-voyage .night[data-s]').forEach(d=>add(d,'Hôtel',d.dataset.title,'voyage'));
 // filtres du guide
 $$('.fchip').forEach(b=>b.addEventListener('click',()=>{ $$('.fchip').forEach(x=>x.classList.toggle('on',x===b)); const k=b.dataset.k; $$('.gc').forEach(c=>c.classList.toggle('hidden',k!=='all'&&c.dataset.k!==k)); $$('.zone').forEach(z=>{ let vis=false, n=z.nextElementSibling; while(n && !n.classList.contains('zone')){ if(n.classList.contains('gc') && !n.classList.contains('hidden')) vis=true; n=n.nextElementSibling; } z.classList.toggle('hidden',!vis); }); $$('.garea').forEach(a=>a.classList.toggle('hidden',!a.querySelector('.gc:not(.hidden)'))); }));
 $$('#v-info details.sub[data-s]').forEach(d=>add(d,d.dataset.s==='mode'?'Mode d\'emploi':'Infos',d.dataset.title,'info'));
@@ -499,6 +533,28 @@ show(views[tab]?tab:'voyage',true);
 })();
 '''
 
+NUM = r"\d{1,3}(?:[ \u202f\u00a0,]\d{3})+|\d+"
+def _yen(n): return int(re.sub(r"[^\d]", "", n))
+def _eur(y):
+    e = y / 175.0
+    if e < 1.5: return f"{e:.1f} €".replace(".", ",")
+    if e < 100: return f"{round(e)} €"
+    return f"{int(round(e, -1)):,} €".replace(",", "\u202f")
+def euros(html):
+    """Ajoute (≈ x €) après chaque montant en yens qui n'est pas déjà suivi d'une parenthèse."""
+    rng = re.compile(r"(?<![\w€])(" + NUM + r")\s*(?:à|et|ou|-)\s*(" + NUM + r")\s?(yens?|¥)(?!\s*\(|\s*\d|[\w])")
+    def frng(m):
+        a, b = _yen(m.group(1)), _yen(m.group(2))
+        if a < 50 or b < 50 or a > 5_000_000: return m.group(0)
+        return f"{m.group(1)} à {m.group(2)} {m.group(3)} (≈ {_eur(a)} à {_eur(b)})"
+    html = rng.sub(frng, html)
+    one = re.compile(r"(?<![\w€])(" + NUM + r")\s?(yens?|¥)(?!\s*\(|\s*\d|[\w])")
+    def fone(m):
+        y = _yen(m.group(1))
+        if y < 50 or y > 5_000_000: return m.group(0)
+        return f"{m.group(1)} {m.group(2)} (≈ {_eur(y)})"
+    return one.sub(fone, html)
+
 def build():
     css = CSS
     doc = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8">
@@ -514,9 +570,12 @@ def build():
 <section class="view" id="v-info">{render_info()}</section>
 <section class="view" id="v-maps">{render_maps()}</section>
 </main>
-<nav class="tabs"><button data-v="voyage" class="on"><span class="tk">旅</span><span class="tl">Voyage</span></button>{'<button data-v="guide"><span class="tk">処</span><span class="tl">Adresses</span></button>' if MODE == 'allibert' else '<button data-v="sleep"><span class="tk">宿</span><span class="tl">Dormir</span></button>'}<button data-v="todo"><span class="tk">済</span><span class="tl">À faire</span></button><button data-v="info"><span class="tk">案</span><span class="tl">Infos</span></button><button data-v="maps"><span class="tk">図</span><span class="tl">Cartes</span></button></nav>
+<nav class="tabs"><button data-v="voyage" class="on"><span class="tk">旅</span><span class="tlab">Voyage</span></button>{'<button data-v="guide"><span class="tk">処</span><span class="tlab">Adresses</span></button>' if MODE == 'allibert' else '<button data-v="sleep"><span class="tk">宿</span><span class="tlab">Dormir</span></button>'}<button data-v="todo"><span class="tk">済</span><span class="tlab">À faire</span></button><button data-v="info"><span class="tk">案</span><span class="tlab">Infos</span></button><button data-v="maps"><span class="tk">図</span><span class="tlab">Cartes</span></button></nav>
 <div id="lb"><button id="lbClose" aria-label="Fermer">{ico("close")}</button><img alt=""><div class="hint">Faites défiler pour explorer la carte</div></div>
 <script>{JS}</script></body></html>'''
+    if MODE == 'allibert':
+        for x, y in E.TEXT_FIXES: doc = doc.replace(x, y)
+    doc = euros(doc)
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(doc)
     print(OUT, os.path.getsize(OUT) // 1024, "ko")

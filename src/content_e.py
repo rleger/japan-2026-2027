@@ -199,3 +199,21 @@ BRIEF_OVERRIDES = {
 PRACTICAL_EXTRA = [
     ("COURSE À PIED", "Une option de course d'une heure au plus est donnée à chaque étape dans l'onglet Adresses (filtre « Course »). Au Japon, courir tôt est facile et sûr : le jour se lève vers 6 h 50 fin décembre, les parcs ouvrent souvent avant, les konbini sont là pour l'eau. Trottoirs à gauche, on ne traverse pas au rouge même sans voiture. Sur les sentiers (Takayama, Kumano, Kōya-san, Kyoto) : frontale, petits crampons si neige ou verglas, téléphone chargé, et prévenir Claudie de l'heure de retour. Les ours hibernent en janvier dans le Kii, mais les clochettes des locaux ne coûtent rien. Ne pas oublier la serviette : les hôtels d'affaires ont un grand bain, et le Mitsui Garden, Dormy Inn, eph (baignoire) et les ryokan permettent de se laver après."),
 ]
+
+# Nuit par date (clé = index dans HOTELS[chapitre])
+HOTEL_BY_DATE = {
+    "2026-12-27": ("tokyo", 0), "2026-12-28": ("tokyo", 0), "2026-12-29": ("tokyo", 0),
+    "2026-12-30": ("alpes", 0), "2026-12-31": ("alpes", 1), "2027-01-01": ("alpes", 1), "2027-01-02": ("alpes", 2),
+    "2027-01-03": ("kumano", 0), "2027-01-04": ("kumano", 0), "2027-01-05": ("kumano", 1),
+    "2027-01-06": ("koya", 0), "2027-01-07": ("kyoto", 0), "2027-01-08": ("kyoto", 0), "2027-01-09": ("retour", 0),
+}
+NIGHT_OTHER = {"2026-12-26": "Nuit dans l'avion, AF274 Paris → Tokyo", "2027-01-10": "Nuit dans l'avion, AF279 Tokyo → Paris"}
+
+# Phrases du carnet « par nous-mêmes » à neutraliser en mode Allibert
+TEXT_FIXES = [
+    ("Passage par la gare de Tokyo : au guichet JR, acheter ou vérifier les billets de train de tout le voyage (voir checklist).", "Si l'envie vient, passage par la gare de Tokyo pour repérer les quais et les consignes ; les billets de train sont dans le roadbook Allibert."),
+    ("réservé d'avance (beaucoup de restaurants ferment ce soir-là, voir checklist)", "réservé d'avance : Gyu-Suke, à 80 m de la gare, ou une autre table de bœuf de Hida (beaucoup de restaurants ferment ce soir-là)"),
+    (", voir checklist)", ")"),
+    ("(voir checklist)", ""),
+    ("Hébergements : Booking.com, relevés du 1er novembre 2026 pour deux adultes aux dates du voyage ; les prix changent chaque jour. ", ""),
+]
