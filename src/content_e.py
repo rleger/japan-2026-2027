@@ -217,3 +217,100 @@ TEXT_FIXES = [
     ("(voir checklist)", ""),
     ("Hébergements : Booking.com, relevés du 1er novembre 2026 pour deux adultes aux dates du voyage ; les prix changent chaque jour. ", ""),
 ]
+
+# Lieu du jour (pour le soleil et la météo) : date -> (nom, lat, lon)
+DAY_PLACE = {
+    "2026-12-26": ("Paris", 49.01, 2.55), "2026-12-27": ("Tokyo", 35.70, 139.77), "2026-12-28": ("Tokyo", 35.70, 139.77), "2026-12-29": ("Tokyo", 35.70, 139.77),
+    "2026-12-30": ("Matsumoto", 36.24, 137.97), "2026-12-31": ("Takayama", 36.14, 137.25), "2027-01-01": ("Shirakawa-gō", 36.26, 136.91), "2027-01-02": ("Ise", 34.49, 136.71),
+    "2027-01-03": ("Kumano, Hongū", 33.84, 135.77), "2027-01-04": ("Kumano, Hongū", 33.84, 135.77), "2027-01-05": ("Nachi, Kii-Katsuura", 33.62, 135.94), "2027-01-06": ("Kōya-san", 34.21, 135.59),
+    "2027-01-07": ("Kyoto", 35.00, 135.77), "2027-01-08": ("Nara", 34.68, 135.84), "2027-01-09": ("Kyoto, Tokyo", 35.00, 135.77), "2027-01-10": ("Tokyo", 35.68, 139.71), "2027-01-11": ("Paris", 49.01, 2.55),
+}
+CAR_DAYS = {"2027-01-03", "2027-01-04", "2027-01-05", "2027-01-06"}
+MOUNTAIN_DAYS = {"2026-12-30", "2026-12-31", "2027-01-01", "2027-01-02", "2027-01-03", "2027-01-04", "2027-01-05", "2027-01-06"}
+
+# Noms et adresses en japonais, à montrer au chauffeur (clé = nom d'hôtel tel que dans HOTELS)
+HOTELS_JP = {
+    "Nohga Hotel Akihabara Tokyo": "ノーガホテル秋葉原東京　東京都千代田区外神田3-10-11",
+    "Dormy Inn Matsumoto": "ドーミーイン松本　長野県松本市深志2-2-1",
+    "eph TAKAYAMA": "エフ高山（eph TAKAYAMA）　岐阜県高山市花里町5-13-17",
+    "Experience Ise Miyamachi Hotel": "Experience Ise Miyamachi Hotel　三重県伊勢市宮町（伊勢市駅から徒歩10分）",
+    "Kawayu Onsen Fujiya (ou J-Hoppers Kumano Yunomine)": "川湯温泉 冨士屋　和歌山県田辺市本宮町川湯1452　／　J-ホッパーズ熊野湯峰　田辺市本宮町湯峯",
+    "Hotel Urashima": "ホテル浦島　和歌山県東牟婁郡那智勝浦町勝浦1165-2",
+    "The Gate Hotel Osaka by Hulic": "ザ・ゲートホテル大阪 by HULIC　大阪市中央区南船場3-12-14",
+    "Richmond Hotel Premier Kyoto Ekimae": "リッチモンドホテルプレミア京都駅前　京都市下京区北不動堂町565-3",
+    "Mitsui Garden Hotel Jingūgaien Tokyo Premier": "三井ガーデンホテル神宮外苑の杜プレミア　東京都新宿区霞ヶ丘町11-3",
+}
+
+# Météo, routes, webcams : liens par journée de montagne ou de voiture
+WEATHER_LINKS = {
+    "2026-12-30": [("JMA, prévisions Nagano", "https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=200000")],
+    "2026-12-31": [("JMA, prévisions Gifu (Hida)", "https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=210000"), ("Alpico, info trafic des cars", "https://www.alpico.co.jp/traffic/express/matsumoto_takayama/")],
+    "2027-01-01": [("JMA, prévisions Gifu (Hida)", "https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=210000"), ("Webcams de Shirakawa-gō (recherche)", "https://www.google.com/search?q=白川郷+ライブカメラ"), ("Nohi Bus, info trafic", "https://www.nouhibus.co.jp/")],
+    "2027-01-02": [("JMA, prévisions Mie", "https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=240000")],
+    "2027-01-03": [("JMA, prévisions Mie", "https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=240000"), ("JMA, prévisions Wakayama", "https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=300000"), ("Routes de Wakayama, fermetures en temps réel", "https://www.wakayamaken.geocloud.jp/mp/7"), ("Restrictions de circulation à Ise (Nouvel An)", "https://www.rakurakuise.jp/")],
+    "2027-01-04": [("JMA, prévisions Wakayama", "https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=300000"), ("Kumano Travel, état des sentiers", "https://www.tb-kumano.jp/en/")],
+    "2027-01-05": [("JMA, prévisions Wakayama", "https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=300000"), ("Routes de Wakayama, fermetures en temps réel", "https://www.wakayamaken.geocloud.jp/mp/7")],
+    "2027-01-06": [("JMA, prévisions Wakayama (Kōya-san)", "https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=300000"), ("Routes de Wakayama, fermetures en temps réel", "https://www.wakayamaken.geocloud.jp/mp/7"), ("Webcams de Kōya-san (recherche)", "https://www.google.com/search?q=高野山+ライブカメラ"), ("JARTIC, info routes (japonais)", "https://www.jartic.or.jp/")],
+}
+
+# Papiers : champs à remplir (clé, libellé, valeur par défaut)
+PAPERS_FIELDS = [
+    ("vol_aller", "Vol aller", "AF274, Paris CDG 22 h 20 → Haneda 19 h 55 (27 déc.)"),
+    ("vol_retour", "Vol retour", "AF279, Haneda 22 h 55 (10 janv.) → Paris CDG 5 h 50"),
+    ("pnr", "Référence Air France (PNR)", ""),
+    ("allibert_dossier", "Dossier Allibert (n° et conseillère)", "Devis T7J4, Camille de Farcy, +33 5 34 44 55 73"),
+    ("assistance", "Assistance Allibert 24 h/24 (numéro du roadbook)", ""),
+    ("agence_locale", "Agence locale au Japon (nom, téléphone)", ""),
+    ("voiture", "Voiture de location (loueur, n° de réservation, plaque)", "Prise à Ise le 3 janv., rendue à l'aéroport du Kansai le 6 avant 20 h"),
+    ("assurance", "Assurance voyage (contrat, téléphone)", ""),
+    ("banque", "Banque, opposition carte (téléphone)", ""),
+    ("ambassade", "Ambassade de France à Tokyo", "4-11-44 Minami-Azabu, Minato-ku ; +81 3 5798 6000 ; urgences 119 (ambulance), 110 (police)"),
+    ("wifi", "Pocket wifi (identifiants, consigne de retour)", ""),
+    ("tgv", "TGV Besançon ⇄ Paris (références)", ""),
+]
+
+PHRASES = [
+    ("Bonjour / Bonsoir", "こんにちは / こんばんは", "konnichiwa / konbanwa"),
+    ("Merci beaucoup", "ありがとうございます", "arigatō gozaimasu"),
+    ("Excusez-moi (pour appeler, s'excuser)", "すみません", "sumimasen"),
+    ("Deux personnes, sans réservation", "予約なしで、二人です", "yoyaku nashi de, futari desu"),
+    ("Nous avons une réservation au nom de Léger", "レジェで予約しています", "Rejē de yoyaku shite imasu"),
+    ("L'addition, s'il vous plaît", "お会計お願いします", "okaikei onegaishimasu"),
+    ("Carte bancaire, c'est possible ?", "カードは使えますか", "kādo wa tsukaemasu ka"),
+    ("Pas d'allergie, nous mangeons de tout", "アレルギーはありません。何でも食べます", "arerugī wa arimasen, nandemo tabemasu"),
+    ("Une recommandation du chef, s'il vous plaît", "おすすめをお願いします", "osusume o onegaishimasu"),
+    ("Où est la gare / l'arrêt de bus ?", "駅 / バス停はどこですか", "eki / basutei wa doko desu ka"),
+    ("Ce bus va à Hosshinmon-ōji ?", "このバスは発心門王子に行きますか", "kono basu wa Hosshinmon-ōji ni ikimasu ka"),
+    ("Le plein, ordinaire, s'il vous plaît", "レギュラー満タンでお願いします", "regyurā mantan de onegaishimasu"),
+    ("Pneus hiver, c'est bien équipé ?", "スタッドレスタイヤですか", "sutaddoresu taiya desu ka"),
+    ("Pouvons-nous laisser les bagages ?", "荷物を預かってもらえますか", "nimotsu o azukatte moraemasu ka"),
+    ("À quelle heure est le dîner / le petit-déjeuner ?", "夕食 / 朝食は何時ですか", "yūshoku / chōshoku wa nanji desu ka"),
+    ("Le bain est ouvert jusqu'à quelle heure ?", "お風呂は何時までですか", "ofuro wa nanji made desu ka"),
+    ("Un bain privé, c'est possible ?", "貸切風呂はありますか", "kashikiri-buro wa arimasu ka"),
+    ("Je ne parle pas japonais, anglais ?", "日本語が話せません。英語は大丈夫ですか", "nihongo ga hanasemasen, eigo wa daijōbu desu ka"),
+    ("Pouvez-vous écrire ici, s'il vous plaît ?", "ここに書いてもらえますか", "koko ni kaite moraemasu ka"),
+    ("Jusqu'à cet hôtel, s'il vous plaît (taxi)", "このホテルまでお願いします", "kono hoteru made onegaishimasu"),
+    ("C'est délicieux", "おいしいです", "oishii desu"),
+    ("Au revoir / Merci pour le repas", "さようなら / ごちそうさまでした", "sayōnara / gochisōsama deshita"),
+]
+
+NUMBERS = [
+    ("Urgences", "119 ambulance et pompiers, 110 police (anglais possible, parler lentement)"),
+    ("Japan Visitor Hotline (JNTO, 24 h/24, anglais)", "050 3816 2787"),
+    ("Ambassade de France à Tokyo", "+81 3 5798 6000"),
+    ("Allibert, assistance 24 h/24", "numéro dans le roadbook, à recopier dans Papiers"),
+    ("Kumano Travel (Tanabe), anglais", "+81 739 34 5599"),
+    ("Nohi Bus, Takayama", "+81 577 32 1688"),
+    ("JR East, infoline anglais", "+81 50 2016 1603"),
+    ("Objets perdus dans un taxi ou un train", "demander à l'hôtel d'appeler la compagnie ; garder les reçus"),
+]
+
+PACK = [
+    "Passeports (validité OK), copies dans Papiers", "Permis français et les deux traductions japonaises", "Roadbook et vouchers Allibert (PDF + papier)", "Billets AF, TGV, QR Visit Japan Web en capture",
+    "Cartes bancaires (deux), un peu de yens si possible", "Téléphones chargés, câbles, batterie externe, adaptateur type A", "Chaussures de marche ou de trail, petits crampons, bâtons pliants",
+    "Doudoune légère, polaire, coupe-vent, bonnet, gants fins", "Serviette fine et sac pour les bains, maillot (Sennin-buro)", "Petite pharmacie", "Appareils photo, cartes, batteries, chargeurs", "Lunettes de soleil (neige), crème", "Sac à dos de journée",
+]
+MORNING = [
+    "Passeports et portefeuille", "Pocket wifi chargé et dans le sac", "Billets ou roadbook du jour", "Téléphones et batterie externe chargés", "Cartes hors ligne du jour téléchargées",
+    "Bouteille d'eau, en-cas", "Rien d'oublié dans la chambre (chargeurs, bain, coffre)", "Heure du prochain train ou car vérifiée",
+]

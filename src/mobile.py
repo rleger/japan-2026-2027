@@ -97,6 +97,16 @@ def day_matches(dstr, d):
         if d.day in nums: return True
     return False
 
+
+def render_weather(k):
+    if MODE != 'allibert': return ""
+    pl = E.DAY_PLACE.get(k)
+    if not pl: return ""
+    links = "".join(f'<a class="pill" href="{u}" target="_blank" rel="noopener">{esc(t)}</a>' for t, u in E.WEATHER_LINKS.get(k, []))
+    extra = f'<div class="links">{links}</div>' if links else ""
+    if not links and k not in E.MOUNTAIN_DAYS and k in ("2026-12-26", "2027-01-11"): return ""
+    return f'<div class="wx" data-lat="{pl[1]}" data-lon="{pl[2]}" data-date="{k}" data-place="{esc(pl[0])}"><div class="lbl">☀ Météo et lumière · {esc(pl[0])}</div><div class="wxsun"></div><div class="wxbody"><small>Prévisions Open-Meteo quand le réseau est là (jusqu\'à 16 jours avant).</small></div>{extra}</div>'
+
 def render_night(k):
     if MODE != 'allibert': return ""
     if k in E.NIGHT_OTHER:
@@ -104,9 +114,13 @@ def render_night(k):
     ref = E.HOTEL_BY_DATE.get(k)
     if not ref: return ""
     name, when, addr, mq, site, notes = E.HOTELS[ref[0]][ref[1]]
-    links = f'<a class="pill" href="{maps_url(mq)}" target="_blank" rel="noopener">{ico("pin")} Google Maps</a>'
+    car = k in E.CAR_DAYS
+    links = f'<a class="pill" href="{maps_url(mq)}" target="_blank" rel="noopener">{ico("pin")} Maps</a>' + dir_links(mq, car)
     if site: links += f'<a class="pill" href="{site}" target="_blank" rel="noopener">{ico("ext")} Site</a>'
-    return f'''<div class="night" data-s="hotel" data-title="{esc(name)}"><div class="lbl">{ico("bed")} La nuit · {esc(when)}</div><b>{esc(name)}</b><div class="addr">{esc(addr)}</div><details class="more"><summary>Accès, bains, horaires</summary><p>{notes}</p></details><div class="links">{links}</div></div>'''
+    links += share_btn(name, addr, maps_url(mq))
+    jp = E.HOTELS_JP.get(name, "")
+    jph = f'<div class="jp" data-copy="{esc(jp)}"><span>{esc(jp)}</span><small>à montrer au chauffeur · toucher pour copier</small></div>' if jp else ""
+    return f'''<div class="night" data-s="hotel" data-title="{esc(name)}"><div class="lbl">{ico("bed")} La nuit · {esc(when)}</div><b>{esc(name)}</b><div class="addr">{esc(addr)}</div>{jph}<details class="more"><summary>Accès, bains, horaires</summary><p>{notes}</p></details><div class="links">{links}</div></div>'''
 
 def render_day_addresses(d_date):
     if not G or MODE != 'allibert': return ""
@@ -150,7 +164,7 @@ def render_day(ch, d):
     stars = f'<span class="st">{d["stars"]}</span>' if d.get('stars') else ""
     return f'''<details class="day" id="d-{k}" data-date="{k}" data-s="day">
 <summary><div class="dnum">{d["num"]}</div><div class="dtt"><div class="dow">{esc(d["dow"])}</div><div class="ttl">{esc(d["title"])}{stars}</div><div class="heads">{head}</div></div>{ico("chev","chev")}</summary>
-<div class="dbody">{photos}{secs}{side}{traj}{coince}{opts}{render_night(k)}{render_day_addresses(date.fromisoformat(k))}</div></details>'''
+<div class="dbody">{photos}{secs}{side}{traj}{coince}{opts}{render_weather(k)}{render_night(k)}{render_day_addresses(date.fromisoformat(k))}</div></details>'''
 
 def render_strip(st):
     nodes, segs = st['nodes'], st['segs']
@@ -170,6 +184,14 @@ CH_AREAS = dict(tokyo=["Tokyo", "Kamakura"], alpes=["Matsumoto", "Takayama", "Sh
 KINDS = dict(manger=("Manger", "🍜"), cafe=("Café", "☕"), bain=("Bains", "♨"), course=("Course", "🏃"), photo=("Photo", "📷"), papeterie=("Papeterie", "✒"), voir=("À voir", "👁"), boutique=("Boutiques", "🛍"))
 def maps_url(q): return "https://www.google.com/maps/search/?api=1&query=" + q.replace(" ", "+")
 
+
+def dir_links(q, car=False):
+    mode = "driving" if car else "transit"
+    g = "https://www.google.com/maps/dir/?api=1&destination=" + q.replace(" ", "+") + "&travelmode=" + mode
+    a = "https://maps.apple.com/?daddr=" + q.replace(" ", "+") + ("&dirflg=d" if car else "&dirflg=r")
+    return f'<a class="pill" href="{g}" target="_blank" rel="noopener">{ico("walk")} Itinéraire</a><a class="pill alt" href="{a}" target="_blank" rel="noopener">Plans</a>'
+def share_btn(title, text, url):
+    return f'<button class="pill ghost" data-share-title="{esc(title)}" data-share-text="{esc(text)}" data-share-url="{url}">{ico("ext")} Partager</button>'
 def render_hotels(ch):
     out = ""
     for name, when, addr, mq, site, notes in E.HOTELS.get(ch['key'], []):
@@ -199,8 +221,9 @@ def render_guide():
             k = g["kind"]; kv = KINDS.get(k, (k, ""))
             if zoned and g.get("zone") != last_zone:
                 last_zone = g.get("zone"); cards += f'<h3 class="zone">{esc(last_zone or "Ailleurs")}</h3>'
-            links = f'<a class="pill" href="{maps_url(g["maps"])}" target="_blank" rel="noopener">{ico("pin")} Maps</a>'
+            links = f'<a class="pill" href="{maps_url(g["maps"])}" target="_blank" rel="noopener">{ico("pin")} Maps</a>' + dir_links(g["maps"], area in ("Kumano", "Kii-Katsuura", "Kōya-san", "Route de la côte"))
             if g.get("website"): links += f'<a class="pill" href="{g["website"]}" target="_blank" rel="noopener">{ico("ext")} Site</a>'
+            links += share_btn(g["name"], g.get("address", ""), maps_url(g["maps"]))
             meta = []
             if g.get("hours") and g["hours"].lower() != "inconnu": meta.append(esc(g["hours"]))
             if g.get("booking") and g["booking"].lower() != "inconnu": meta.append(esc(g["booking"]))
@@ -322,6 +345,37 @@ def render_info():
 <div class="kicker">VERSION 7.0</div><h1>Ce qui change par rapport à la version 6</h1><p class="intro">{C.CHANGES_INTRO}</p><div class="rich">{changes}</div>
 <div class="kicker">SOURCES</div><h1>Sources et crédits</h1><ul class="src">{src}</ul><p class="note">{C.SOURCES_FOOT} Photos : Wikimedia Commons, crédits dans le carnet PDF. {esc(cover["foot"])}. Version mobile générée le {GEN}.</p>
 </div>'''
+
+
+def render_tools():
+    fields = "".join(f'<label class="pf"><span>{esc(l)}</span><textarea data-paper="{k}" rows="1" placeholder="…">{esc(v)}</textarea></label>' for k, l, v in E.PAPERS_FIELDS)
+    phrases = "".join(f'<button class="ph" data-jp="{esc(j)}" data-fr="{esc(f)}" data-ro="{esc(r)}"><b>{esc(f)}</b><span class="pj">{esc(j)}</span><small>{esc(r)}</small></button>' for f, j, r in E.PHRASES)
+    numbers = "".join(f'<li><b>{esc(a)}</b><span>{esc(b)}</span></li>' for a, b in E.NUMBERS)
+    pack = "".join(f'<div class="ck mini"><input type="checkbox" id="pk{i}" data-ck="pack{i}"><label for="pk{i}" class="box"></label><label for="pk{i}" class="ckt">{esc(x)}</label></div>' for i, x in enumerate(E.PACK))
+    morning = "".join(f'<div class="ck mini"><input type="checkbox" id="mo{i}" data-morning="m{i}"><label for="mo{i}" class="box"></label><label for="mo{i}" class="ckt">{esc(x)}</label></div>' for i, x in enumerate(E.MORNING))
+    days = []
+    for ch in CHAPTERS:
+        for d in ch["days"]:
+            k = dkey(d); days.append((k, d["dow"].capitalize(), d["title"]))
+    journal = "".join(f'<details class="sub jd" data-day="{k}"><summary>{esc(dow)}<small class="jsum"></small></summary><textarea data-journal="{k}" rows="4" placeholder="Quelques lignes sur la journée…"></textarea><div class="jrow"><label>Dépenses du jour <input type="number" inputmode="numeric" data-spend="{k}" placeholder="yens"> yens <span class="jeur"></span></label><label class="jphoto">{ico("ext")} Photo <input type="file" accept="image/*" data-photo="{k}" hidden></label></div><div class="jpics" data-pics="{k}"></div></details>' for k, dow, t in days)
+    konbini = "".join(f'<a class="pill" href="https://www.google.com/maps/search/?api=1&query=7-Eleven+ATM+near+{esc(mq).replace(" ", "+")}" target="_blank" rel="noopener">{esc(when.split(",")[1].strip() if "," in when else when)} · {esc(name.split(" (")[0])}</a>' for key in ("tokyo","alpes","kumano","koya","kyoto","retour") for name, when, addr, mq, site, notes in E.HOTELS[key])
+    return f'''<div class="pad">
+<div class="kicker">OUTILS</div><h1>La boîte à outils</h1>
+<details class="sub tool" id="t-papers" open><summary>{ico("todo")} Papiers et références</summary><p class="note">Tout reste sur ce téléphone (stockage local du navigateur), rien n'est envoyé. Un code à 4 chiffres peut masquer cette section : réglage en bas.</p><div class="pfields">{fields}</div>
+<div class="lbl">Documents (PDF, photos de passeports, vouchers)</div><div class="files" id="fileList"></div><label class="btn ghost small">{ico("ext")} Ajouter un document <input type="file" id="fileAdd" multiple accept="application/pdf,image/*" hidden></label><p class="note">Les fichiers sont gardés dans la base locale du navigateur (IndexedDB) et s'ouvrent hors ligne. Garder aussi les originaux dans Fichiers ou Mail.</p></details>
+<details class="sub tool"><summary>¥ Convertisseur</summary><div class="conv"><label>Yens <input type="number" inputmode="numeric" id="cvY" placeholder="1 000"></label><label>Euros <input type="number" inputmode="decimal" id="cvE" placeholder="5,7"></label></div><label class="rate">Taux : 1 € = <input type="number" inputmode="decimal" id="cvRate" value="175"> yens <small>(à régler à l'arrivée, il est mémorisé)</small></label>
+<div class="quick" id="cvQuick"></div></details>
+<details class="sub tool"><summary>話 Phrases à montrer</summary><p class="note">Toucher une phrase pour l'afficher en grand, à montrer.</p><div class="phrases">{phrases}</div></details>
+<details class="sub tool"><summary>☎ Numéros utiles</summary><ul class="nums">{numbers}</ul></details>
+<details class="sub tool"><summary>🏪 Konbini et distributeurs 7-Eleven, par étape</summary><p class="note">Les distributeurs 7-Eleven acceptent les cartes européennes ; recherche Google Maps autour de chaque hôtel.</p><div class="links wrap">{konbini}</div></details>
+<details class="sub tool"><summary>☑ Valise, avant de partir</summary>{pack}</details>
+<details class="sub tool"><summary>☀ Chaque matin <small id="moDate"></small></summary><p class="note">La liste se remet à zéro chaque jour.</p>{morning}</details>
+<details class="sub tool" id="t-journal"><summary>✎ Carnet de route</summary><p class="note">Quelques lignes, une photo, la dépense du jour. Tout reste sur le téléphone ; exporter en fin de voyage.</p><div class="jtotal" id="jTotal"></div>{journal}<div class="links"><button class="pill" id="expJson">Exporter JSON</button><button class="pill" id="expTxt">Exporter texte</button></div></details>
+<details class="sub tool"><summary>⚙ Réglages</summary><label class="sw"><input type="checkbox" id="bigText"> Grand texte (pour Claudie)</label><label class="sw">Code Papiers (4 chiffres, vide = aucun) <input type="password" inputmode="numeric" maxlength="4" id="pinSet" placeholder="····"></label><p class="note">Le code masque seulement l'affichage ; ce n'est pas un chiffrement.</p></details>
+</div>'''
+
+def render_now():
+    return '''<section class="now" id="now"><div class="nowh"><span class="lbl">Maintenant · heure du Japon</span><b id="nowClock">--:--</b></div><div id="nowBody" class="nowbody"><p class="note">Le voyage commence le 26 décembre 2026.</p></div></section>'''
 
 def render_maps():
     out = f'<div class="pad"><div class="kicker">{esc(A.MAP_PAGE["kicker"])}</div><h1>{esc(A.MAP_PAGE["title"])}</h1>'
@@ -475,13 +529,54 @@ details.day>summary .chev{color:var(--rule2);margin-top:6px;transition:transform
 #lb{position:fixed;inset:0;z-index:50;background:#fff;display:none;overflow:auto;-webkit-overflow-scrolling:touch} #lb.on{display:block} #lb img{display:block;min-width:100%;width:200%;max-width:none;margin:auto} #lb button{position:fixed;top:calc(10px + env(safe-area-inset-top));right:10px;background:#fff;border:1px solid var(--rule2);color:var(--ink);border-radius:50%;width:40px;height:40px;z-index:51} #lb .hint{position:fixed;bottom:16px;left:0;right:0;text-align:center;color:var(--mute);font-size:12px}
 .flash{animation:flash 1.6s ease-out} @keyframes flash{0%{box-shadow:0 0 0 3px var(--kin)}100%{box-shadow:0 0 0 0 transparent}}
 .day .photos img{content-visibility:auto}
+
+/* outils, maintenant, extras */
+.pill.alt{color:var(--ink2);border-color:var(--rule2)} .pill.ghost{background:none;border-style:dashed;color:var(--mute)} button.pill{font-family:var(--ui);cursor:pointer}
+.jp{background:var(--paper2);border-radius:8px;padding:8px 10px;margin:6px 0;cursor:pointer} .jp span{display:block;font-family:var(--jp);font-size:16px;line-height:1.5} .jp small{display:block;color:var(--mute);font-size:11px;margin-top:2px}
+.wx{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:10px 14px;margin:14px 0 6px;border-left:3px solid #0369a1} .wx .lbl{margin-top:0;color:#0369a1} .wxsun{font-size:13px;color:var(--ink2);margin:2px 0 4px} .wxbody{font-size:13.5px;line-height:1.5} .wxbody small{color:var(--mute);font-size:12px} .wxrow{display:flex;gap:10px;flex-wrap:wrap;align-items:baseline} .wxrow b{font-size:22px;font-weight:600} .wx .links{margin-top:8px}
+.now{margin:14px 16px 0;background:#fff;border:1px solid var(--rule);border-radius:14px;padding:12px 14px;box-shadow:0 1px 2px rgba(0,0,0,.03)} .nowh{display:flex;align-items:baseline;justify-content:space-between} .nowh .lbl{margin:0} .nowh b{font-size:26px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.nowbody{margin-top:6px} .nowstep{display:flex;gap:10px;padding:8px 0;border-top:1px solid var(--rule)} .nowstep .tt{font-size:12px;font-weight:600;color:var(--shu);width:56px;flex:none;padding-top:2px} .nowstep .tb{flex:1;font-size:14px} .nowstep .tb b{display:block;line-height:1.3} .nowstep .tb small{color:var(--ink2);display:block;font-size:12.5px} .nowstep.next{background:#fff7ed;margin:0 -14px;padding:8px 14px;border-top:0}
+.nowline{font-size:13.5px;color:var(--ink2);margin:4px 0} .nowline b{color:var(--ink)} .now .links{margin-top:8px}
+.pfields{display:grid;gap:8px} .pf span{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin-bottom:2px} .pf textarea,.jd textarea{width:100%;min-height:38px;font:14px var(--ui);padding:8px 10px;border:1px solid var(--rule2);border-radius:8px;background:#fff;color:var(--ink);resize:vertical;line-height:1.45}
+.files{display:grid;gap:6px;margin:4px 0 8px} .file{display:flex;align-items:center;gap:8px;background:var(--paper2);border-radius:8px;padding:8px 10px;font-size:13.5px} .file a{flex:1;color:var(--ink);text-decoration:none;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .file button{background:none;border:0;color:var(--mute);font-size:16px;padding:0 4px}
+.btn.small{font-size:13px;padding:8px 12px;width:auto;margin:4px 0}
+.conv{display:flex;gap:10px} .conv label{flex:1;font-size:12px;color:var(--mute)} .conv input,.rate input{width:100%;font:18px var(--ui);padding:8px 10px;border:1px solid var(--rule2);border-radius:8px;margin-top:2px} .rate{display:block;font-size:13px;color:var(--ink2);margin:10px 0} .rate input{width:80px;display:inline-block;font-size:14px;padding:4px 6px} .rate small{display:block;color:var(--mute);font-size:11.5px}
+.quick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px} .quick span{font-size:12px;background:var(--paper2);border-radius:999px;padding:4px 9px;color:var(--ink2)}
+.phrases{display:grid;gap:6px;margin-bottom:10px} .ph{text-align:left;background:#fff;border:1px solid var(--rule);border-radius:10px;padding:9px 12px;font-family:var(--ui);cursor:pointer;color:var(--ink)} .ph b{display:block;font-size:13.5px;font-weight:600} .ph .pj{display:block;font-family:var(--jp);font-size:15px;margin:2px 0} .ph small{color:var(--mute);font-size:11.5px}
+#phrase{position:fixed;inset:0;z-index:60;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center} #phrase.hidden{display:none} #phrase button{position:absolute;top:calc(12px + env(safe-area-inset-top));right:12px;background:none;border:1px solid var(--rule2);border-radius:50%;width:40px;height:40px;color:var(--ink)} .phjp{font-family:var(--jp);font-size:44px;line-height:1.3} .phro{font-size:18px;color:var(--ink2);margin-top:14px} .phfr{font-size:15px;color:var(--mute);margin-top:18px}
+.nums{list-style:none;padding:0;margin:0 0 10px} .nums li{padding:8px 0;border-top:1px solid var(--rule);font-size:14px} .nums li:first-child{border-top:0} .nums b{display:block;font-weight:600} .nums span{color:var(--ink2);font-size:13.5px}
+.links.wrap{margin-bottom:10px}
+.ck.mini{padding:8px 10px;margin-bottom:6px;align-items:center} .ck.mini .ckt{font-size:14px;font-weight:500;margin:0}
+.jd summary small{margin-left:auto;color:var(--mute);font-weight:400;font-size:12px} .jrow{display:flex;gap:10px;align-items:center;margin:8px 0;font-size:13px;color:var(--ink2);flex-wrap:wrap} .jrow input[type=number]{width:90px;font:14px var(--ui);padding:5px 8px;border:1px solid var(--rule2);border-radius:6px} .jphoto{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--rule2);border-radius:999px;padding:4px 10px;cursor:pointer;color:var(--ai);font-weight:500} .jpics{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px} .jpics img{width:72px;height:72px;object-fit:cover;border-radius:6px}
+.jtotal{font-size:13.5px;color:var(--ink2);margin:6px 0 8px} .jtotal b{color:var(--ink)}
+.sw{display:flex;align-items:center;gap:10px;font-size:14px;margin:8px 0} .sw input[type=password]{width:80px;font:16px var(--ui);padding:5px 8px;border:1px solid var(--rule2);border-radius:6px;letter-spacing:.3em}
+#toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;padding:8px 14px;border-radius:999px;opacity:0;transition:all .25s;pointer-events:none;z-index:70} #toast.on{opacity:1;transform:translateX(-50%)}
+html.big{font-size:118%} html.big body{font-size:17px} html.big .sec p{font-size:17px} html.big .gc p,html.big .ckd,html.big .hotel p,html.big .night p{font-size:15.5px}
+#lnav,#rside{display:none}
+/* grand écran */
+@media(min-width:900px){
+ body{padding-bottom:40px;background:#f5f5f4}
+ .top{left:0;right:0;padding-left:260px;padding-right:340px;background:rgba(250,250,249,.96)}
+ .tabs{display:none}
+ main{margin-left:240px;margin-right:320px;max-width:none}
+ main>section.view{max-width:760px;margin:0 auto;background:var(--paper);min-height:100vh;box-shadow:0 0 0 1px var(--rule)}
+ #lnav{display:block;position:fixed;left:0;top:0;bottom:0;width:240px;overflow:auto;background:#fff;border-right:1px solid var(--rule);padding:18px 14px 30px;z-index:25}
+ .lbrand{display:flex;align-items:center;gap:10px;margin-bottom:16px} .lbrand .kj{font-family:var(--jp);font-size:15px;color:#fff;background:var(--shu);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center} .lbrand b{font-size:15px;font-weight:600}
+ .lnavtabs{display:grid;gap:2px;margin-bottom:18px} .lnavtabs button{display:flex;align-items:center;gap:10px;background:none;border:0;border-radius:8px;padding:8px 10px;font:500 14px var(--ui);color:var(--ink2);text-align:left;cursor:pointer} .lnavtabs button.on{background:var(--paper2);color:var(--shu)} .lnavtabs .tk{font-family:var(--jp);font-size:15px;width:20px}
+ .lnavdays a{display:block;padding:5px 10px;border-radius:6px;font-size:13px;color:var(--ink2);text-decoration:none} .lnavdays a.chap{font-weight:600;color:var(--ink);margin-top:10px;font-size:12.5px;letter-spacing:.02em} .lnavdays a:hover{background:var(--paper2)} .lnavdays a.today{color:var(--shu);font-weight:600}
+ #rside{display:block;position:fixed;right:0;top:0;bottom:0;width:320px;overflow:auto;background:#fff;border-left:1px solid var(--rule);padding:70px 16px 30px;z-index:25}
+ #rside .now{margin:0 0 14px} #rside .mapfig{margin:0 0 14px} #rside .rtitle{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:14px 0 6px}
+ .cover{padding:40px 32px 30px} .cover .ct{font-size:56px} .pad,.chbody,.garea,.prio{padding-left:32px;padding-right:32px} .toc{padding-left:32px;padding-right:32px} .now{margin-left:32px;margin-right:32px} .chapter .days{display:block}
+ .photos figure{flex:0 0 46%} .hero img{height:300px}
+ #results{left:240px;right:320px} .search{padding-left:260px;padding-right:340px}
+}
 '''
 
 JS = r'''
 (function(){
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 // tabs
-const views={voyage:'v-voyage',guide:'v-guide',todo:'v-todo',sleep:'v-sleep',info:'v-info',maps:'v-maps'};
+const views={voyage:'v-voyage',guide:'v-guide',todo:'v-todo',tools:'v-tools',sleep:'v-sleep',info:'v-info',maps:'v-maps'};
 function show(name,keep){ for(const k in views){ const el=document.getElementById(views[k]); if(el) el.classList.toggle('on',k===name); } $$('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v===name)); if(!keep) window.scrollTo(0,0); try{localStorage.setItem('jp7.tab',name)}catch(e){} }
 $$('.tabs button').forEach(b=>b.addEventListener('click',()=>{ closeSearch(); show(b.dataset.v); }));
 function goTo(view,id,open){ closeSearch(); show(view,true); const el=document.getElementById(id); if(!el) return; let p=el; while(p){ if(p.tagName==='DETAILS') p.open=true; p=p.parentElement; } if(open&&el.tagName==='DETAILS') el.open=true; setTimeout(()=>{ el.scrollIntoView({block:'start'}); window.scrollBy(0,-8); el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); },60); }
@@ -498,7 +593,7 @@ const todayId=dayByDate[jstDate()]; if(todayId){ document.getElementById(todayId
 $('#todayBtn').addEventListener('click',()=>{ const id=todayId||dayByDate['2026-12-26']; goTo('voyage',id,true); });
 // checklist persistence
 let st={}; try{ st=JSON.parse(localStorage.getItem('jp7.check')||'{}'); }catch(e){}
-const cks=$$('input[data-ck]');
+const cks=$$('#v-todo input[data-ck]');
 function prog(){ const n=cks.length, d=cks.filter(c=>c.checked).length; $('#pbar').style.width=(100*d/n)+'%'; $('#ptxt').textContent=d+' / '+n+' points faits'; }
 cks.forEach(c=>{ c.checked=!!st[c.dataset.ck]; c.addEventListener('change',()=>{ st[c.dataset.ck]=c.checked; try{localStorage.setItem('jp7.check',JSON.stringify(st))}catch(e){} prog(); }); });
 prog();
@@ -525,11 +620,88 @@ function render(v){ const q=norm(v.trim()); res.innerHTML=''; if(q.length<2){ re
 sin.addEventListener('input',()=>render(sin.value));
 // lightbox
 const lb=$('#lb'), lbi=$('#lb img');
-$$('img[data-zoom]').forEach(im=>im.addEventListener('click',()=>{ lbi.src=im.src; lb.classList.add('on'); }));
+document.addEventListener('click',e=>{ const im=e.target.closest('img[data-zoom]'); if(im){ lbi.src=im.src; lb.classList.add('on'); } });
 $('#lbClose').addEventListener('click',()=>lb.classList.remove('on'));
 // état initial
 let tab='voyage'; try{ tab=localStorage.getItem('jp7.tab')||'voyage'; }catch(e){}
 show(views[tab]?tab:'voyage',true);
+})();
+
+// ---------- extras : outils, maintenant, grand écran ----------
+(function(){
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const toast=(m)=>{ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('on'),1800); };
+const LS={get:(k,d)=>{ try{ const v=localStorage.getItem(k); return v===null?d:JSON.parse(v);}catch(e){return d;} }, set:(k,v)=>{ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }};
+// service worker (seulement en https, GitHub Pages)
+if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+// copier l'adresse japonaise
+$$('[data-copy]').forEach(el=>el.addEventListener('click',()=>{ navigator.clipboard&&navigator.clipboard.writeText(el.dataset.copy).then(()=>toast('Adresse copiée')); }));
+// partager
+$$('[data-share-title]').forEach(b=>b.addEventListener('click',e=>{ e.preventDefault(); const d={title:b.dataset.shareTitle,text:b.dataset.shareTitle+' · '+b.dataset.shareText,url:b.dataset.shareUrl}; if(navigator.share){ navigator.share(d).catch(()=>{}); } else if(navigator.clipboard){ navigator.clipboard.writeText(d.text+' '+d.url); toast('Copié'); } }));
+// grand texte
+const big=$('#bigText'); if(big){ big.checked=!!LS.get('jp7.big',false); document.documentElement.classList.toggle('big',big.checked); big.addEventListener('change',()=>{ LS.set('jp7.big',big.checked); document.documentElement.classList.toggle('big',big.checked); }); }
+// convertisseur
+const rate=$('#cvRate'), cvY=$('#cvY'), cvE=$('#cvE');
+if(rate){ rate.value=LS.get('jp7.rate',175); const quick=()=>{ const r=parseFloat(rate.value)||175; $('#cvQuick').innerHTML=[500,1000,2000,3000,5000,10000,20000].map(y=>'<span>'+y.toLocaleString('fr-FR')+' ¥ = '+(y/r).toLocaleString('fr-FR',{maximumFractionDigits:y<2000?1:0})+' €</span>').join(''); }; quick();
+ rate.addEventListener('input',()=>{ LS.set('jp7.rate',parseFloat(rate.value)||175); quick(); }); cvY.addEventListener('input',()=>{ const r=parseFloat(rate.value)||175; cvE.value=cvY.value?(cvY.value/r).toFixed(1):''; }); cvE.addEventListener('input',()=>{ const r=parseFloat(rate.value)||175; cvY.value=cvE.value?Math.round(cvE.value*r):''; }); }
+// phrases
+$$('.ph').forEach(b=>b.addEventListener('click',()=>{ $('.phjp').textContent=b.dataset.jp; $('.phro').textContent=b.dataset.ro; $('.phfr').textContent=b.dataset.fr; $('#phrase').classList.remove('hidden'); }));
+const phc=$('#phClose'); if(phc) phc.addEventListener('click',()=>$('#phrase').classList.add('hidden'));
+// papiers (champs)
+const papers=LS.get('jp7.papers',{});
+const fits=[]; $$('textarea[data-paper]').forEach(t=>{ if(papers[t.dataset.paper]!==undefined) t.value=papers[t.dataset.paper]; const fit=()=>{ t.style.height='auto'; t.style.height=Math.max(38,t.scrollHeight+2)+'px'; }; fits.push(fit); t.addEventListener('input',()=>{ papers[t.dataset.paper]=t.value; LS.set('jp7.papers',papers); fit(); }); });
+const fitAll=()=>fits.forEach(f=>f()); $$('.tabs button[data-v=tools]').forEach(b=>b.addEventListener('click',()=>setTimeout(fitAll,30))); setTimeout(fitAll,100);
+// code papiers
+const pin=$('#pinSet'); if(pin){ pin.value=LS.get('jp7.pin',''); pin.addEventListener('change',()=>{ LS.set('jp7.pin',pin.value.replace(/\D/g,'').slice(0,4)); toast(pin.value?'Code enregistré':'Code retiré'); });
+ const tp=$('#t-papers'); if(tp && LS.get('jp7.pin','')){ tp.open=false; tp.addEventListener('toggle',()=>{ if(tp.open && !tp._ok){ const c=prompt('Code Papiers'); if(c===LS.get('jp7.pin','')){ tp._ok=true; } else { tp.open=false; } } }); } }
+// documents (IndexedDB)
+let db=null; const req=indexedDB.open('jp7',1); req.onupgradeneeded=e=>{ e.target.result.createObjectStore('files',{keyPath:'id'}); e.target.result.createObjectStore('pics',{keyPath:'id'}); }; req.onsuccess=e=>{ db=e.target.result; listFiles(); listPics(); };
+function tx(store,mode){ return db.transaction(store,mode).objectStore(store); }
+function listFiles(){ if(!db) return; const out=$('#fileList'); if(!out) return; tx('files','readonly').getAll().onsuccess=e=>{ out.innerHTML=''; e.target.result.forEach(f=>{ const d=document.createElement('div'); d.className='file'; const a=document.createElement('a'); a.textContent=f.name; a.href='#'; a.addEventListener('click',ev=>{ ev.preventDefault(); const url=URL.createObjectURL(f.blob); window.open(url,'_blank'); }); const x=document.createElement('button'); x.textContent='×'; x.addEventListener('click',()=>{ tx('files','readwrite').delete(f.id).onsuccess=listFiles; }); d.append(a,x); out.appendChild(d); }); if(!e.target.result.length) out.innerHTML='<p class="note">Aucun document pour l\'instant.</p>'; }; }
+const fa=$('#fileAdd'); if(fa) fa.addEventListener('change',()=>{ Array.from(fa.files).forEach(f=>{ tx('files','readwrite').put({id:Date.now()+Math.random(),name:f.name,blob:f}).onsuccess=listFiles; }); fa.value=''; toast('Document ajouté'); });
+// checklists valise (persistance) et matin (reset quotidien)
+const packSt=LS.get('jp7.pack',{}); $$('input[data-ck^="pack"]').forEach(c=>{ c.checked=!!packSt[c.dataset.ck]; c.addEventListener('change',()=>{ packSt[c.dataset.ck]=c.checked; LS.set('jp7.pack',packSt); }); });
+const jst=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+let mo=LS.get('jp7.morning',{d:'',v:{}}); if(mo.d!==jst()){ mo={d:jst(),v:{}}; LS.set('jp7.morning',mo); } const md=$('#moDate'); if(md) md.textContent=' · '+mo.d;
+$$('input[data-morning]').forEach(c=>{ c.checked=!!mo.v[c.dataset.morning]; c.addEventListener('change',()=>{ mo.v[c.dataset.morning]=c.checked; LS.set('jp7.morning',mo); }); });
+// carnet de route
+const jr=LS.get('jp7.journal',{});
+function jtotal(){ const r=LS.get('jp7.rate',175); let t=0; Object.values(jr).forEach(v=>{ t+=parseInt(v.spend||0)||0; }); const el=$('#jTotal'); if(el) el.innerHTML='Dépenses notées : <b>'+t.toLocaleString('fr-FR')+' yens</b> (≈ '+Math.round(t/r).toLocaleString('fr-FR')+' €)'; $$('.jd').forEach(d=>{ const k=d.dataset.day, v=jr[k]||{}; d.querySelector('.jsum').textContent=(v.text?'✎ ':'')+(v.spend?v.spend+' ¥':''); d.querySelector('.jeur').textContent=v.spend?'(≈ '+Math.round(v.spend/r)+' €)':''; }); }
+$$('textarea[data-journal]').forEach(t=>{ const k=t.dataset.journal; t.value=(jr[k]||{}).text||''; t.addEventListener('input',()=>{ jr[k]=jr[k]||{}; jr[k].text=t.value; LS.set('jp7.journal',jr); jtotal(); }); });
+$$('input[data-spend]').forEach(i=>{ const k=i.dataset.spend; i.value=(jr[k]||{}).spend||''; i.addEventListener('input',()=>{ jr[k]=jr[k]||{}; jr[k].spend=i.value; LS.set('jp7.journal',jr); jtotal(); }); });
+jtotal();
+function listPics(){ if(!db) return; tx('pics','readonly').getAll().onsuccess=e=>{ $$('.jpics').forEach(z=>z.innerHTML=''); e.target.result.forEach(p=>{ const z=document.querySelector('.jpics[data-pics="'+p.day+'"]'); if(!z) return; const im=document.createElement('img'); im.src=URL.createObjectURL(p.blob); im.title='toucher pour supprimer'; im.addEventListener('click',()=>{ if(confirm('Supprimer cette photo ?')) tx('pics','readwrite').delete(p.id).onsuccess=listPics; }); z.appendChild(im); }); }; }
+$$('input[data-photo]').forEach(i=>i.addEventListener('change',()=>{ const f=i.files[0]; if(!f) return; const img=new Image(); img.onload=()=>{ const c=document.createElement('canvas'); const sc=Math.min(1,1200/Math.max(img.width,img.height)); c.width=img.width*sc; c.height=img.height*sc; c.getContext('2d').drawImage(img,0,0,c.width,c.height); c.toBlob(b=>{ tx('pics','readwrite').put({id:Date.now()+Math.random(),day:i.dataset.photo,blob:b}).onsuccess=listPics; },'image/jpeg',.8); }; img.src=URL.createObjectURL(f); i.value=''; }));
+function dl(name,content,type){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content],{type})); a.download=name; a.click(); }
+const ej=$('#expJson'); if(ej) ej.addEventListener('click',()=>dl('carnet-japon.json',JSON.stringify({journal:jr,papers:papers,rate:LS.get('jp7.rate',175)},null,1),'application/json'));
+const et=$('#expTxt'); if(et) et.addEventListener('click',()=>{ let out='Carnet de route, Japon 2026-2027\n\n'; $$('.jd').forEach(d=>{ const k=d.dataset.day, v=jr[k]||{}; if(v.text||v.spend) out+=d.querySelector('summary').firstChild.textContent+' ('+k+')\n'+(v.text||'')+'\n'+(v.spend?'Dépenses : '+v.spend+' yens\n':'')+'\n'; }); dl('carnet-japon.txt',out,'text/plain'); });
+// soleil (approximation NOAA)
+function sun(lat,lon,dateStr){ const d=new Date(dateStr+'T12:00:00+09:00'); const n=Math.floor((d-new Date(Date.UTC(d.getUTCFullYear(),0,1)))/864e5)+1; const r=Math.PI/180; const decl=23.44*r*Math.sin(r*(360/365)*(n-81)); const ha=Math.acos((Math.sin(-0.833*r)-Math.sin(lat*r)*Math.sin(decl))/(Math.cos(lat*r)*Math.cos(decl)))/r/15; const eot=9.87*Math.sin(2*r*(360/365)*(n-81))-7.53*Math.cos(r*(360/365)*(n-81))-1.5*Math.sin(r*(360/365)*(n-81)); const tz=lon>100?9:1; const solarNoon=12-lon/15+tz-eot/60; const f=h=>{ const hh=Math.floor(h), mm=Math.round((h-hh)*60); return hh+' h '+String(mm).padStart(2,'0'); }; return {rise:f(solarNoon-ha),set:f(solarNoon+ha)}; }
+$$('.wx').forEach(w=>{ const su=sun(+w.dataset.lat,+w.dataset.lon,w.dataset.date); w.querySelector('.wxsun').textContent='Lever '+su.rise+' · coucher '+su.set+' (heure locale)'; });
+// météo Open-Meteo (si réseau, 16 jours avant au plus)
+async function weather(w){ const d=w.dataset.date; const today=new Date(); const target=new Date(d+'T00:00:00'); const diff=(target-today)/864e5; if(diff>16||diff<-1) return; try{ const u='https://api.open-meteo.com/v1/forecast?latitude='+w.dataset.lat+'&longitude='+w.dataset.lon+'&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,weathercode&timezone=Asia%2FTokyo&start_date='+d+'&end_date='+d; const r=await fetch(u); const j=await r.json(); const dd=j.daily; const codes={0:'ciel clair',1:'peu nuageux',2:'nuageux',3:'couvert',45:'brouillard',48:'brouillard givrant',51:'bruine',53:'bruine',55:'bruine',61:'pluie faible',63:'pluie',65:'pluie forte',71:'neige faible',73:'neige',75:'neige forte',77:'grains de neige',80:'averses',81:'averses',82:'fortes averses',85:'averses de neige',86:'averses de neige',95:'orage'}; const b=w.querySelector('.wxbody'); b.innerHTML='<div class="wxrow"><b>'+Math.round(dd.temperature_2m_min[0])+'° / '+Math.round(dd.temperature_2m_max[0])+'°</b><span>'+(codes[dd.weathercode[0]]||'')+'</span><span>'+(dd.precipitation_sum[0]||0)+' mm'+(dd.snowfall_sum[0]?' · neige '+dd.snowfall_sum[0]+' cm':'')+'</span></div><small>Open-Meteo, prévision chargée '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+'</small>'; }catch(e){} }
+if(navigator.onLine) $$('.wx').forEach(weather);
+// « Maintenant »
+const dayEls=$$('details.day');
+function parseTime(t){ const m=t.match(/(\d{1,2})\s*h\s*(\d{2})?/); if(!m) return null; return parseInt(m[1])*60+parseInt(m[2]||'0'); }
+function renderNow(){ const nb=$('#nowBody'); if(!nb) return; const now=new Date(); const dstr=jst(); const hm=new Intl.DateTimeFormat('fr-FR',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit'}).format(now); $('#nowClock').textContent=hm; const [h,m]=hm.split(':').map(Number); const cur=h*60+m;
+ const day=dayEls.find(x=>x.dataset.date===dstr); if(!day){ const first=dayEls[0]; const dl=Math.ceil((new Date(first.dataset.date)-new Date(dstr))/864e5); nb.innerHTML=dl>0?'<p class="nowline">Départ dans <b>'+dl+' jours</b>. Première étape : '+first.querySelector('.ttl').textContent+'.</p>':'<p class="nowline">Le voyage est terminé. Bon retour.</p>'; return; }
+ const rows=Array.from(day.querySelectorAll('.traj .tr')).map(r=>({t:r.querySelector('.tt').textContent,min:parseTime(r.querySelector('.tt').textContent),b:r.querySelector('.tb b').textContent,s:(r.querySelector('.tb small')||{}).textContent||''})).filter(r=>r.min!==null);
+ let next=rows.find(r=>r.min>=cur), prev=null; rows.forEach(r=>{ if(r.min<cur) prev=r; });
+ let html='<p class="nowline"><b>'+day.querySelector('.dow').textContent.toLowerCase()+'</b> · '+day.querySelector('.ttl').textContent+'</p>';
+ if(prev) html+='<div class="nowstep"><div class="tt">'+prev.t+'</div><div class="tb"><b>'+prev.b+'</b><small>'+prev.s+'</small></div></div>';
+ if(next){ const dm=next.min-cur; html+='<div class="nowstep next"><div class="tt">'+next.t+'</div><div class="tb"><b>'+next.b+'</b><small>'+next.s+'</small><small>dans '+(dm>=60?Math.floor(dm/60)+' h '+String(dm%60).padStart(2,'0'):dm+' min')+'</small></div></div>'; } else html+='<p class="nowline">Plus rien de programmé aujourd\'hui.</p>';
+ const night=day.querySelector('.night'); if(night){ html+='<p class="nowline">Ce soir : <b>'+night.querySelector('b').textContent+'</b></p><div class="links">'+night.querySelector('.links').innerHTML+'</div>'; }
+ const wx=day.querySelector('.wx'); if(wx){ html+='<p class="nowline">'+wx.querySelector('.wxsun').textContent+'</p>'; }
+ html+='<a class="btn ghost" href="#" data-open-day="'+day.id+'">Ouvrir la journée</a>';
+ nb.innerHTML=html; nb.querySelector('[data-open-day]').addEventListener('click',e=>{ e.preventDefault(); day.open=true; day.scrollIntoView({block:'start'}); }); }
+renderNow(); setInterval(renderNow,60000);
+// grand écran : navigation gauche, colonne droite
+const desktop=()=>window.matchMedia('(min-width:900px)').matches;
+function buildLnav(){ const lt=$('.lnavtabs'); if(!lt) return; lt.innerHTML=''; $$('.tabs button').forEach(b=>{ const c=document.createElement('button'); c.innerHTML='<span class="tk">'+b.querySelector('.tk').textContent+'</span>'+b.querySelector('.tlab').textContent; c.dataset.v=b.dataset.v; c.className=b.classList.contains('on')?'on':''; c.addEventListener('click',()=>{ b.click(); buildLnav(); }); lt.appendChild(c); });
+ const ld=$('.lnavdays'); ld.innerHTML=''; $$('.chapter').forEach(ch=>{ const a=document.createElement('a'); a.href='#'; a.className='chap'; a.textContent=ch.querySelector('h2').textContent; a.addEventListener('click',e=>{ e.preventDefault(); $('.tabs button[data-v=voyage]').click(); ch.scrollIntoView(); buildLnav(); }); ld.appendChild(a); ch.querySelectorAll('details.day').forEach(d=>{ const x=document.createElement('a'); x.href='#'; x.textContent=d.querySelector('.dow').textContent.toLowerCase()+' · '+d.querySelector('.ttl').textContent; if(d.classList.contains('today')) x.classList.add('today'); x.addEventListener('click',e=>{ e.preventDefault(); $('.tabs button[data-v=voyage]').click(); d.open=true; d.scrollIntoView(); buildLnav(); }); ld.appendChild(x); }); }); }
+function layout(){ if(desktop()){ dayEls.forEach(d=>d.open=true); buildLnav(); const rs=$('#rside'); const nowEl=$('#now'); if(rs && nowEl && !rs.contains(nowEl)){ rs.appendChild(nowEl); } if(rs && !rs.querySelector('.mapfig')){ const t=document.createElement('div'); t.className='rtitle'; t.textContent='Carte générale'; rs.appendChild(t); const mf=document.querySelector('#v-info .mapfig.big'); if(mf) rs.appendChild(mf.cloneNode(true)); } } }
+layout(); window.addEventListener('resize',layout);
 })();
 '''
 
@@ -556,26 +728,35 @@ def euros(html):
     return one.sub(fone, html)
 
 def build():
+    i180 = "data:image/png;base64," + base64.b64encode(open(os.path.join(ROOT, "pwa", "icon-180.png"), "rb").read()).decode()
+    i192 = "data:image/png;base64," + base64.b64encode(open(os.path.join(ROOT, "pwa", "icon-192.png"), "rb").read()).decode()
+    i512 = "data:image/png;base64," + base64.b64encode(open(os.path.join(ROOT, "pwa", "icon-512.png"), "rb").read()).decode()
+    manifest = json.dumps(dict(name="Japon en hiver", short_name="Japon", start_url="./index.html", display="standalone", background_color="#fafaf9", theme_color="#fafaf9", icons=[dict(src=i192, sizes="192x192", type="image/png"), dict(src=i512, sizes="512x512", type="image/png")]))
+    manifest_uri = "data:application/manifest+json;base64," + base64.b64encode(manifest.encode()).decode()
     css = CSS
     doc = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#fbfaf6">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#fafaf9"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Japon"><link rel="apple-touch-icon" href="{{ICON180}}"><link rel="icon" href="{{ICON192}}"><link rel="manifest" href="{{MANIFEST}}">
 <title>Japon en hiver · {'guide Allibert' if MODE == 'allibert' else 'carnet v7'}</title><style>{css}</style></head><body>
 <header class="top"><span class="kj">冬</span><div class="brand"><b>Japon en hiver</b><small>26 déc. 2026 → 11 janv. 2027</small></div><div class="jst" id="jst"><b>--:--</b>heure du Japon</div><button id="searchBtn" aria-label="Rechercher">{ico("search")}</button></header>
 <div class="search hidden" id="search"><div class="row"><input id="q" type="search" placeholder="Rechercher dans le carnet…" autocomplete="off"><button id="closeSearch" aria-label="Fermer">{ico("close")}</button></div></div>
 <div id="results" class="hidden"></div>
 <main>
-<section class="view on" id="v-voyage">{home}<nav class="toc">{toc}</nav>{overview}{render_timeline()}{chapters}</section>
+<section class="view on" id="v-voyage">{home}{render_now() if MODE == 'allibert' else ''}<nav class="toc">{toc}</nav>{overview}{render_timeline()}{chapters}</section>
 <section class="view" id="v-todo">{render_checklist()}</section>
 {'<section class="view" id="v-guide">' + render_guide() + '</section>' if MODE == 'allibert' else '<section class="view" id="v-sleep"><div class="pad"><div class="kicker">OÙ DORMIR</div><h1>Les hébergements, étape par étape</h1><p class="intro">Prix Booking du 1er novembre 2026 pour deux adultes aux dates du voyage ; chaque nom ouvre Booking aux bonnes dates. Toutes les adresses ont une salle de bain privée, sauf mention contraire.</p></div>' + lodgings + '</section>'}
-<section class="view" id="v-info">{render_info()}</section>
-<section class="view" id="v-maps">{render_maps()}</section>
+{'<section class="view" id="v-tools">' + render_tools() + '</section>' if MODE == 'allibert' else ''}
+<section class="view" id="v-info">{(render_maps() if MODE == 'allibert' else '')}{render_info()}</section>
+{'' if MODE == 'allibert' else '<section class="view" id="v-maps">' + render_maps() + '</section>'}
 </main>
-<nav class="tabs"><button data-v="voyage" class="on"><span class="tk">旅</span><span class="tlab">Voyage</span></button>{'<button data-v="guide"><span class="tk">処</span><span class="tlab">Adresses</span></button>' if MODE == 'allibert' else '<button data-v="sleep"><span class="tk">宿</span><span class="tlab">Dormir</span></button>'}<button data-v="todo"><span class="tk">済</span><span class="tlab">À faire</span></button><button data-v="info"><span class="tk">案</span><span class="tlab">Infos</span></button><button data-v="maps"><span class="tk">図</span><span class="tlab">Cartes</span></button></nav>
+<nav class="tabs"><button data-v="voyage" class="on"><span class="tk">旅</span><span class="tlab">Voyage</span></button>{'<button data-v="guide"><span class="tk">処</span><span class="tlab">Adresses</span></button>' if MODE == 'allibert' else '<button data-v="sleep"><span class="tk">宿</span><span class="tlab">Dormir</span></button>'}<button data-v="todo"><span class="tk">済</span><span class="tlab">À faire</span></button>{'<button data-v="tools"><span class="tk">具</span><span class="tlab">Outils</span></button>' if MODE == 'allibert' else ''}<button data-v="info"><span class="tk">案</span><span class="tlab">Infos</span></button>{'' if MODE == 'allibert' else '<button data-v="maps"><span class="tk">図</span><span class="tlab">Cartes</span></button>'}</nav>
+<aside id="lnav"><div class="lbrand"><span class="kj">冬</span><b>Japon en hiver</b></div><div class="lnavtabs"></div><div class="lnavdays"></div></aside><aside id="rside"></aside>
+<div id="phrase" class="hidden"><button id="phClose" aria-label="Fermer">{ico("close")}</button><div class="phjp"></div><div class="phro"></div><div class="phfr"></div></div>
+<div id="toast"></div>
 <div id="lb"><button id="lbClose" aria-label="Fermer">{ico("close")}</button><img alt=""><div class="hint">Faites défiler pour explorer la carte</div></div>
 <script>{JS}</script></body></html>'''
     if MODE == 'allibert':
         for x, y in E.TEXT_FIXES: doc = doc.replace(x, y)
-    doc = euros(doc)
+    doc = euros(doc).replace('{ICON180}', i180).replace('{ICON192}', i192).replace('{MANIFEST}', manifest_uri)
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(doc)
     print(OUT, os.path.getsize(OUT) // 1024, "ko")

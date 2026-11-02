@@ -4,6 +4,7 @@ Guide de voyage personnel pour le programme sur-mesure Allibert Trekking (versio
 
 - `index.html` : le guide mobile, un seul fichier autonome (hors ligne) : journées heure par heure, adresses (restaurants, cafés, bains, photo, papeterie, course à pied), checklist, infos pratiques, cartes. S'ouvre dans Safari ; « Sur l'écran d'accueil » pour l'avoir comme une app.
 - `pdf/Japon_hiver_carnet_v7.pdf` : le carnet complet en PDF (version 7.0, itinéraire organisé par nous-mêmes, pour mémoire).
+- `sw.js` et `pwa/` : le service worker et les icônes (installation sur l'écran d'accueil, cache hors ligne sur GitHub Pages).
 - `src/` : les sources Python qui génèrent le carnet et le guide (contenu dans `content_*.py`, adresses dans `content_guide.py`).
 - `assets/` : photos (Wikimedia Commons, crédits dans le carnet), cartes, polices, tuiles de relief GSI.
 
