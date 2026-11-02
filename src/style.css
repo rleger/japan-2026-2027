@@ -1,0 +1,281 @@
+@font-face { font-family: "DM Serif Display"; src: url("../assets/fonts/DMSerifDisplay-Regular.ttf"); }
+@font-face { font-family: "DM Serif Display"; src: url("../assets/fonts/DMSerifDisplay-Italic.ttf"); font-style: italic; }
+@font-face { font-family: "Spectral"; src: url("../assets/fonts/Spectral-Regular.ttf"); }
+@font-face { font-family: "Spectral"; src: url("../assets/fonts/Spectral-Italic.ttf"); font-style: italic; }
+@font-face { font-family: "Spectral"; src: url("../assets/fonts/Spectral-SemiBold.ttf"); font-weight: 600; }
+@font-face { font-family: "Lato"; src: url("../assets/fonts/Lato-Regular.ttf"); }
+@font-face { font-family: "Lato"; src: url("../assets/fonts/Lato-Bold.ttf"); font-weight: bold; }
+@font-face { font-family: "Lato"; src: url("../assets/fonts/Lato-Italic.ttf"); font-style: italic; }
+@font-face { font-family: "Lato"; src: url("../assets/fonts/Lato-BoldItalic.ttf"); font-weight: bold; font-style: italic; }
+@font-face { font-family: "Shippori"; src: url("../assets/fonts/ShipporiMincho-Medium.ttf"); }
+@font-face { font-family: "DejaVuWeb"; src: url("../assets/fonts/DejaVuSans.ttf"); }
+
+:root {
+  --bg: #f9f6f0; --navy: #131f2d; --navy2: #2d3f56; --red: #8c2f38; --gold: #b8914f;
+  --ink: #1f2430; --grey: #5e6572; --light: #9aa0ab; --rule: #ddd6cb;
+  --panel-navy: #ebedf2; --panel-red: #f4ebe8; --panel-warm: #f6efe2; --panel-coince: #fdf2f0;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+body { font-family: "Spectral", "DejaVuWeb", serif; font-size: 9.6pt; line-height: 1.38; }
+@page { size: A4; margin: 0; }
+a { color: inherit; text-decoration: none; }
+p { margin: 0 0 4pt 0; }
+ul { margin: 0; padding-left: 10pt; }
+b, strong { font-weight: 600; }
+sup { font-size: 60%; vertical-align: super; }
+
+.page { width: 210mm; height: 297mm; position: relative; overflow: hidden; page-break-after: always; background: var(--bg); padding: 19mm 16mm 16mm 16mm; }
+.page:last-child { page-break-after: auto; }
+.page.full { padding: 0; }
+.hdr { position: absolute; top: 9mm; left: 16mm; right: 16mm; height: 6mm; border-bottom: 0.5pt solid var(--rule); font-family: Lato, "DejaVuWeb"; font-size: 6.4pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 2pt; }
+.ftr { position: absolute; bottom: 8mm; left: 0; right: 0; text-align: center; font-family: Lato, "DejaVuWeb"; font-size: 7pt; color: var(--grey); }
+.ftr .gen { position: absolute; left: 16mm; font-size: 5.8pt; color: var(--light); letter-spacing: 0.03em; }
+.tab { position: absolute; right: 0; top: 74mm; width: 6mm; padding: 6pt 0; color: #fff; font-family: Shippori, "DejaVuWeb"; font-size: 6.5pt; writing-mode: vertical-rl; text-orientation: upright; text-align: center; letter-spacing: 1pt; }
+.navy .tab, .tab.navy { background: var(--navy2); } .red .tab, .tab.red { background: var(--red); }
+.page.navy { --theme: var(--navy2); --panel: var(--panel-navy); } .page.red { --theme: var(--red); --panel: var(--panel-red); }
+.page { --theme: var(--navy2); --panel: var(--panel-navy); }
+
+.kicker { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 6.8pt; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 3pt; }
+h1 { font-family: "DM Serif Display", "DejaVuWeb"; font-weight: normal; font-size: 24pt; line-height: 1.1; margin: 0 0 8pt 0; color: var(--navy); }
+h2 { font-family: "DM Serif Display", "DejaVuWeb"; font-weight: normal; font-size: 14.5pt; margin: 10pt 0 5pt 0; color: var(--navy); }
+.lead { font-size: 11.2pt; line-height: 1.45; margin-bottom: 8pt; }
+.lbl { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 6.6pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--theme); margin: 5pt 0 1.5pt 0; }
+.lbl.gold { color: var(--gold); }
+.small { font-size: 7.6pt; line-height: 1.35; color: var(--grey); }
+.sans { font-family: Lato, "DejaVuWeb"; }
+
+/* cover */
+.cover { background: var(--navy); color: #fff; padding: 20mm 16mm; }
+.cover .kick { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7.5pt; letter-spacing: 0.12em; color: var(--gold); border-bottom: 0.7pt solid var(--gold); display: inline-block; padding-bottom: 4pt; }
+.cover .t1 { font-family: "DM Serif Display", "DejaVuWeb"; font-size: 64pt; line-height: 0.95; margin-top: 24mm; }
+.cover .t2 { font-family: "DM Serif Display", "DejaVuWeb"; font-style: italic; font-size: 40pt; line-height: 1; margin-top: 2mm; }
+.cover .jp { font-family: Shippori, "DejaVuWeb"; font-size: 17pt; color: var(--gold); margin-top: 6mm; letter-spacing: 3pt; }
+.cover .big { position: absolute; right: 10mm; top: 104mm; font-family: Shippori, "DejaVuWeb"; font-size: 300pt; line-height: 1; color: #1c2a3c; }
+.cover .bottom { position: absolute; left: 16mm; right: 16mm; bottom: 22mm; }
+.cover .dates { font-family: Lato, "DejaVuWeb"; font-size: 11pt; margin-bottom: 4pt; }
+.cover .line { font-family: Lato, "DejaVuWeb"; font-size: 8.5pt; color: #c9cfd9; margin-bottom: 8pt; }
+.cover .stops { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 8pt; }
+.cover .stops span { margin-right: 10pt; } .cover .stops span::before { content: "● "; color: var(--red); font-size: 6pt; }
+.cover .foot { font-family: Lato, "DejaVuWeb"; font-size: 7.5pt; color: #c9cfd9; margin-top: 10pt; }
+
+/* toc */
+.toc { margin-top: 6pt; }
+.toc .row { display: flex; align-items: baseline; font-family: Lato, "DejaVuWeb"; font-size: 9.5pt; margin: 3pt 0; }
+.toc .row.sub { padding-left: 12pt; font-size: 8.5pt; color: var(--grey); margin: 2pt 0; }
+.toc .row .dots { flex: 1; border-bottom: 1px dotted #b9b2a6; margin: 0 5pt; position: relative; top: -3pt; }
+.readbox { background: var(--panel-warm); border-left: 2pt solid var(--gold); padding: 9pt 11pt; margin-top: 16pt; font-size: 8.6pt; }
+.readbox .lbl { color: var(--gold); margin-top: 0; }
+
+/* overview table */
+table { border-collapse: collapse; width: 100%; }
+.ov th { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7pt; letter-spacing: 0.05em; text-transform: uppercase; background: var(--navy); color: #fff; text-align: left; padding: 4pt 6pt; }
+.ov td { font-size: 8.4pt; padding: 4.5pt 6pt; vertical-align: top; border-bottom: 0.4pt solid var(--rule); }
+.ov tr:nth-child(even) td { background: #fdfbf7; }
+.ov td.d { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7.6pt; white-space: nowrap; }
+.ov td.e { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 8pt; }
+.ov td.e.m { color: var(--red); }
+.ov td.n { font-family: Lato, "DejaVuWeb"; text-align: center; }
+.brief { margin-top: 10pt; }
+.brief .row { display: flex; border-bottom: 0.4pt solid var(--rule); padding: 5pt 0; font-size: 8.6pt; }
+.brief .row .k { width: 34mm; font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7.6pt; color: var(--navy); padding-right: 6pt; }
+
+/* map page */
+.mapbox { border: 0.5pt solid var(--rule); background: #fff; padding: 4pt; }
+.mapbox img { width: 100%; display: block; }
+.caption { font-size: 7.3pt; font-style: italic; color: var(--grey); margin-top: 3pt; }
+.cols3 { display: flex; gap: 14pt; margin-top: 14pt; }
+.cols3 > div { flex: 1; font-size: 9pt; }
+.cols3 .lbl { color: var(--red); }
+
+/* before / boxes */
+.box { background: var(--panel-warm); padding: 9pt 11pt; margin-bottom: 9pt; font-size: 8.8pt; }
+.box .lbl { color: var(--gold); margin-top: 0; }
+.box ul { padding-left: 11pt; } .box li { margin-bottom: 2pt; }
+.cols2 { display: flex; gap: 14pt; } .cols2 > div { flex: 1; }
+.fine { font-size: 7.2pt; line-height: 1.35; color: var(--grey); margin-top: 6pt; }
+
+/* checklist */
+.warn4 { display: flex; flex-wrap: wrap; gap: 8pt; margin: 8pt 0 6pt 0; }
+.warn4 > div { flex: 0 0 calc(50% - 4pt); background: var(--panel-red); padding: 8pt 10pt; font-size: 8.2pt; }
+.warn4 .lbl { color: var(--red); margin-top: 0; }
+.ck { display: flex; align-items: flex-start; border-bottom: 0.4pt solid var(--rule); padding: 5pt 0 5pt 0; font-size: 8.2pt; }
+.ck .bx { width: 8pt; height: 8pt; border: 0.8pt solid var(--navy); margin: 2pt 8pt 0 2pt; flex: none; }
+.ck .dt { width: 22mm; flex: none; font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7.2pt; padding-top: 1pt; }
+.ck .tx { flex: 1; padding-right: 8pt; }
+.ck .tx b { font-family: Lato, "DejaVuWeb"; font-size: 8.2pt; font-weight: bold; display: block; margin-bottom: 1pt; }
+.ck .tx a { color: var(--navy2); text-decoration: underline; text-decoration-color: #b9b2a6; }
+.ck .tg { flex: none; width: 19mm; text-align: right; font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 6.2pt; letter-spacing: 0.06em; padding-top: 1pt; }
+.tg.B { color: var(--red); } .tg.I { color: var(--gold); } .tg.U { color: var(--light); }
+.ck.B { border-left: 2pt solid var(--red); padding-left: 4pt; }
+.prio { display: flex; align-items: center; gap: 8pt; margin: 12pt 0 4pt 0; }
+.prio .n { font-family: "DM Serif Display", "DejaVuWeb"; font-size: 20pt; color: var(--red); line-height: 1; }
+.prio .t { font-family: "DM Serif Display", "DejaVuWeb"; font-size: 14pt; color: var(--navy); }
+.prio .s { font-family: Lato, "DejaVuWeb"; font-size: 7.2pt; color: var(--grey); margin-left: auto; text-align: right; }
+
+/* chapter opener */
+.banner { position: relative; height: 128mm; background: #333; overflow: hidden; }
+.banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.banner .shade { display: none; }
+.banner .region { position: absolute; top: 9mm; left: 16mm; font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7pt; letter-spacing: 0.12em; color: #fff; }
+.banner .credit { position: absolute; top: 9mm; right: 16mm; font-family: Lato, "DejaVuWeb"; font-size: 6pt; color: rgba(255,255,255,0.75); }
+.banner .num { position: absolute; left: 16mm; bottom: 28mm; font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7pt; letter-spacing: 0.12em; color: var(--gold); }
+.banner .ttl { position: absolute; left: 16mm; bottom: 13mm; color: #fff; font-family: "DM Serif Display", "DejaVuWeb"; font-size: 38pt; line-height: 1; text-shadow: 0 1pt 6pt rgba(0,0,0,0.45); }
+.banner .sub { position: absolute; left: 16mm; bottom: 7mm; color: #fff; font-family: "DM Serif Display", "DejaVuWeb"; font-style: italic; font-size: 12.5pt; text-shadow: 0 1pt 5pt rgba(0,0,0,0.45); }
+.banner .kj { position: absolute; right: 16mm; top: 14mm; color: #fff; font-family: Shippori, "DejaVuWeb"; font-size: 44pt; line-height: 1; text-shadow: 0 1pt 6pt rgba(0,0,0,0.45); }
+.banner .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2.2mm; background: var(--theme); }
+.banner.nophoto { background: var(--navy); }
+.banner.nophoto .deco { position: absolute; right: 14mm; top: 14mm; font-family: Shippori, "DejaVuWeb"; font-size: 210pt; line-height: 1; color: #1c2a3c; }
+.opener-body { padding: 8mm 16mm 0 16mm; display: flex; gap: 10mm; }
+.opener-body .l { flex: 0 0 56%; } .opener-body .r { flex: 1; }
+.opener-body .intro { font-size: 10.6pt; line-height: 1.5; margin-bottom: 10pt; }
+.hist { background: var(--panel); padding: 8pt 10pt; font-size: 8.4pt; line-height: 1.4; }
+.hist .lbl { color: var(--theme); margin-top: 0; }
+.stats { display: flex; margin-top: 16pt; }
+.stats > div { flex: 1; border-left: 0.5pt solid var(--rule); padding-left: 8pt; }
+.stats > div:first-child { border-left: 0; padding-left: 0; }
+.stats .v { font-family: "DM Serif Display", "DejaVuWeb"; font-size: 19pt; color: var(--theme); line-height: 1; }
+.stats .k { font-family: Lato, "DejaVuWeb"; font-size: 7pt; color: var(--grey); margin-top: 3pt; }
+
+/* locals */
+.loc2 { display: flex; gap: 14pt; }
+.loc2 > div { flex: 1; font-size: 8.6pt; }
+.loc2 .lbl { color: var(--theme); }
+.taste p { margin-bottom: 4pt; } .taste b { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 8.2pt; }
+.anec { background: var(--panel); padding: 7pt 10pt; margin-top: 8pt; font-size: 8.4pt; font-style: italic; }
+.anec .lbl { font-style: normal; color: var(--theme); margin-top: 0; }
+.anec p { margin-bottom: 3pt; }
+
+/* day */
+.day { margin-top: 2pt; }
+.dayhead { display: flex; align-items: flex-end; gap: 10pt; margin-bottom: 5pt; }
+.dayhead .num { font-family: "DM Serif Display", "DejaVuWeb"; font-size: 42pt; line-height: 0.85; color: var(--theme); min-width: 42pt; }
+.dayhead .dow { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 6.8pt; letter-spacing: 0.1em; color: var(--theme); }
+.dayhead .ttl { font-family: "DM Serif Display", "DejaVuWeb"; font-size: 20pt; line-height: 1.05; color: var(--navy); }
+.dayhead .ttl .st { color: var(--red); font-size: 12pt; margin-left: 4pt; }
+.strip { display: flex; border-top: 0.5pt solid var(--rule); border-bottom: 0.5pt solid var(--rule); margin-bottom: 7pt; }
+.strip > div { flex: 1; padding: 4pt 8pt 4pt 0; border-left: 0.5pt solid var(--rule); padding-left: 8pt; }
+.strip > div:first-child { border-left: 0; padding-left: 0; }
+.strip .k { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 6.2pt; letter-spacing: 0.08em; color: var(--theme); }
+.strip .v { font-family: Lato, "DejaVuWeb"; font-size: 7.6pt; margin-top: 1pt; }
+.photos { display: flex; gap: 4pt; height: 92mm; margin-bottom: 8pt; }
+.page.dense .photos { height: 74mm; }
+.photos .big { flex: 0 0 64%; position: relative; overflow: hidden; }
+.photos .side { flex: 1; display: flex; flex-direction: column; gap: 4pt; }
+.photos .side > div { flex: 1; position: relative; overflow: hidden; }
+.photos img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photos .cap { position: absolute; left: 5pt; bottom: 5pt; padding: 2pt 5pt; color: #fff; font-family: Lato, "DejaVuWeb"; font-style: italic; font-size: 6.6pt; background: rgba(0,0,0,0.5); }
+.photos.two .big { flex: 0 0 56%; }
+.photos.one .big { flex: 1; }
+.daybody { display: flex; gap: 10pt; }
+.daybody .txt { flex: 0 0 64.5%; font-size: 9.3pt; line-height: 1.4; }
+.daybody .txt p { margin-bottom: 3pt; }
+.daybody .side { flex: 1; background: var(--panel); padding: 8pt 10pt; font-size: 8.3pt; line-height: 1.38; align-self: flex-start; }
+.daybody .side .lbl { margin-top: 5pt; } .daybody .side .lbl:first-child { margin-top: 0; }
+.daybody .side ul { padding-left: 9pt; } .daybody .side li { margin-bottom: 2pt; }
+.daybody .side .rep { font-style: italic; }
+
+/* trajet table */
+.tr { width: 100%; margin-bottom: 6pt; }
+.tr th { background: var(--theme); color: #fff; font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7pt; text-align: left; padding: 3.5pt 5pt; }
+.tr td { padding: 3.5pt 5pt; vertical-align: top; border-bottom: 0.4pt solid var(--rule); font-size: 7.6pt; }
+.tr tr:nth-child(even) td { background: #fbf9f4; }
+.tr td.h { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7.2pt; white-space: nowrap; }
+.tr td.t { font-weight: 600; font-size: 8.2pt; }
+.tr td.c { font-family: Lato, "DejaVuWeb"; color: var(--grey); font-size: 7.1pt; }
+.tr td.d { font-family: Lato, "DejaVuWeb"; font-size: 7.1pt; white-space: nowrap; }
+.tr td.s { font-family: Lato, "DejaVuWeb"; font-size: 6.8pt; white-space: nowrap; }
+.dot::before { content: "● "; font-size: 6pt; }
+.s-O { color: var(--red); } .s-C { color: var(--gold); } .s-L { color: var(--light); }
+.coince { background: var(--panel-coince); border-left: 2pt solid var(--red); padding: 6pt 9pt; margin: 6pt 0 8pt 0; font-size: 8.2pt; }
+.coince .lbl { color: var(--red); margin-top: 0; }
+.opts { margin-top: 4pt; border-top: 0.6pt solid var(--navy); }
+.opts .row { display: flex; border-bottom: 0.4pt solid var(--rule); padding: 4pt 0; font-size: 8.2pt; }
+.opts .row .k { width: 40mm; flex: none; font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7.8pt; color: var(--theme); padding-right: 8pt; }
+
+/* lodging */
+.lodge { background: var(--panel); border-left: 2.5pt solid var(--theme); padding: 8pt 11pt 9pt 11pt; margin-top: 10pt; }
+.lodge .ttl { font-family: "DM Serif Display", "DejaVuWeb"; font-size: 12.5pt; color: var(--navy); margin-bottom: 6pt; }
+.lodge .ttl .lbl { display: inline; margin-right: 6pt; color: var(--grey); }
+.lodge .cols2 { gap: 16pt; }
+.lodge .lbl { color: var(--grey); margin-top: 0; margin-bottom: 4pt; }
+.lodge .h { margin-bottom: 6pt; font-size: 7.6pt; line-height: 1.32; color: var(--grey); font-family: Lato, "DejaVuWeb"; }
+.lodge .h a { font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 8.6pt; color: var(--theme); display: block; margin-bottom: 1pt; }
+.lodge .h .pr { font-weight: bold; color: var(--ink); }
+.lodge .note { font-size: 7.4pt; font-style: italic; line-height: 1.35; color: var(--grey); margin-top: 4pt; }
+.lodge .note a { color: var(--theme); text-decoration: underline; }
+
+/* plans */
+.plans { display: flex; gap: 10pt; }
+.plans > div { flex: 1; }
+.plans img { width: 100%; display: block; border: 0.5pt solid var(--rule); }
+
+/* budget */
+.bud th { background: var(--navy); color: #fff; font-family: Lato, "DejaVuWeb"; font-size: 7.5pt; text-align: left; padding: 5pt 8pt; }
+.bud td { padding: 6pt 8pt; border-bottom: 0.4pt solid var(--rule); font-size: 9pt; }
+.bud td.n { font-family: Lato, "DejaVuWeb"; text-align: right; }
+.bud tr.tot td { font-family: Lato, "DejaVuWeb"; font-weight: bold; background: #efe8da; color: var(--navy); }
+.bud tr.tot2 td { font-family: Lato, "DejaVuWeb"; font-weight: bold; color: var(--red); }
+
+/* practical */
+.prac { column-count: 2; column-gap: 16pt; font-size: 8.6pt; }
+.prac .it { break-inside: avoid; margin-bottom: 9pt; }
+.prac .lbl { color: var(--gold); margin-top: 0; }
+
+/* sources */
+.src li { font-size: 8.4pt; margin-bottom: 2.5pt; }
+.src a { color: var(--navy2); text-decoration: underline; }
+.cred td { font-size: 7.2pt; padding: 2.4pt 5pt; border-bottom: 0.3pt solid var(--rule); font-family: Lato, "DejaVuWeb"; }
+.cred td a { color: var(--navy2); }
+.chg .row { display: flex; border-bottom: 0.4pt solid var(--rule); padding: 4.5pt 0; font-size: 8.4pt; }
+.chg .row .n { width: 8mm; flex: none; font-family: "DM Serif Display", "DejaVuWeb"; font-size: 12pt; color: var(--red); }
+.chg .row .k { width: 44mm; flex: none; font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 8pt; color: var(--navy); padding-right: 8pt; }
+
+li::marker { color: var(--theme); font-size: 7pt; }
+.box li::marker, .readbox li::marker { color: var(--gold); }
+
+/* frise du voyage */
+.tl { margin-top: 4pt; }
+.tl .row { display: flex; align-items: flex-start; min-height: 11.2mm; padding: 3pt 4pt 2.5pt 4pt; border-bottom: 0.4pt solid var(--rule); }
+.tl .row.bp { background: var(--panel-warm); }
+.tl .d { width: 17mm; flex: none; font-family: Lato, "DejaVuWeb"; font-weight: bold; font-size: 7.6pt; color: var(--navy); padding-top: 2.5pt; }
+.tl .rail { width: 7mm; flex: none; position: relative; align-self: stretch; }
+.tl .rail::before { content: ""; position: absolute; left: 50%; top: -5pt; bottom: -4pt; width: 0.8pt; transform: translateX(-50%); background: var(--rule); }
+.tl .row:first-child .rail::before { top: 6pt; } .tl .row:last-child .rail::before { bottom: auto; height: 10pt; }
+.tl .dot { position: absolute; left: 50%; top: 4.5pt; width: 6pt; height: 6pt; transform: translateX(-50%); border-radius: 50%; background: var(--navy2); }
+.tl .row.bp .dot { background: var(--gold); }
+.tl .e { width: 46mm; flex: none; padding-right: 6pt; }
+.tl .e .t { font-family: "DM Serif Display", "DejaVuWeb"; font-size: 10.2pt; line-height: 1.15; color: var(--navy); }
+.tl .e .n { font-family: Lato, "DejaVuWeb"; font-size: 6.6pt; letter-spacing: 0.04em; text-transform: uppercase; color: var(--grey); margin-top: 1.5pt; }
+.tl .c { flex: 1; display: flex; flex-wrap: wrap; gap: 3pt 10pt; padding-top: 2pt; }
+.chip { display: inline-flex; align-items: center; gap: 3.5pt; font-family: Lato, "DejaVuWeb"; font-size: 7.4pt; line-height: 1.2; color: var(--ink); white-space: nowrap; }
+.chip svg { width: 11pt; height: 11pt; flex: none; }
+.chip.t svg { fill: var(--navy2); } .chip.w svg { fill: var(--gold); } .chip.s svg { fill: var(--red); } .chip.k svg { fill: var(--grey); } .chip.r svg { fill: var(--red); }
+.chip.s { color: var(--red); font-weight: bold; } .chip.w { font-weight: bold; } .chip.r { font-weight: bold; color: var(--red); }
+.chip .mk { font-weight: bold; color: var(--red); margin: 0 -1pt 0 -2pt; }
+.tl-legend { display: flex; flex-wrap: wrap; gap: 4pt 12pt; margin-top: 9pt; padding-top: 6pt; border-top: 0.5pt solid var(--rule); }
+.tl-legend .chip { font-size: 6.8pt; font-weight: normal; color: var(--grey); }
+.chip .sw { width: 11pt; height: 8pt; background: var(--panel-warm); border: 0.4pt solid var(--rule); display: inline-block; }
+
+/* frises (profil de route) */
+.stripbox { margin: 4mm 16mm 0 16mm; }
+.stripbox.inpage { margin: 6pt 0 0 0; }
+.stripnote { font-family: Lato, "DejaVuWeb"; font-size: 7.4pt; line-height: 1.35; color: var(--ink); margin-top: 2pt; }
+.stripnote b { color: var(--red); }
+.stripbox .lbl { color: var(--red); margin-bottom: 2pt; }
+.nkstrip { width: 100%; height: auto; display: block; }
+
+/* comparatif */
+.cmp th { background: var(--navy); color: #fff; font-family: Lato, "DejaVuWeb"; font-size: 7.3pt; text-align: left; padding: 4pt 7pt; }
+.cmp td { padding: 4.5pt 7pt; border-bottom: 0.4pt solid var(--rule); font-size: 8.4pt; vertical-align: top; }
+.cmp td.n { font-family: Lato, "DejaVuWeb"; text-align: right; white-space: nowrap; }
+.cmp tr.tot td { font-family: Lato, "DejaVuWeb"; font-weight: bold; background: #efe8da; color: var(--navy); }
+
+.mapwide { padding: 6mm 16mm 0 16mm; }
+.mapwide .mapbox img { width: 100%; max-height: 100mm; object-fit: contain; }
+.banner.short { height: 84mm; }
+.banner.short img { object-position: center 35%; }
+.banner.short.nophoto .deco { font-size: 130pt; top: 8mm; }
+.opener-body.wide { display: block; }
+.opener-body.wide .l { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10mm; align-items: start; }
+.opener-body.wide .stats { grid-column: 1 / -1; }
