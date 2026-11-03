@@ -120,7 +120,7 @@ CHECK_INTRO = dict(
         ("LE BULLETIN D'INSCRIPTION", "Devis valable jusqu'au 4 novembre : signer et verser l'acompte pour que les options posées (eph Takayama le 31 décembre, notamment) deviennent des réservations fermes."),
         ("LE SECOND PERMIS", "Allibert ne traduit qu'un permis. Douze jours de délai chez Japan Experience : à commander cette semaine pour conduire à deux."),
         ("LE FUJIYA", "Les deux nuits du Kumano sont réservées par nous au Kawayu Onsen Fujiya : transmettre la confirmation à Camille pour le roadbook."),
-        ("LE TGV DU 11 JANVIER", "Pas encore en vente ; prendre un billet modifiable depuis l'aéroport vers 9 h ou 10 h dès l'ouverture."),
+        ("LES TGV", "Aller Besançon → Paris du 26 décembre réservé. Retour du 11 janvier pas encore en vente, sans tension : billet modifiable depuis l'aéroport vers 9 h ou 10 h dès l'ouverture."),
     ],
 )
 
@@ -225,6 +225,8 @@ TEXT_FIXES = [
     ("Yunomine Onsen → Hosshinmon-ōji", "Kawayu (ou Yunomine) → Hosshinmon-ōji"),
     ("Retour à l'auberge pour le dîner : à pied à Yunomine, en voiture laissée la veille ou en bus pour Kawayu et Ukegawa.", "Retour au Fujiya pour le dîner : bus de Yunomine vers Kawayu (changement à Hongū), taxi, ou la voiture si elle a été laissée à Hongū le matin."),
     ("à pied (Yunomine) ; bus, taxi ou voiture récupérée (Kawayu, Ukegawa)", "bus via Hongū, taxi, ou voiture récupérée à Hongū"),
+    ("TGV direct de Besançon Franche-Comté jusqu'à l'aéroport Charles-de-Gaulle (environ 3 h), ou l'itinéraire de secours si la seconde place n'a pas été trouvée.", "TGV direct de Besançon Franche-Comté jusqu'à l'aéroport Charles-de-Gaulle (environ 3 h), réservé."),
+    ("TGV direct (une place obtenue, la seconde à trouver)", "TGV direct, réservé"),
     ("Hébergements : Booking.com, relevés du 1er novembre 2026 pour deux adultes aux dates du voyage ; les prix changent chaque jour. ", ""),
 ]
 
@@ -276,7 +278,7 @@ PAPERS_FIELDS = [
     ("banque", "Banque, opposition carte (téléphone)", ""),
     ("ambassade", "Ambassade de France à Tokyo", "4-11-44 Minami-Azabu, Minato-ku ; +81 3 5798 6000 ; urgences 119 (ambulance), 110 (police)"),
     ("wifi", "Pocket wifi (identifiants, consigne de retour)", ""),
-    ("tgv", "TGV Besançon ⇄ Paris (références)", ""),
+    ("tgv", "TGV Besançon ⇄ Paris (références)", "Aller 26 déc. réservé : réf. à noter ; retour 11 janv. à prendre dès l'ouverture des ventes"),
 ]
 
 PHRASES = [
