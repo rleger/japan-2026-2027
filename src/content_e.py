@@ -21,12 +21,12 @@ INCLUDED = dict(
     ],
     no=[
         "Les vols (réservés par nous : Air France, 3 431 € pour deux) et les trains Besançon ⇄ Paris.",
-        "Les deux nuits du Kumano (3 et 4 janvier) : Kawayu Onsen Fujiya à réserver par nous, environ 520 à 580 € pour deux, dîners et petits-déjeuners compris.",
+        "Les deux nuits du Kumano (3 et 4 janvier) : Kawayu Onsen Fujiya, réservé par nous, dîners et petits-déjeuners compris.",
         "Les déjeuners et les dîners (sauf le 5 janvier), les boissons ; Allibert compte 8 à 12 € par repas, comptez plutôt 15 à 25 €.",
         "Les entrées des temples, musées, bains ; les cars de montagne (à régler sur place) ; le dîner du réveillon, à réserver par nous.",
         "La traduction du permis du second conducteur (70 € chez Japan Experience) et son ajout au contrat de location ; l'assurance annulation (option Allibert 4,45 %, ou 3,15 % en complément d'une carte bancaire).",
     ],
-    todo="Au 3 novembre : devis valable jusqu'au 4 novembre, acompte de 35 % par carte à verser via le bulletin d'inscription ; Fujiya à réserver par nous tout de suite ; dîner du réveillon à réserver par nous ; cars réservés par Allibert mais payés sur place ; Nozomi avec siège réservé.",
+    todo="Au 3 novembre : devis valable jusqu'au 4 novembre, acompte de 35 % par carte à verser via le bulletin d'inscription ; eph Takayama en option chez Allibert, Fujiya réservé par nous ; dîner du réveillon à réserver par nous ; cars réservés par Allibert mais payés sur place ; Nozomi avec siège réservé.",
 )
 
 # Hôtels du programme V2, par chapitre : (nom, adresse, requête Google Maps, site, notes)
@@ -39,8 +39,8 @@ HOTELS = dict(
             "Hôtel récent à 1 min de la gare (sortie est) et 2 min de la gare routière. Toutes les chambres ont une salle de bain avec baignoire profonde en hinoki et douche à part. Pas de dîner ; petit-déjeuner compris dans le programme. Attention : réception de 7 h à 20 h, check-in jusqu'à 21 h, pas d'arrivée tardive."),
            ("Experience Ise Miyamachi Hotel", "1 nuit, 2 janvier (chambre twin)", "Miyamachi, Ise, Mie", "Experience Ise Miyamachi Hotel", "",
             "Petit hôtel récent à 10 min à pied de la gare d'Ise-shi, parking. Chambre twin (deux lits). Le Gekū est à 10 min à pied, le Naikū en bus 51 ou 55 depuis la gare.")],
-    kumano=[("Kawayu Onsen Fujiya", "2 nuits, 3 et 4 janvier, réservées par nous", "1452 Kawayu, Hongū-chō, Tanabe, Wakayama", "Kawayu Onsen Fujiya", "https://www.fuziya.co.jp/",
-             "Hors devis Allibert, réservé par nous (Booking, environ 520 à 580 € les deux nuits, dîner et petit-déjeuner compris, chambre avec bain et toilettes). Ryokan au bord de la rivière chaude de Kawayu, bains extérieurs sur la berge, le Sennin-buro (bain creusé dans la rivière, gratuit, décembre à février) devant la porte, parking. Yunomine, Tsuboyu et le départ du Dainichi-goe sont à 10 min de voiture (4 km) ; le Hongū Taisha à 5 km. Arrivée avant 18 h pour le dîner, prévenir de l'heure."),
+    kumano=[("Kawayu Onsen Fujiya", "2 nuits, 3 et 4 janvier, réservé par nous", "1452 Kawayu, Hongū-chō, Tanabe, Wakayama 647-1717 · +81 735 42 0007", "Kawayu Onsen Fujiya", "https://www.fuziya.co.jp/",
+             "Hors devis Allibert, réservé par nous (dîner et petit-déjeuner compris, chambre avec bain et toilettes) ; confirmation à envoyer à Camille pour le roadbook. Ryokan au bord de la rivière chaude de Kawayu, bains extérieurs sur la berge, le Sennin-buro (bain creusé dans la rivière, gratuit, décembre à février) devant la porte, parking. Yunomine, Tsuboyu et le départ du Dainichi-goe sont à 10 min de voiture (4 km) ; le Hongū Taisha à 5 km. Arrivée avant 18 h pour le dîner, prévenir de l'heure."),
             ("Hotel Urashima", "1 nuit, 5 janvier, chambre japonaise (Nagisakan), dîner compris", "1165-2 Katsuura, Nachikatsuura, Wakayama", "Hotel Urashima Nachikatsuura", "https://www.hotelurashima.co.jp/",
              "Grand hôtel de bains des années 1970 sur sa presqu'île : voiture au parking de l'hôtel à Tenman, navette, puis bateau-tortue de 5 min depuis le port. Bains dans les grottes Bōkidō (5 h à 10 h, 13 h à 23 h) et Genbudō. Dîner-buffet avec découpe de thon. Check-in 15 h, départ 10 h.")],
     koya=[("The Gate Hotel Osaka by Hulic", "1 nuit, 6 janvier", "3-12-14 Minamisenba, Chūō-ku, Osaka", "The Gate Hotel Osaka by Hulic", "https://www.gate-hotel.jp/osaka/",
@@ -57,8 +57,8 @@ CHECK_PAGES = [
         ("1", "Cette semaine", "boucler avec Allibert", [
             ("Avant le 4 nov.", "Bulletin d'inscription et acompte de 35 %",
              "Le devis n°2 (4 045 € par personne hors vols, 18 € de frais) n'est valable que jusqu'au 4 novembre. Signer le bulletin numérique, payer l'acompte par carte, confirmer l'adresse postale (25 rue du Petit Charmont, 25000 Besançon). Allibert confirme ensuite la disponibilité de chaque prestation, ou propose une alternative, ou rembourse l'acompte. Demander par écrit la liste nominative des hôtels (Nohga, Dormy Inn, eph Takayama, Experience Ise twin, Urashima chambre japonaise avec dîner, The Gate, Richmond, Mitsui Garden) : la page du devis dit « donnés à titre indicatif ».", "B"),
-            ("Aujourd'hui", "Réserver Kawayu Onsen Fujiya, 3 et 4 janvier",
-             "Hors devis, à faire par nous : <a href=\"https://www.booking.com/hotel/jp/kawakyu-onsen-fujiya.html?checkin=2027-01-03&checkout=2027-01-05&group_adults=2&no_rooms=1\">Booking, Kawayu Onsen Fujiya</a> (579 € les deux nuits le 1er novembre), chambre avec bain et toilettes, formule dîner et petit-déjeuner, annulation gratuite si possible. Envoyer la confirmation à Camille pour le roadbook.", "B"),
+            ("Fait", "Kawayu Onsen Fujiya, 3 et 4 janvier : réservé",
+             "Réservé par nous (dîner et petit-déjeuner compris). Envoyer la confirmation à Camille pour le roadbook, et prévenir le ryokan de l'heure d'arrivée (avant 18 h) quelques jours avant : +81 735 42 0007.", "I"),
             ("Cette semaine", "Traduction du permis du second conducteur",
              "Allibert ne traduit qu'un permis. Pour pouvoir conduire à deux : <a href=\"https://japan-experience.com/transportation/driving-licence-translation\">Japan Experience, traduction officielle</a>, 70 €, environ 12 jours, livraison à domicile. Le permis international français ne sert à rien au Japon.", "B"),
             ("Avec le bulletin", "Assurance annulation et rapatriement",
@@ -117,9 +117,9 @@ CHECK_INTRO = dict(
     kicker="NE RIEN RATER", title="Ce qui reste à faire, par priorité",
     intro="Allibert réserve l'essentiel. Voici ce qui dépend encore de nous, du plus urgent au plus simple, puis les rendez-vous à ne pas manquer sur place.",
     blocks=[
-        ("LE BULLETIN D'INSCRIPTION", "Devis valable jusqu'au 4 novembre ; tant que l'acompte n'est pas versé, rien n'est réservé, et Takayama le 31 décembre est le point le plus tendu."),
+        ("LE BULLETIN D'INSCRIPTION", "Devis valable jusqu'au 4 novembre : signer et verser l'acompte pour que les options posées (eph Takayama le 31 décembre, notamment) deviennent des réservations fermes."),
         ("LE SECOND PERMIS", "Allibert ne traduit qu'un permis. Douze jours de délai chez Japan Experience : à commander cette semaine pour conduire à deux."),
-        ("LE FUJIYA", "Les deux nuits du Kumano sont sorties du devis : c'est à nous de réserver le Kawayu Onsen Fujiya, et vite, il restait peu de chambres le 1er novembre."),
+        ("LE FUJIYA", "Les deux nuits du Kumano sont réservées par nous au Kawayu Onsen Fujiya : transmettre la confirmation à Camille pour le roadbook."),
         ("LE TGV DU 11 JANVIER", "Pas encore en vente ; prendre un billet modifiable depuis l'aéroport vers 9 h ou 10 h dès l'ouverture."),
     ],
 )
@@ -195,7 +195,7 @@ BEFORE_BOXES = [
 ]
 
 BRIEF_OVERRIDES = {
-    "Point d'attention": "Allibert réserve trains, cars, voiture et hôtels ; restent à nous le bulletin et l'acompte avant le 4 novembre, le Fujiya à réserver tout de suite, le dîner du réveillon, la traduction du second permis, le TGV du retour.",
+    "Point d'attention": "Allibert réserve trains, cars, voiture et hôtels ; restent à nous le bulletin et l'acompte avant le 4 novembre (eph Takayama est en option, le Fujiya est réservé), le dîner du réveillon, la traduction du second permis, le TGV du retour.",
     "Hébergements": "Hôtels de ville bien tenus (Nohga, Dormy Inn, eph, Richmond, Mitsui Garden, The Gate), le ryokan Fujiya au bord de la rivière chaude de Kawayu (réservé par nous, dîners compris), et un grand hôtel de bains face à la mer à Kii-Katsuura, dîner compris.",
 }
 
@@ -244,7 +244,7 @@ HOTELS_JP = {
     "Dormy Inn Matsumoto": "ドーミーイン松本　長野県松本市深志2-2-1",
     "eph TAKAYAMA": "エフ高山（eph TAKAYAMA）　岐阜県高山市花里町5-13-17",
     "Experience Ise Miyamachi Hotel": "Experience Ise Miyamachi Hotel　三重県伊勢市宮町（伊勢市駅から徒歩10分）",
-    "Kawayu Onsen Fujiya": "川湯温泉 冨士屋　和歌山県田辺市本宮町川湯1452",
+    "Kawayu Onsen Fujiya": "川湯温泉 冨士屋　〒647-1717 和歌山県田辺市本宮町川湯1452　電話 0735-42-0007",
     "Hotel Urashima": "ホテル浦島　和歌山県東牟婁郡那智勝浦町勝浦1165-2",
     "The Gate Hotel Osaka by Hulic": "ザ・ゲートホテル大阪 by HULIC　大阪市中央区南船場3-12-14",
     "Richmond Hotel Premier Kyoto Ekimae": "リッチモンドホテルプレミア京都駅前　京都市下京区北不動堂町565-3",
