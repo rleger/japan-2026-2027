@@ -1,31 +1,32 @@
 # -*- coding: utf-8 -*-
 """Carnet v7, mode « avec Allibert » : ce qui change quand le voyage est organisé par Allibert Trekking (programme V2 du 2 novembre 2026)."""
 
-KICKER = "CARNET DE VOYAGE · PROGRAMME ALLIBERT TREKKING, VERSION 2"
-FOOT = "Vols directs Air France réservés par nous · programme Allibert V2 du 2 novembre 2026 · guide version 7.1"
+KICKER = "CARNET DE VOYAGE · PROGRAMME ALLIBERT TREKKING, DEVIS DU 3 NOVEMBRE"
+FOOT = "Vols directs Air France réservés par nous · devis Allibert n°2 du 3 novembre 2026 · guide version 7.2"
 
-INTRO = ("Ce carnet suit le programme sur-mesure d'Allibert Trekking (version 2 du 2 novembre 2026, 4 245 € par personne hors vols) : mêmes dates, mêmes étapes, "
+INTRO = ("Ce carnet suit le programme sur-mesure d'Allibert Trekking (devis n°2 du 3 novembre 2026, 4 045 € par personne hors vols et hors les deux nuits du Kumano, que nous réservons nous-mêmes au Kawayu Onsen Fujiya) : mêmes dates, mêmes étapes, "
          "les hôtels qu'ils ont confirmés. Allibert réserve les trains, les cars, la voiture, les hôtels, la journée guidée à Kyoto, et fournit le roadbook, le pocket wifi et une assistance 24 h/24. "
          "Ce que ce carnet ajoute, c'est le reste : les journées heure par heure, les adresses où manger, boire un café, se baigner, voir des appareils photo, et les plans B si quelque chose coince.")
 
 # Ce qui est compris dans le devis Allibert (programme V2) et ce qui reste à notre charge
 INCLUDED = dict(
     yes=[
-        "Accueil à l'aéroport de Haneda le 27 décembre au soir, remise des documents et du pocket wifi illimité (pour deux, tout le séjour).",
-        "Les 14 nuits d'hôtel avec petit-déjeuner (sauf le 27, arrivée tardive), le dîner à l'hôtel Urashima le 5 janvier.",
-        "Les trains : Azusa Tokyo → Matsumoto, Hida et Kintetsu vers Ise, Nankai depuis l'aéroport du Kansai, Osaka → Kyoto, Nozomi Kyoto → Tokyo, et les trajets locaux prévus au programme (carte Icoca ou billets, selon le roadbook).",
-        "La voiture de location du 3 janvier (Ise) au 6 janvier (aéroport du Kansai), en aller simple.",
+        "Accueil à l'aéroport de Haneda le 27 décembre au soir par un représentant francophone, qui accompagne jusqu'à l'hôtel en transport public ; remise des documents et du pocket wifi illimité (pour deux, tout le séjour).",
+        "Douze nuits d'hôtel avec petit-déjeuner (sauf le 27, arrivée tardive), le dîner à l'hôtel Urashima le 5 janvier. Les nuits des 3 et 4 janvier (Kumano) sont déduites du devis : nous les réservons nous-mêmes au Kawayu Onsen Fujiya.",
+        "Les trains payables à l'avance : Azusa Tokyo → Matsumoto, Hida et Kintetsu vers Ise, Nankai depuis l'aéroport du Kansai, shinkansen Osaka → Kyoto, Nozomi Kyoto → Tokyo avec siège réservé. Une carte Icoca chargée de 5 000 yens (29 €) pour les métros et bus des villes.",
+        "La voiture de location du 3 janvier (Ise) au 6 janvier (aéroport du Kansai), en aller simple, un conducteur inclus.",
+        "Les cars Matsumoto → Takayama et Takayama ⇄ Shirakawa-gō : réservés par Allibert, mais à payer sur place (environ 40 € et 20 € par personne selon eux ; 25 € et 32 € selon les tarifs publics).",
         "La journée guidée à Kyoto le 7 janvier, avec un guide francophone.",
         "Le roadbook détaillé, la traduction du permis d'un conducteur, l'assistance 24 h/24 en français.",
     ],
     no=[
         "Les vols (réservés par nous : Air France, 3 431 € pour deux) et les trains Besançon ⇄ Paris.",
-        "Les déjeuners et les dîners (sauf le 5 janvier), les boissons.",
-        "Les entrées des temples, musées, bains ; les cars de montagne du 31 décembre et du 1er janvier s'ils restent « à régler sur place » (à confirmer avec Camille).",
-        "La traduction du permis du second conducteur (70 € chez Japan Experience), l'assurance annulation si l'on ne passe pas par la leur.",
-        "Le supplément Kawayu Onsen Fujiya à la place de J-Hoppers, si Allibert accepte de le réserver (environ 520 € les deux nuits, dîners compris).",
+        "Les deux nuits du Kumano (3 et 4 janvier) : Kawayu Onsen Fujiya à réserver par nous, environ 520 à 580 € pour deux, dîners et petits-déjeuners compris.",
+        "Les déjeuners et les dîners (sauf le 5 janvier), les boissons ; Allibert compte 8 à 12 € par repas, comptez plutôt 15 à 25 €.",
+        "Les entrées des temples, musées, bains ; les cars de montagne (à régler sur place) ; le dîner du réveillon, à réserver par nous.",
+        "La traduction du permis du second conducteur (70 € chez Japan Experience) et son ajout au contrat de location ; l'assurance annulation (option Allibert 4,45 %, ou 3,15 % en complément d'une carte bancaire).",
     ],
-    todo="Points encore ouverts au 2 novembre : Yunomine (Fujiya ou J-Hoppers), les cars de montagne, le restaurant du réveillon, la réservation de siège du Nozomi du 9 janvier.",
+    todo="Au 3 novembre : devis valable jusqu'au 4 novembre, acompte de 35 % par carte à verser via le bulletin d'inscription ; Fujiya à réserver par nous tout de suite ; dîner du réveillon à réserver par nous ; cars réservés par Allibert mais payés sur place ; Nozomi avec siège réservé.",
 )
 
 # Hôtels du programme V2, par chapitre : (nom, adresse, requête Google Maps, site, notes)
@@ -38,8 +39,8 @@ HOTELS = dict(
             "Hôtel récent à 1 min de la gare (sortie est) et 2 min de la gare routière. Toutes les chambres ont une salle de bain avec baignoire profonde en hinoki et douche à part. Pas de dîner ; petit-déjeuner compris dans le programme. Attention : réception de 7 h à 20 h, check-in jusqu'à 21 h, pas d'arrivée tardive."),
            ("Experience Ise Miyamachi Hotel", "1 nuit, 2 janvier (chambre twin)", "Miyamachi, Ise, Mie", "Experience Ise Miyamachi Hotel", "",
             "Petit hôtel récent à 10 min à pied de la gare d'Ise-shi, parking. Chambre twin (deux lits). Le Gekū est à 10 min à pied, le Naikū en bus 51 ou 55 depuis la gare.")],
-    kumano=[("Kawayu Onsen Fujiya (ou J-Hoppers Kumano Yunomine)", "2 nuits, 3 et 4 janvier", "Kawayu, Hongū-chō, Tanabe, Wakayama", "Kawayu Onsen Fujiya", "https://www.fuziya.co.jp/",
-             "Notre demande à Allibert : ryokan au bord de la rivière chaude de Kawayu, chambres avec bain et toilettes, bains extérieurs sur la rivière, dîner et petit-déjeuner, parking. Yunomine est à 10 min de voiture. Si Allibert maintient J-Hoppers Kumano Yunomine Guesthouse (au bord de la rivière de Yunomine, sanitaires communs, trois bains privatisables, cuisine commune, pas de dîner) : courses à Shingū le 3 avant de monter."),
+    kumano=[("Kawayu Onsen Fujiya", "2 nuits, 3 et 4 janvier, réservées par nous", "1452 Kawayu, Hongū-chō, Tanabe, Wakayama", "Kawayu Onsen Fujiya", "https://www.fuziya.co.jp/",
+             "Hors devis Allibert, réservé par nous (Booking, environ 520 à 580 € les deux nuits, dîner et petit-déjeuner compris, chambre avec bain et toilettes). Ryokan au bord de la rivière chaude de Kawayu, bains extérieurs sur la berge, le Sennin-buro (bain creusé dans la rivière, gratuit, décembre à février) devant la porte, parking. Yunomine, Tsuboyu et le départ du Dainichi-goe sont à 10 min de voiture (4 km) ; le Hongū Taisha à 5 km. Arrivée avant 18 h pour le dîner, prévenir de l'heure."),
             ("Hotel Urashima", "1 nuit, 5 janvier, chambre japonaise (Nagisakan), dîner compris", "1165-2 Katsuura, Nachikatsuura, Wakayama", "Hotel Urashima Nachikatsuura", "https://www.hotelurashima.co.jp/",
              "Grand hôtel de bains des années 1970 sur sa presqu'île : voiture au parking de l'hôtel à Tenman, navette, puis bateau-tortue de 5 min depuis le port. Bains dans les grottes Bōkidō (5 h à 10 h, 13 h à 23 h) et Genbudō. Dîner-buffet avec découpe de thon. Check-in 15 h, départ 10 h.")],
     koya=[("The Gate Hotel Osaka by Hulic", "1 nuit, 6 janvier", "3-12-14 Minamisenba, Chūō-ku, Osaka", "The Gate Hotel Osaka by Hulic", "https://www.gate-hotel.jp/osaka/",
@@ -54,14 +55,16 @@ HOTELS = dict(
 CHECK_PAGES = [
     [
         ("1", "Cette semaine", "boucler avec Allibert", [
-            ("Tout de suite", "Répondre à Camille et envoyer les passeports",
-             "Copies des passeports, et nos réponses : Fujiya à Kawayu plutôt que J-Hoppers (dîners compris, nous prenons le surcoût), Experience Ise en twin, aucun régime, Gyu-Suke pour le réveillon (qui réserve, et à quelle heure ?), cars de montagne compris ou non, siège réservé dans le Nozomi du 9 janvier.", "B"),
-            ("À réception", "Devis n°2 et bulletin d'inscription",
-             "Vérifier que le devis reprend bien les hôtels de la V2 (eph, Experience Ise, Fujiya ou J-Hoppers, Urashima avec dîner, The Gate), la voiture en aller simple avec pneus hiver et deux conducteurs, le pocket wifi, la journée guidée à Kyoto. Signer et verser l'acompte : les hôtels de Takayama ne sont bloqués qu'après.", "B"),
+            ("Avant le 4 nov.", "Bulletin d'inscription et acompte de 35 %",
+             "Le devis n°2 (4 045 € par personne hors vols, 18 € de frais) n'est valable que jusqu'au 4 novembre. Signer le bulletin numérique, payer l'acompte par carte, confirmer l'adresse postale (25 rue du Petit Charmont, 25000 Besançon). Allibert confirme ensuite la disponibilité de chaque prestation, ou propose une alternative, ou rembourse l'acompte. Demander par écrit la liste nominative des hôtels (Nohga, Dormy Inn, eph Takayama, Experience Ise twin, Urashima chambre japonaise avec dîner, The Gate, Richmond, Mitsui Garden) : la page du devis dit « donnés à titre indicatif ».", "B"),
+            ("Aujourd'hui", "Réserver Kawayu Onsen Fujiya, 3 et 4 janvier",
+             "Hors devis, à faire par nous : <a href=\"https://www.booking.com/hotel/jp/kawakyu-onsen-fujiya.html?checkin=2027-01-03&checkout=2027-01-05&group_adults=2&no_rooms=1\">Booking, Kawayu Onsen Fujiya</a> (579 € les deux nuits le 1er novembre), chambre avec bain et toilettes, formule dîner et petit-déjeuner, annulation gratuite si possible. Envoyer la confirmation à Camille pour le roadbook.", "B"),
             ("Cette semaine", "Traduction du permis du second conducteur",
              "Allibert ne traduit qu'un permis. Pour pouvoir conduire à deux : <a href=\"https://japan-experience.com/transportation/driving-licence-translation\">Japan Experience, traduction officielle</a>, 70 €, environ 12 jours, livraison à domicile. Le permis international français ne sert à rien au Japon.", "B"),
-            ("Cette semaine", "Assurance annulation et rapatriement",
-             "Regarder ce que couvre la carte bancaire (annulation, rapatriement, bagages, franchise de la voiture de location) avant d'accepter ou non l'assurance proposée dans le bulletin d'inscription.", "I"),
+            ("Avec le bulletin", "Assurance annulation et rapatriement",
+             "Options Allibert : contrat Tranquillité 4,45 % du voyage (environ 360 €), ou 3,15 % en complément des garanties d'une carte bancaire haut de gamme (environ 255 €). Vérifier d'abord ce que couvre la carte (annulation, rapatriement, franchise de la voiture) avant de cocher.", "I"),
+            ("Cette semaine", "Second conducteur sur la voiture",
+             "Le devis inclut un seul conducteur. Pour conduire à deux : traduction du second permis, et demander à Camille d'ajouter un conducteur au contrat (quelques centaines de yens par jour chez Toyota), ou le faire au comptoir le 3 janvier.", "I"),
         ]),
         ("2", "Dès l'ouverture des ventes", "le TGV du retour", [
             ("Vers mi-novembre", "TGV Paris → Besançon du 11 janvier",
@@ -80,8 +83,8 @@ CHECK_PAGES = [
              "Petits crampons pour les rues gelées de Takayama et Shirakawa-gō, chaussures imperméables, bonnet, gants fins pour les photos ; bâtons pliants pour le Kumano Kodo (pierres humides) ; serviette fine et sac pour les bains ; carte SD et batteries de rechange (le froid vide les batteries).", "U"),
             ("Début décembre", "Demander à Camille les horaires de fêtes confirmés",
              "Cars Alpico et Nohi des 31 décembre et 1er janvier (grille d'hiver publiée début décembre), bus Ryūjin de Yunomine vers Hosshinmon-ōji le 4 janvier (8 h 00 dans la grille de septembre 2026), restrictions de circulation à Ise les 2 et 3 janvier. Le roadbook devrait tout contenir ; vérifier ces trois points.", "I"),
-            ("Mi-décembre", "Dîner du réveillon à Takayama",
-             "Si Allibert ne réserve pas Gyu-Suke, le faire nous-mêmes par l'hôtel eph ou par téléphone ; viser 18 h ou 18 h 30 pour être au temple Hida Kokubun-ji vers 23 h 30 pour la cloche de la nuit. En secours, Ajikura Tengoku (yakiniku, sans réservation, s'y présenter à 17 h).", "I"),
+            ("Fin novembre", "Dîner du réveillon à Takayama, à réserver par nous",
+             "Allibert ne le réserve pas. Gyu-Suke (yakiniku de bœuf de Hida maturé, 80 m de la gare, 0577-57-8293) : réservation par <a href=\"https://savorjapan.com/0031549237/\">Savor Japan</a> ou via l'hôtel eph ; viser 18 h ou 18 h 30 pour être au temple Hida Kokubun-ji vers 23 h 30 pour la cloche. Son ouverture le 31 au soir n'est pas confirmée : plans B, Maruaki (ouvert le 31) ou Ajikura Tengoku (sans réservation, à 17 h).", "I"),
         ]),
         ("4", "Deux semaines avant", "papiers et téléphone", [
             ("Dès le 12 déc.", "Visit Japan Web",
@@ -93,7 +96,7 @@ CHECK_PAGES = [
             ("Mi-décembre", "Téléphone",
              "Google Maps avec les cartes hors ligne de Tokyo, des Alpes, de la péninsule de Kii, de Kyoto ; Japan Travel by Navitime pour les horaires ; DeepL ou Google Traduction hors ligne ; ce carnet dans Fichiers ou sur l'écran d'accueil. Le pocket wifi d'Allibert est remis à Haneda : pas besoin d'eSIM.", "I"),
             ("Mi-décembre", "Prévenir les hôtels de l'heure d'arrivée",
-             "eph Takayama ferme sa réception à 20 h ; Fujiya ou J-Hoppers servent le dîner à heure fixe ou attendent une arrivée avant 18 h ; Urashima check-in 15 h. Allibert transmet en général, mais un mot de confirmation ne coûte rien.", "U"),
+             "eph Takayama ferme sa réception à 20 h ; le Fujiya sert le dîner à heure fixe et attend une arrivée avant 18 h ; Urashima check-in 15 h. Allibert transmet en général, mais un mot de confirmation ne coûte rien.", "U"),
         ]),
     ],
     [
@@ -101,7 +104,7 @@ CHECK_PAGES = [
             ("27 déc.", "Haneda, 19 h 55", "Accueil Allibert à la sortie des arrivées du terminal 3, remise des documents et du pocket wifi. Retirer des yens au 7-Eleven avant de partir.", "B"),
             ("30 déc.", "Azusa de Shinjuku", "Quais 9 et 10 des express Chūō, au sud de la gare ; 20 min de marge, valises dans l'espace derrière la dernière rangée. Chambre rendue le matin, valises reprises vers 15 h.", "I"),
             ("31 déc.", "Car de Matsumoto", "Terminal de bus face à la gare, 15 min avant le départ, valises en soute. Le soir, Gyu-Suke puis Hida Kokubun-ji vers 23 h 30 pour la cloche.", "I"),
-            ("3 janv.", "Naikū à l'aube, puis la voiture", "Naikū avant 7 h (ouvert jour et nuit pendant les fêtes), retour à l'hôtel, prise de la voiture à l'heure indiquée par le roadbook : permis, traductions, pneus hiver, carte ETC, état des lieux en photos. Plein et courses à Shingū.", "B"),
+            ("3 janv.", "Naikū à l'aube, puis la voiture", "Naikū avant 7 h (ouvert jour et nuit pendant les fêtes), retour à l'hôtel, prise de la voiture à l'heure indiquée par le roadbook : permis, traductions, second conducteur, pneus hiver, carte ETC, état des lieux en photos. Plein à Shingū ; dîner au Fujiya, arrivée avant 18 h.", "B"),
             ("4 janv.", "Bus de 8 h 00 vers Hosshinmon-ōji", "Depuis l'arrêt Yunomine Onsen (ou Kawayu, avec changement à Hongū Taisha-mae) ; sinon taxi commandé la veille par l'auberge. Bentō demandé la veille.", "I"),
             ("6 janv.", "Kōya-san, voiture rendue avant 20 h", "Quitter Kōya-san à 16 h 30 au plus tard ; plein à Hashimoto, reçu à garder ; agence Toyota de l'Aeroplaza, à 3 min du terminal 1. Puis Nankai jusqu'à Namba.", "B"),
             ("9 janv.", "Nozomi de Kyoto", "Portillons du shinkansen côté sud de la gare (Hachijō), 15 min de marge ; descendre à Shinagawa pour un seul changement vers l'hôtel.", "I"),
@@ -114,9 +117,9 @@ CHECK_INTRO = dict(
     kicker="NE RIEN RATER", title="Ce qui reste à faire, par priorité",
     intro="Allibert réserve l'essentiel. Voici ce qui dépend encore de nous, du plus urgent au plus simple, puis les rendez-vous à ne pas manquer sur place.",
     blocks=[
-        ("LE BULLETIN D'INSCRIPTION", "Tant qu'il n'est pas signé, les hôtels de Takayama (31 décembre) ne sont pas bloqués : c'est le point le plus tendu du voyage."),
+        ("LE BULLETIN D'INSCRIPTION", "Devis valable jusqu'au 4 novembre ; tant que l'acompte n'est pas versé, rien n'est réservé, et Takayama le 31 décembre est le point le plus tendu."),
         ("LE SECOND PERMIS", "Allibert ne traduit qu'un permis. Douze jours de délai chez Japan Experience : à commander cette semaine pour conduire à deux."),
-        ("YUNOMINE", "Fujiya (Kawayu, dîners compris) ou J-Hoppers (Yunomine, sans dîner) : la réponse de Camille décide des courses à faire à Shingū le 3."),
+        ("LE FUJIYA", "Les deux nuits du Kumano sont sorties du devis : c'est à nous de réserver le Kawayu Onsen Fujiya, et vite, il restait peu de chambres le 1er novembre."),
         ("LE TGV DU 11 JANVIER", "Pas encore en vente ; prendre un billet modifiable depuis l'aéroport vers 9 h ou 10 h dès l'ouverture."),
     ],
 )
@@ -157,7 +160,7 @@ PRATIQUE_OVERRIDES = {
                      "Ise les 2 et 3 janvier : pic du hatsumōde ; les sanctuaires restent ouverts jour et nuit jusqu'au 5 au soir (pratique 2025-26) ; on y va à pied et en bus."],
     ("kumano", "3"): ["Ise le 3 janvier : avenues des sanctuaires fermées aux voitures, sortie d'autoroute Ise-nishi fermée de 8 h 45 à 15 h 30 (pratique 2025-26) ; cela ne gêne pas, on quitte la ville vers le sud depuis la gare.",
                       "Voiture : l'agence et l'heure sont dans le roadbook ; vérifier pneus hiver, carte ETC, les deux conducteurs inscrits, et photographier la carrosserie. Le plein à Shingū, les stations sont rares et ferment tôt dans la vallée.",
-                      "Si l'auberge ne sert pas de dîner (J-Hoppers), faire aussi les courses du soir à Shingū. Prévenir de l'heure d'arrivée."],
+                      "Le Fujiya sert le dîner à heure fixe : arriver avant 18 h, prévenir de l'heure. Le Sennin-buro, bain dans la rivière, est devant l'hôtel, maillot à prévoir."],
     ("koya", "6"): ["Kōya-san en janvier : -4 °C la nuit, 3 °C le jour, verglas possible sur les routes d'accès ; la voiture a des pneus hiver (demandés à Allibert).",
                     "Kongōbu-ji et Garan : 8 h 30 à 17 h (dernière entrée 16 h 30) ; Reihōkan 9 h à 17 h, fermé pendant les fêtes (dates 2027 à vérifier) ; Okunoin libre à toute heure, Tōrō-dō de 6 h à 17 h.",
                     "Péages : environ 1 800 yens (10 €) avec la carte ETC, pont de l'aéroport compris. Plein avant l'autoroute, à Hashimoto ; l'agence demande le reçu. Nankai : billets fournis par Allibert ou à prendre au distributeur (970 yens, 6 €, sans supplément)."],
@@ -178,22 +181,22 @@ PRACTICAL_OVERRIDES = {
     "CARS": "Matsumoto → Takayama le 31 décembre et Takayama ⇄ Shirakawa-gō le 1er janvier : à confirmer avec Allibert, réservés par eux ou « à régler sur place ». Dans le second cas, les réserver nous-mêmes un mois avant (highwaybus.com pour Alpico, Japan Bus Online pour Nohi) : le car du 31 au matin peut être complet.",
     "VOITURE": "Réservée par Allibert : prise à Ise le 3 janvier au matin, rendue à l'aéroport du Kansai le 6 avant 20 h, aller simple, pneus hiver et carte ETC demandés, deux conducteurs. Permis français et traduction japonaise officielle obligatoires pour chaque conducteur (Allibert en fournit une, la seconde est à commander). Conduite à gauche, routes de montagne étroites, nuit à 17 h : on roule de jour. Photographier la carrosserie à la prise et au retour.",
     "TÉLÉPHONE": "Allibert remet à Haneda un pocket wifi illimité pour deux, à garder chargé (batterie externe) : il remplace l'eSIM. Google Maps en voiture, Google Traduction en mode appareil photo pour les menus et les panneaux. Télécharger quand même les cartes hors ligne des Alpes et du Kumano, où le réseau est inégal.",
-    "NOUVEL AN": "Du 29 décembre au 3 janvier, musées, administrations et beaucoup de restaurants ferment ; les sanctuaires sont bondés. Konbini, grandes gares et restaurants d'hôtel restent ouverts. Le 31 au soir à Takayama (Gyu-Suke) et les 3 et 4 au Kumano (demi-pension à Fujiya, ou courses si J-Hoppers), les dîners sont à régler avant de partir.",
+    "NOUVEL AN": "Du 29 décembre au 3 janvier, musées, administrations et beaucoup de restaurants ferment ; les sanctuaires sont bondés. Konbini, grandes gares et restaurants d'hôtel restent ouverts. Le 31 au soir à Takayama (Gyu-Suke, à réserver par nous) et les 3 et 4 au Kumano (demi-pension au Fujiya), les dîners sont réglés avant de partir.",
     "ARRIVÉE ET DÉPART": "Le 27, accueil Allibert à Haneda (terminal 3) puis train Keikyū, 45 min jusqu'à Akihabara. Visit Japan Web fournit un seul QR code, à montrer à l'immigration puis à la douane. Le 10 janvier, depuis le Mitsui Garden, 45 min jusqu'au terminal 3 par la ligne Ōedo (Daimon) puis Keikyū direct ; être à l'aéroport 3 h avant le vol.",
 }
 
 BEFORE_BOXES = [
     ("AVEC ALLIBERT",
-     "<p>Programme sur-mesure V2 du 2 novembre 2026, conseillère Camille de Farcy (+33 5 34 44 55 73). Compris : hôtels avec petits-déjeuners, trains, voiture en aller simple, journée guidée à Kyoto, pocket wifi, accueil à Haneda, roadbook, assistance 24 h/24 en français.</p>"
-     "<p>Non compris : vols et TGV (à nous), repas sauf le dîner du 5 janvier, entrées et bains, cars de montagne si « à régler sur place », traduction du second permis.</p>"),
+     "<p>Devis n°2 du 3 novembre 2026 (T7J40LQCQ000D002), conseillère Camille de Farcy (+33 5 34 44 55 73, c.de-farcy@allibert-trekking.com). Compris : 12 nuits avec petits-déjeuners, trains, voiture en aller simple (un conducteur), journée guidée à Kyoto, pocket wifi, carte Icoca 5 000 yens, accueil à Haneda, roadbook, assistance 24 h/24 en français. 4 045 € par personne hors vols.</p>"
+     "<p>Non compris : vols et TGV, les deux nuits du Kumano (Fujiya, réservées par nous), repas sauf le dîner du 5 janvier, entrées et bains, cars de montagne (réservés, payés sur place), dîner du réveillon, traduction du second permis, assurance.</p>"),
     ("LE PROGRAMME EN UNE LIGNE",
      "<p>Tokyo 27 au 30 décembre ; Matsumoto le 30 ; Takayama les 31 et 1er avec Shirakawa-gō ; Ise le 2 ; voiture du 3 au 6 : Kumano (Kawayu ou Yunomine), Nachi et Kii-Katsuura, Kōya-san ; Osaka le 6 ; Kyoto les 7 et 8 avec Nara ; Tokyo le 9 ; vol le 10 au soir.</p>"
      "<p>Dix-sept jours, quatorze nuits, environ 60 km de marche en tout, quatre jours de voiture.</p>"),
 ]
 
 BRIEF_OVERRIDES = {
-    "Point d'attention": "Allibert réserve trains, cars (à confirmer), voiture et hôtels ; restent à nous le bulletin d'inscription à signer vite (Takayama), la traduction du second permis, le TGV du retour, et les dîners des jours où rien n'est compris.",
-    "Hébergements": "Hôtels de ville bien tenus (Nohga, Dormy Inn, eph, Richmond, Mitsui Garden, The Gate), un ryokan ou une guesthouse au bord de la rivière chaude du Kumano, et un grand hôtel de bains face à la mer à Kii-Katsuura, dîner compris.",
+    "Point d'attention": "Allibert réserve trains, cars, voiture et hôtels ; restent à nous le bulletin et l'acompte avant le 4 novembre, le Fujiya à réserver tout de suite, le dîner du réveillon, la traduction du second permis, le TGV du retour.",
+    "Hébergements": "Hôtels de ville bien tenus (Nohga, Dormy Inn, eph, Richmond, Mitsui Garden, The Gate), le ryokan Fujiya au bord de la rivière chaude de Kawayu (réservé par nous, dîners compris), et un grand hôtel de bains face à la mer à Kii-Katsuura, dîner compris.",
 }
 
 PRACTICAL_EXTRA = [
@@ -215,6 +218,13 @@ TEXT_FIXES = [
     ("réservé d'avance (beaucoup de restaurants ferment ce soir-là, voir checklist)", "réservé d'avance : Gyu-Suke, à 80 m de la gare, ou une autre table de bœuf de Hida (beaucoup de restaurants ferment ce soir-là)"),
     (", voir checklist)", ")"),
     ("(voir checklist)", ""),
+    ("Yunomine, Kawayu ou Ukegawa", "Kawayu Onsen, ryokan Fujiya"),
+    ("Ise → Yunomine : 210 km, 4 h avec les arrêts", "Ise → Kawayu : 210 km, 4 h avec les arrêts"),
+    ("puis la route de la côte jusqu'à Yunomine", "puis la route de la côte jusqu'à Kawayu"),
+    ("Arrivée à Yunomine vers 15 h 30, voiture au parking de l'auberge ou du village. Premier bain, dîner au ryokan (ou, en maison entière, dîner préparé avec les courses de Shingū), et le silence du hameau, où la vapeur de la source monte dans la nuit.", "Arrivée au Fujiya, à Kawayu, vers 15 h 30, voiture au parking du ryokan. Premier bain sur la berge de l'Ōtō, ou dans le Sennin-buro creusé dans la rivière, dîner au ryokan, et le silence de la vallée, où la vapeur monte de l'eau dans la nuit."),
+    ("Yunomine Onsen → Hosshinmon-ōji", "Kawayu (ou Yunomine) → Hosshinmon-ōji"),
+    ("Retour à l'auberge pour le dîner : à pied à Yunomine, en voiture laissée la veille ou en bus pour Kawayu et Ukegawa.", "Retour au Fujiya pour le dîner : bus de Yunomine vers Kawayu (changement à Hongū), taxi, ou la voiture si elle a été laissée à Hongū le matin."),
+    ("à pied (Yunomine) ; bus, taxi ou voiture récupérée (Kawayu, Ukegawa)", "bus via Hongū, taxi, ou voiture récupérée à Hongū"),
     ("Hébergements : Booking.com, relevés du 1er novembre 2026 pour deux adultes aux dates du voyage ; les prix changent chaque jour. ", ""),
 ]
 
@@ -234,7 +244,7 @@ HOTELS_JP = {
     "Dormy Inn Matsumoto": "ドーミーイン松本　長野県松本市深志2-2-1",
     "eph TAKAYAMA": "エフ高山（eph TAKAYAMA）　岐阜県高山市花里町5-13-17",
     "Experience Ise Miyamachi Hotel": "Experience Ise Miyamachi Hotel　三重県伊勢市宮町（伊勢市駅から徒歩10分）",
-    "Kawayu Onsen Fujiya (ou J-Hoppers Kumano Yunomine)": "川湯温泉 冨士屋　和歌山県田辺市本宮町川湯1452　／　J-ホッパーズ熊野湯峰　田辺市本宮町湯峯",
+    "Kawayu Onsen Fujiya": "川湯温泉 冨士屋　和歌山県田辺市本宮町川湯1452",
     "Hotel Urashima": "ホテル浦島　和歌山県東牟婁郡那智勝浦町勝浦1165-2",
     "The Gate Hotel Osaka by Hulic": "ザ・ゲートホテル大阪 by HULIC　大阪市中央区南船場3-12-14",
     "Richmond Hotel Premier Kyoto Ekimae": "リッチモンドホテルプレミア京都駅前　京都市下京区北不動堂町565-3",
