@@ -80,6 +80,8 @@ main>section.view{display:none} main>section.view.on{display:block}
 .btn.ghost{background:#fff;color:var(--ai);border:1px solid var(--ai-mid);width:100%;margin:14px 0 4px} .btn.ghost .i{color:var(--ai)}
 .btn.small{width:auto;font-size:13px;padding:8px 12px;margin:4px 0}
 
+.coverph{margin:0} .coverph img{width:100%;height:220px;object-fit:cover} .coverph figcaption{font-size:12px;color:var(--mute);padding:8px var(--gut) 0}
+
 /* ---------- maintenant ---------- */
 .now{margin:18px var(--gut) 0;background:var(--ai-soft);border-radius:12px;padding:14px 16px}
 .nowh{display:flex;align-items:baseline;justify-content:space-between;gap:12px} .nowh .lbl{margin:0;color:var(--ai)} .nowh b{font-size:28px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--ai)}
@@ -145,7 +147,7 @@ details.day>summary{display:flex;gap:12px;align-items:flex-start;padding:16px 0 
 details.day>summary .chev{color:var(--rule2);margin-top:4px;transition:transform .2s;width:20px;height:20px} details.day[open]>summary .chev{transform:rotate(90deg);color:var(--ai)}
 .dbody{padding:0 0 26px}
 .photos{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin:2px calc(-1 * var(--gut)) 10px;padding:0 var(--gut);-webkit-overflow-scrolling:touch}
-.photos figure{flex:0 0 76%;scroll-snap-align:start} .photos img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px} .photos figcaption{font-size:11.5px;color:var(--mute);padding:5px 1px}
+.photos figure{flex:0 0 76%;scroll-snap-align:start} .photos figure.sq{flex:0 0 58%} .photos figure.sq img{aspect-ratio:1/1} .photos img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px} .photos figcaption{font-size:11.5px;color:var(--mute);padding:5px 1px}
 .s-prog>span:last-child{display:block;text-transform:lowercase} .s-prog>span:last-child::first-letter{text-transform:uppercase}
 .sec{margin-bottom:2px} .sec .sh{margin:16px 0 4px} .sec:first-child .sh,.photos+.sec .sh{margin-top:6px} .sec p{font-size:15.5px;line-height:1.65}
 .callout{margin:16px 0;border-radius:10px;padding:12px 14px 13px} .callout .sh{margin:0 0 6px} .callout li,.callout p{font-size:14.5px;line-height:1.55;margin-bottom:5px} .callout li:last-child,.callout p:last-child{margin-bottom:0}
@@ -242,7 +244,7 @@ html.big{font-size:118%} html.big body{font-size:17px} html.big .sec p{font-size
  #rside{display:block;position:fixed;right:0;top:0;bottom:0;width:336px;overflow:auto;background:#fff;border-left:1px solid var(--rule);padding:74px 18px 30px;z-index:25}
  #rside .now{margin:0 0 16px} #rside .mapfig{margin:0 0 14px} #rside .rtitle{font-size:12.5px;font-weight:600;color:var(--ink2);margin:16px 0 8px}
  .cover{padding:44px var(--gut) 34px} .cover .ct,.cover .ct i{font-size:54px} .cover .ckj{right:var(--gut);top:40px;width:68px;height:68px;font-size:40px}
- .hero img{height:300px} .photos figure{flex:0 0 46%}
+ .hero img{height:300px} .photos figure{flex:0 0 46%} .photos figure.sq{flex:0 0 34%} .coverph img{height:340px}
  details.day{padding-left:var(--rail)} details.day>summary{gap:10px}
  details.day::before{content:"";position:absolute;left:19px;top:0;bottom:0;width:1px;background:var(--ai-mid)} details.day:first-of-type::before{top:22px} details.day:last-of-type::before{bottom:auto;height:22px}
  .dnum{position:absolute;left:0;top:12px;width:40px;height:40px;border-radius:10px;font-size:17px;margin:0;z-index:1}

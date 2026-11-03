@@ -166,8 +166,10 @@ def render_day(ch, d):
         if ok in E.COINCE_OVERRIDES: d['coince'] = E.COINCE_OVERRIDES[ok]
     head = "".join(f'<span class="hd"><b>{esc(a)}</b> {esc(b)}</span>' for a, b in d.get('head', []))
     photos = ""
-    if d.get('photos'):
-        photos = '<div class="photos">' + "".join(f'<figure><img src="{img(f)}" alt="{esc(c)}" loading="lazy"><figcaption>{esc(c)}</figcaption></figure>' for f, c in d['photos']) + '</div>'
+    plist = list(d.get('photos') or [])
+    if MODE == 'allibert': plist = list(E.ALLIBERT_PHOTOS.get(k, [])) + plist
+    if plist:
+        photos = '<div class="photos">' + "".join(f'<figure{" class=sq" if f.startswith("allibert/a") else ""}><img src="{img(f)}" alt="{esc(c)}" loading="lazy"><figcaption>{esc(c)}</figcaption></figure>' for f, c in plist) + '</div>'
     secs = "".join(f'<div class="sec">{sh("prog", esc(t))}<p>{x}</p></div>' for t, x in d.get('sections', []))
     side = ""
     if d.get('pratique'):
@@ -422,7 +424,7 @@ def render_maps():
 cover = A.COVER
 home = f'''<section class="cover"><div class="ckj">{cover["kanji"]}</div><div class="ck1">{esc(E.KICKER if MODE == 'allibert' else cover["kicker"])}</div><h1 class="ct">Japon <i>en hiver</i></h1><div class="cd">{esc(cover["dates"])}</div><p>{esc(cover["line"])}</p>
 <div class="stops">{"".join("<span>"+esc(s)+"</span>" for s in cover["stops"])}</div>
-<button class="btn today" id="todayBtn">{ico("days")} Aujourd'hui</button></section>'''
+<button class="btn today" id="todayBtn">{ico("days")} Aujourd'hui</button></section>{f'<figure class="coverph"><img src="{img(E.COVER_PHOTO[0], 1200, 70)}" alt=""><figcaption>{esc(E.COVER_PHOTO[1])}</figcaption></figure>' if MODE == 'allibert' else ''}'''
 brief = "".join(f'<details class="sub" data-s="info" data-title="{esc(a)}"><summary>{shi("info")}{esc(a)}</summary><p>{E.BRIEF_OVERRIDES.get(a, b) if MODE == "allibert" else b}</p></details>' for a, b in A.OVERVIEW['brief'])
 overview = f'<div class="pad"><div class="kicker">{esc(A.OVERVIEW["kicker"])}</div><h1>{esc(A.OVERVIEW["title"])}</h1><p class="intro">{A.OVERVIEW["intro"]}</p>{brief}</div>'
 chapters = "".join(render_chapter(ch) for ch in CHAPTERS)

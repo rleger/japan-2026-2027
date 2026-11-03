@@ -326,3 +326,23 @@ MORNING = [
     "Passeports et portefeuille", "Pocket wifi chargé et dans le sac", "Billets ou roadbook du jour", "Téléphones et batterie externe chargés", "Cartes hors ligne du jour téléchargées",
     "Bouteille d'eau, en-cas", "Rien d'oublié dans la chambre (chargeurs, bain, coffre)", "Heure du prochain train ou car vérifiée",
 ]
+
+
+# Photos choisies par Allibert sur la page du devis (mon-voyage.allibert-trekking.com), par date : (fichier, légende)
+ALLIBERT_PHOTOS = {
+    "2026-12-27": [("allibert/a01.jpg", "Ramen, premier dîner à Tokyo (photo Allibert, iStock, tbralnina)")],
+    "2026-12-28": [("allibert/head.jpg", "Sensō-ji et la Skytree au crépuscule (photo Allibert, iStock, f11photo)")],
+    "2026-12-29": [("allibert/a02.jpg", "Tokyo, la foule et les enseignes la nuit (photo Allibert, Adobe Stock, Jeffrey)")],
+    "2026-12-30": [("allibert/a03.jpg", "Le château de Matsumoto (photo Allibert, Shutterstock, Biondo3RD)")],
+    "2026-12-31": [("allibert/a04.jpg", "Une boutique de la vieille ville de Takayama (photo Allibert, Adobe Stock, alan)")],
+    "2027-01-01": [("allibert/a05.jpg", "Les toits de chaume de Shirakawa-gō (photo Allibert, Adobe Stock, Andrea Aigner)")],
+    "2027-01-03": [("allibert/a06.jpg", "Les marches du Kumano Kodo vers Nachi (photo Allibert, Adobe Stock, Sean Pavone)")],
+    "2027-01-04": [("allibert/a07.jpg", "Le Kumano Kodo sous les cyprès, entre Fushiogami-ōji et Hongū (photo Allibert, Adobe Stock, beibaoke)")],
+    "2027-01-05": [("allibert/a08.jpg", "Kumano Nachi Taisha et la cascade (photo Allibert, Shutterstock, Sean Pavone)")],
+    "2027-01-06": [("allibert/a09.jpg", "Le cimetière d'Okunoin, Kōya-san (photo Allibert, iStock, ncousla)")],
+    "2027-01-07": [("allibert/a11.jpg", "Les torii du Fushimi Inari (photo Allibert, Adobe Stock, byjeng)"), ("allibert/a12.jpg", "La pagode de Yasaka et Sannen-zaka au petit matin (photo Allibert, Adobe Stock, ake1150)")],
+    "2027-01-08": [("allibert/a10.jpg", "Higashiyama, Kyoto (photo Allibert, Adobe Stock, Sean Pavone)")],
+    "2027-01-09": [("allibert/a13.jpg", "Tokyo et le mont Fuji (photo Allibert, iStock, yongyuan)")],
+    "2027-01-10": [("allibert/a14.jpg", "Poupées daruma au Shōrinzan Daruma-ji (photo Allibert, Adobe Stock, James Davies)")],
+}
+COVER_PHOTO = ("allibert/alpes.jpg", "Jizō d'Okunoin, Kōya-san. Photo d'ouverture de la page Allibert.")
