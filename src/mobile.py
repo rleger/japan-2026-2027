@@ -61,7 +61,34 @@ ICONS = dict(
     pin="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z",
     ext="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z",
     chev="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z",
+    sun="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z",
+    warn="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z",
+    plus="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z",
+    book="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z",
+    people="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z",
+    fork="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z",
+    compass="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm2.19 12.19L6 18l3.81-8.19L18 6l-3.81 8.19zM12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1 1.1-.49 1.1-1.1-.49-1.1-1.1-1.1z",
+    clock="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z",
+    phone="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z",
+    store="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z",
+    check="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z",
+    pen="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z",
+    tune="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z",
+    refresh="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z",
+    run="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z",
+    camera="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4zM9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z",
+    cup="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM2 21h18v-2H2v2z",
+    drop="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2c0-3.32-2.67-7.25-8-11.8z",
+    eye="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z",
+    yen="M13.92 11H18v2h-4v2h4v2h-4v4h-4v-4H6v-2h4v-2H6v-2h4.08L5 3h3.5l3.5 7 3.5-7H19z",
+    translate="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z",
 )
+# badge d'icône coloré : chaque famille d'information a sa couleur et son pictogramme
+SH = dict(prog="clock", prat="check", table="fork", rep="compass", traj="train", coince="warn", opts="plus", wx="sun", night="bed", addr="pin", hist="book", loc="people", taste="fork", anec="book",
+          manger="fork", cafe="cup", bain="drop", course="run", photo="camera", papeterie="pen", voir="eye", boutique="bag", hotel="bed", run="run",
+          papers="todo", conv="yen", phrases="translate", nums="phone", konbini="store", pack="bag", morning="sun", journal="pen", settings="tune", block="warn", info="info", check="check", yen="yen")
+def shi(kind): return f'<span class="shi s-{kind}">{ico(SH.get(kind, "info"))}</span>'
+def sh(kind, text): return f'<div class="sh s-{kind}">{shi(kind)}<span>{text}</span></div>'
 def ico(n, cls=""): return f'<svg class="i {cls}" viewBox="0 0 24 24"><path d="{ICONS[n]}"/></svg>'
 
 RESA = {'O': ('Obligatoire', 'o'), 'C': ('À réserver', 'c'), 'L': ('Libre', 'l')}
@@ -105,12 +132,12 @@ def render_weather(k):
     links = "".join(f'<a class="pill" href="{u}" target="_blank" rel="noopener">{esc(t)}</a>' for t, u in E.WEATHER_LINKS.get(k, []))
     extra = f'<div class="links">{links}</div>' if links else ""
     if not links and k not in E.MOUNTAIN_DAYS and k in ("2026-12-26", "2027-01-11"): return ""
-    return f'<div class="wx" data-lat="{pl[1]}" data-lon="{pl[2]}" data-date="{k}" data-place="{esc(pl[0])}"><div class="lbl">☀ Météo et lumière · {esc(pl[0])}</div><div class="wxsun"></div><div class="wxbody"><small>Prévisions Open-Meteo quand le réseau est là (jusqu\'à 16 jours avant).</small></div>{extra}</div>'
+    return f'<div class="callout c-wx wx" data-lat="{pl[1]}" data-lon="{pl[2]}" data-date="{k}" data-place="{esc(pl[0])}">{sh("wx", "Météo et lumière · " + esc(pl[0]))}<div class="wxsun"></div><div class="wxbody"><small>Prévisions Open-Meteo quand le réseau est là (jusqu\'à 16 jours avant).</small></div>{extra}</div>'
 
 def render_night(k):
     if MODE != 'allibert': return ""
     if k in E.NIGHT_OTHER:
-        return f'<div class="night"><div class="lbl">{ico("plane")} La nuit</div><b>{esc(E.NIGHT_OTHER[k])}</b></div>'
+        return f'<div class="callout c-night night">{sh("night", "La nuit")}<b>{esc(E.NIGHT_OTHER[k])}</b></div>'
     ref = E.HOTEL_BY_DATE.get(k)
     if not ref: return ""
     name, when, addr, mq, site, notes = E.HOTELS[ref[0]][ref[1]]
@@ -120,15 +147,15 @@ def render_night(k):
     links += share_btn(name, addr, maps_url(mq))
     jp = E.HOTELS_JP.get(name, "")
     jph = f'<div class="jp" data-copy="{esc(jp)}"><span>{esc(jp)}</span><small>à montrer au chauffeur · toucher pour copier</small></div>' if jp else ""
-    return f'''<div class="night" data-s="hotel" data-title="{esc(name)}"><div class="lbl">{ico("bed")} La nuit · {esc(when)}</div><b>{esc(name)}</b><div class="addr">{esc(addr)}</div>{jph}<details class="more"><summary>Accès, bains, horaires</summary><p>{notes}</p></details><div class="links">{links}</div></div>'''
+    return f'''<div class="callout c-night night" data-s="hotel" data-title="{esc(name)}">{sh("night", "La nuit · " + esc(when))}<b>{esc(name)}</b><div class="addr">{esc(addr)}</div>{jph}<details class="more"><summary>Accès, bains, horaires</summary><p>{notes}</p></details><div class="links">{links}</div></div>'''
 
 def render_day_addresses(d_date):
     if not G or MODE != 'allibert': return ""
     items = [g for g in G.GUIDE if day_matches(g.get("day", ""), d_date)]
     if not items: return ""
     items.sort(key=lambda x: list(KINDS).index(x["kind"]) if x["kind"] in KINDS else 9)
-    rows = "".join(f'<a class="dad" href="#adresses" data-go="guide" data-target="g-{slug(g["name"])}"><span class="dk">{KINDS.get(g["kind"], (g["kind"], ""))[1]}</span><span class="dn"><b>{esc(g["name"])}</b><small>{esc(KINDS.get(g["kind"], (g["kind"], ""))[0])}{(" · " + esc(g["zone"])) if g.get("zone") else ""}</small></span>{ico("chev","chev")}</a>' for g in items)
-    return f'<div class="dayaddr"><div class="lbl">{ico("pin")} Adresses du jour</div>{rows}</div>'
+    rows = "".join(f'<a class="dad" href="#adresses" data-go="guide" data-target="g-{slug(g["name"])}">{shi(g["kind"])}<span class="dn"><b>{esc(g["name"])}</b><small>{esc(KINDS.get(g["kind"], (g["kind"], ""))[0])}{(" · " + esc(g["zone"])) if g.get("zone") else ""}</small></span>{ico("chev","chev")}</a>' for g in items)
+    return f'<div class="dayaddr">{sh("addr", "Adresses du jour")}{rows}</div>'
 
 def render_day(ch, d):
     k = dkey(d)
@@ -141,14 +168,14 @@ def render_day(ch, d):
     photos = ""
     if d.get('photos'):
         photos = '<div class="photos">' + "".join(f'<figure><img src="{img(f)}" alt="{esc(c)}" loading="lazy"><figcaption>{esc(c)}</figcaption></figure>' for f, c in d['photos']) + '</div>'
-    secs = "".join(f'<div class="sec"><div class="lbl">{esc(t)}</div><p>{x}</p></div>' for t, x in d.get('sections', []))
+    secs = "".join(f'<div class="sec">{sh("prog", esc(t))}<p>{x}</p></div>' for t, x in d.get('sections', []))
     side = ""
     if d.get('pratique'):
-        side += '<div class="box prat"><div class="lbl">Pratique</div><ul>' + "".join(f'<li>{p}</li>' for p in d['pratique']) + '</ul></div>'
+        side += '<div class="callout c-prat">' + sh("prat", "Pratique") + '<ul>' + "".join(f'<li>{p}</li>' for p in d['pratique']) + '</ul></div>'
     if d.get('table'):
-        side += f'<div class="box"><div class="lbl">À table</div><p>{d["table"]}</p></div>'
+        side += f'<div class="callout c-table">{sh("table", "À table")}<p>{d["table"]}</p></div>'
     if d.get('repere'):
-        side += f'<div class="box rep"><div class="lbl">Repère</div><p><i>{d["repere"]}</i></p></div>'
+        side += f'<div class="callout c-rep">{sh("rep", "Repère")}<p>{d["repere"]}</p></div>'
     traj = ""
     if d.get('trajet'):
         rows = ""
@@ -156,11 +183,11 @@ def render_day(ch, d):
             t, where, how, dur, s = (list(r) + ["", "", ""])[:5]
             badge = f'<span class="resa {RESA[s][1]}">{RESA[s][0]}</span>' if s in RESA else ""
             rows += f'<div class="tr"><div class="tt">{esc(t)}</div><div class="tb"><b>{esc(where)}</b>{("<small>" + esc(how) + "</small>") if how else ""}<div class="tm">{esc(dur)} {badge}</div></div></div>'
-        traj = f'<details class="sub"><summary>{ico("train")} Le trajet, heure par heure</summary><div class="traj">{rows}</div></details>'
-    coince = f'<details class="sub warn"><summary>⚠︎ Si ça coince</summary><p>{d["coince"]}</p></details>' if d.get('coince') else ""
+        traj = f'<details class="sub c-traj"><summary>{shi("traj")}Le trajet, heure par heure</summary><div class="traj">{rows}</div></details>'
+    coince = f'<details class="sub c-coince"><summary>{shi("coince")}Si ça coince</summary><p>{d["coince"]}</p></details>' if d.get('coince') else ""
     opts = ""
     if d.get('options'):
-        opts = '<details class="sub"><summary>＋ Autres options et compléments</summary>' + "".join(f'<p><b>{esc(a)}</b> {b}</p>' for a, b in d['options']) + '</details>'
+        opts = '<details class="sub c-opts"><summary>' + shi("opts") + 'Autres options et compléments</summary>' + "".join(f'<p><b>{esc(a)}</b> {b}</p>' for a, b in d['options']) + '</details>'
     stars = f'<span class="st">{d["stars"]}</span>' if d.get('stars') else ""
     return f'''<details class="day" id="d-{k}" data-date="{k}" data-s="day">
 <summary><div class="dnum">{d["num"]}</div><div class="dtt"><div class="dow">{esc(d["dow"])}</div><div class="ttl">{esc(d["title"])}{stars}</div><div class="heads">{head}</div></div>{ico("chev","chev")}</summary>
@@ -197,7 +224,7 @@ def render_hotels(ch):
     for name, when, addr, mq, site, notes in E.HOTELS.get(ch['key'], []):
         links = f'<a class="pill" href="{maps_url(mq)}" target="_blank" rel="noopener">{ico("pin")} Google Maps</a>'
         if site: links += f'<a class="pill" href="{site}" target="_blank" rel="noopener">{ico("ext")} Site</a>'
-        out += f'''<div class="hotel" data-s="hotel" data-title="{esc(name)}"><div class="lbl">{ico("bed")} Hôtel Allibert · {esc(when)}</div><b>{esc(name)}</b><div class="addr">{esc(addr)}</div><p>{notes}</p><div class="links">{links}</div></div>'''
+        out += f'''<div class="hotel" data-s="hotel" data-title="{esc(name)}">{sh("hotel", "Hôtel Allibert · " + esc(when))}<b>{esc(name)}</b><div class="addr">{esc(addr)}</div><p>{notes}</p><div class="links">{links}</div></div>'''
     return out
 
 def guide_link(ch):
@@ -208,7 +235,7 @@ def guide_link(ch):
 
 def render_guide():
     if not G: return '<div class="pad"><p class="note">Adresses en préparation.</p></div>'
-    chips = "".join(f'<button class="fchip" data-k="{k}">{v[1]} {v[0]}</button>' for k, v in KINDS.items())
+    chips = "".join(f'<button class="fchip" data-k="{k}">{ico(SH[k])}{v[0]}</button>' for k, v in KINDS.items())
     out = f'''<div class="pad"><div class="kicker">LE GUIDE</div><h1>Adresses, étape par étape</h1><p class="intro">Restaurants, cafés, bains, boutiques photo et choses à voir, dans l'ordre du voyage. Chaque fiche ouvre Google Maps ; les horaires du Nouvel An sont donnés quand ils sont connus, sinon « inconnu » : vérifier la veille.</p>
 <div class="filters"><button class="fchip on" data-k="all">Tout</button>{chips}</div></div>'''
     for area in AREA_ORDER:
@@ -228,7 +255,7 @@ def render_guide():
             if g.get("hours") and g["hours"].lower() != "inconnu": meta.append(esc(g["hours"]))
             if g.get("booking") and g["booking"].lower() != "inconnu": meta.append(esc(g["booking"]))
             if g.get("day"): meta.append("Idéal : " + esc(g["day"]))
-            cards += f'''<div class="gc k-{k}" id="g-{slug(g["name"])}" data-k="{k}" data-s="guide" data-title="{esc(g["name"])}"><div class="gk">{kv[1]} {kv[0]}{(" · " + esc(g["zone"])) if g.get("zone") else ""}</div><b>{esc(g["name"])}</b><p>{esc(g["what"])}</p>{('<div class="addr">' + esc(g["address"]) + '</div>') if g.get("address") else ""}{('<div class="meta">' + " · ".join(meta) + '</div>') if meta else ""}<div class="links">{links}</div></div>'''
+            cards += f'''<div class="gc k-{k}" id="g-{slug(g["name"])}" data-k="{k}" data-s="guide" data-title="{esc(g["name"])}"><div class="gk">{shi(k)}<span>{kv[0]}{(" · " + esc(g["zone"])) if g.get("zone") else ""}</span></div><b>{esc(g["name"])}</b><p>{esc(g["what"])}</p>{('<div class="addr">' + esc(g["address"]) + '</div>') if g.get("address") else ""}{('<div class="meta">' + " · ".join(meta) + '</div>') if meta else ""}<div class="links">{links}</div></div>'''
         out += f'<section class="garea" id="area-{slug(area)}"><h2>{esc(area)}<small>{len(items)} adresses</small></h2>{cards}</section>'
     return out
 
@@ -242,8 +269,8 @@ def render_chapter(ch):
         taste = "".join(f'<p><b>{esc(a)} :</b> {b}</p>' for a, b in lc['taste'])
         customs = "".join(f'<li>{c}</li>' for c in lc['customs'])
         anec = "".join(f'<p><i>{a}</i></p>' for a in lc['anecdotes'])
-        locals_html = f'''<details class="sub loc" data-s="locals" data-title="{esc(lc["title"])}"><summary>{ico("pin")} {esc(lc["title"])}</summary>
-<div class="lbl">À goûter</div>{taste}<div class="lbl">Comme les gens d'ici</div><ul>{customs}</ul><div class="lbl">Anecdotes</div>{anec}</details>'''
+        locals_html = f'''<details class="sub loc" data-s="locals" data-title="{esc(lc["title"])}"><summary>{shi("loc")}{esc(lc["title"])}</summary>
+{sh("taste", "À goûter")}{taste}{sh("loc", "Comme les gens d'ici")}<ul>{customs}</ul>{sh("anec", "Anecdotes")}{anec}</details>'''
     mp = ""
     if ch.get('map'):
         mp = f'<figure class="mapfig"><img src="{img(ch["map"], 1400, 72)}" alt="Carte" loading="lazy" data-zoom><figcaption>{ch["map_caption"]}</figcaption></figure>'
@@ -254,7 +281,7 @@ def render_chapter(ch):
 <div class="chbody">
 <p class="intro">{ch["intro"]}</p>
 <div class="stats">{stats}</div>
-<details class="sub" data-s="hist" data-title="{esc(ch["title"])} : un peu d'histoire"><summary>{ico("info")} Un peu d'histoire</summary><p>{ch["history"]}</p></details>
+<details class="sub" data-s="hist" data-title="{esc(ch["title"])} : un peu d'histoire"><summary>{shi("hist")}Un peu d'histoire</summary><p>{ch["history"]}</p></details>
 {locals_html}
 {mp}{strips}
 <div class="days">{days}</div>
@@ -296,7 +323,7 @@ def render_checklist():
     blocks = "".join(f'<div class="warnbox"><b>{esc(a)}</b><p>{b}</p></div>' for a, b in CI['blocks'])
     return f'''<div class="pad"><div class="kicker">{esc(CI["kicker"])}</div><h1>{esc(CI["title"])}</h1><p class="intro">{CI["intro"]}</p>
 <div class="progress"><div class="bar"><div id="pbar"></div></div><div id="ptxt"></div></div>
-<details class="sub"><summary>⚠︎ Ce qui peut bloquer</summary>{blocks}</details></div>{out}'''
+<details class="sub c-coince"><summary>{shi("block")}Ce qui peut bloquer</summary>{blocks}</details></div>{out}'''
 
 def render_timeline():
     rows = ""
@@ -308,14 +335,14 @@ def render_timeline():
 
 def render_info_allibert():
     inc = "".join(f"<li>{x}</li>" for x in E.INCLUDED["yes"]); exc = "".join(f"<li>{x}</li>" for x in E.INCLUDED["no"])
-    before = "".join(f'<details class="sub" data-s="info" data-title="{esc(t)}"><summary>{esc(cap(t))}</summary><div class="rich">{b}</div></details>' for t, b in E.BEFORE_BOXES + [A.BEFORE['boxes'][0], A.BEFORE['boxes'][1]])
-    prac = "".join(f'<details class="sub" data-s="info" data-title="{esc(t)}"><summary>{esc(cap(t))}</summary><p>{E.PRACTICAL_OVERRIDES.get(t, b)}</p></details>' for t, b in C.PRACTICAL['items'] + E.PRACTICAL_EXTRA)
-    mode = "".join(f'<details class="sub" data-s="mode" data-title="{esc(t)}"><summary>{esc(cap(t))}</summary><p>{b}</p></details>' for t, b in D.MODE_EMPLOI['items'] if "RÉSERVÉS" not in t)
+    before = "".join(f'<details class="sub" data-s="info" data-title="{esc(t)}"><summary>{shi("info")}{esc(cap(t))}</summary><div class="rich">{b}</div></details>' for t, b in E.BEFORE_BOXES + [A.BEFORE['boxes'][0], A.BEFORE['boxes'][1]])
+    prac = "".join(f'<details class="sub" data-s="info" data-title="{esc(t)}"><summary>{shi("info")}{esc(cap(t))}</summary><p>{E.PRACTICAL_OVERRIDES.get(t, b)}</p></details>' for t, b in C.PRACTICAL['items'] + E.PRACTICAL_EXTRA)
+    mode = "".join(f'<details class="sub" data-s="mode" data-title="{esc(t)}"><summary>{shi("info")}{esc(cap(t))}</summary><p>{b}</p></details>' for t, b in D.MODE_EMPLOI['items'] if "RÉSERVÉS" not in t)
     src = "".join(f'<li><a href="{u}" target="_blank" rel="noopener">{esc(t)} {ico("ext")}</a></li>' for t, u in C.SOURCES)
     return f'''<div class="pad">
 <div class="kicker">AVANT DE PARTIR</div><h1>Le voyage avec Allibert</h1><p class="intro">{E.INTRO}</p>
-<details class="sub" data-s="info" data-title="Ce qui est compris"><summary>Ce qui est compris</summary><ul>{inc}</ul></details>
-<details class="sub" data-s="info" data-title="Ce qui reste à notre charge"><summary>Ce qui reste à notre charge</summary><ul>{exc}</ul></details>
+<details class="sub" data-s="info" data-title="Ce qui est compris"><summary>{shi("check")}Ce qui est compris</summary><ul>{inc}</ul></details>
+<details class="sub" data-s="info" data-title="Ce qui reste à notre charge"><summary>{shi("yen")}Ce qui reste à notre charge</summary><ul>{exc}</ul></details>
 <div class="warnbox"><b>POINTS OUVERTS</b><p>{E.INCLUDED["todo"]}</p></div>
 {before}
 <div class="kicker">SUR PLACE</div><h1>{esc(C.PRACTICAL["title"])}</h1>{prac}
@@ -361,17 +388,17 @@ def render_tools():
     konbini = "".join(f'<a class="pill" href="https://www.google.com/maps/search/?api=1&query=7-Eleven+ATM+near+{esc(mq).replace(" ", "+")}" target="_blank" rel="noopener">{esc(when.split(",")[1].strip() if "," in when else when)} · {esc(name.split(" (")[0])}</a>' for key in ("tokyo","alpes","kumano","koya","kyoto","retour") for name, when, addr, mq, site, notes in E.HOTELS[key])
     return f'''<div class="pad">
 <div class="kicker">OUTILS</div><h1>La boîte à outils</h1>
-<details class="sub tool" id="t-papers" open><summary>{ico("todo")} Papiers et références</summary><p class="note">Tout reste sur ce téléphone (stockage local du navigateur), rien n'est envoyé. Un code à 4 chiffres peut masquer cette section : réglage en bas.</p><div class="pfields">{fields}</div>
+<details class="sub tool" id="t-papers" open><summary>{shi("papers")}Papiers et références</summary><p class="note">Tout reste sur ce téléphone (stockage local du navigateur), rien n'est envoyé. Un code à 4 chiffres peut masquer cette section : réglage en bas.</p><div class="pfields">{fields}</div>
 <div class="lbl">Documents (PDF, photos de passeports, vouchers)</div><div class="files" id="fileList"></div><label class="btn ghost small">{ico("ext")} Ajouter un document <input type="file" id="fileAdd" multiple accept="application/pdf,image/*" hidden></label><p class="note">Les fichiers sont gardés dans la base locale du navigateur (IndexedDB) et s'ouvrent hors ligne. Garder aussi les originaux dans Fichiers ou Mail.</p></details>
-<details class="sub tool"><summary>¥ Convertisseur</summary><div class="conv"><label>Yens <input type="number" inputmode="numeric" id="cvY" placeholder="1 000"></label><label>Euros <input type="number" inputmode="decimal" id="cvE" placeholder="5,7"></label></div><label class="rate">Taux : 1 € = <input type="number" inputmode="decimal" id="cvRate" value="175"> yens <small>(à régler à l'arrivée, il est mémorisé)</small></label>
+<details class="sub tool"><summary>{shi("conv")}Convertisseur</summary><div class="conv"><label>Yens <input type="number" inputmode="numeric" id="cvY" placeholder="1 000"></label><label>Euros <input type="number" inputmode="decimal" id="cvE" placeholder="5,7"></label></div><label class="rate">Taux : 1 € = <input type="number" inputmode="decimal" id="cvRate" value="175"> yens <small>(à régler à l'arrivée, il est mémorisé)</small></label>
 <div class="quick" id="cvQuick"></div></details>
-<details class="sub tool"><summary>話 Phrases à montrer</summary><p class="note">Toucher une phrase pour l'afficher en grand, à montrer.</p><div class="phrases">{phrases}</div></details>
-<details class="sub tool"><summary>☎ Numéros utiles</summary><ul class="nums">{numbers}</ul></details>
-<details class="sub tool"><summary>🏪 Konbini et distributeurs 7-Eleven, par étape</summary><p class="note">Les distributeurs 7-Eleven acceptent les cartes européennes ; recherche Google Maps autour de chaque hôtel.</p><div class="links wrap">{konbini}</div></details>
-<details class="sub tool"><summary>☑ Valise, avant de partir</summary>{pack}</details>
-<details class="sub tool"><summary>☀ Chaque matin <small id="moDate"></small></summary><p class="note">La liste se remet à zéro chaque jour.</p>{morning}</details>
-<details class="sub tool" id="t-journal"><summary>✎ Carnet de route</summary><p class="note">Quelques lignes, une photo, la dépense du jour. Tout reste sur le téléphone ; exporter en fin de voyage.</p><div class="jtotal" id="jTotal"></div>{journal}<div class="links"><button class="pill" id="expJson">Exporter JSON</button><button class="pill" id="expTxt">Exporter texte</button></div></details>
-<details class="sub tool"><summary>⚙ Réglages</summary><label class="sw"><input type="checkbox" id="bigText"> Grand texte (pour Claudie)</label><label class="sw">Code Papiers (4 chiffres, vide = aucun) <input type="password" inputmode="numeric" maxlength="4" id="pinSet" placeholder="····"></label><p class="note">Le code masque seulement l'affichage ; ce n'est pas un chiffrement.</p></details>
+<details class="sub tool"><summary>{shi("phrases")}Phrases à montrer</summary><p class="note">Toucher une phrase pour l'afficher en grand, à montrer.</p><div class="phrases">{phrases}</div></details>
+<details class="sub tool"><summary>{shi("nums")}Numéros utiles</summary><ul class="nums">{numbers}</ul></details>
+<details class="sub tool"><summary>{shi("konbini")}Konbini et distributeurs 7-Eleven</summary><p class="note">Les distributeurs 7-Eleven acceptent les cartes européennes ; recherche Google Maps autour de chaque hôtel.</p><div class="links wrap">{konbini}</div></details>
+<details class="sub tool"><summary>{shi("pack")}Valise, avant de partir</summary>{pack}</details>
+<details class="sub tool"><summary>{shi("morning")}Chaque matin <small id="moDate"></small></summary><p class="note">La liste se remet à zéro chaque jour.</p>{morning}</details>
+<details class="sub tool" id="t-journal"><summary>{shi("journal")}Carnet de route</summary><p class="note">Quelques lignes, une photo, la dépense du jour. Tout reste sur le téléphone ; exporter en fin de voyage.</p><div class="jtotal" id="jTotal"></div>{journal}<div class="links"><button class="pill" id="expJson">Exporter JSON</button><button class="pill" id="expTxt">Exporter texte</button></div></details>
+<details class="sub tool"><summary>{shi("settings")}Réglages</summary><label class="sw"><input type="checkbox" id="bigText"> Grand texte (pour Claudie)</label><label class="sw">Code Papiers (4 chiffres, vide = aucun) <input type="password" inputmode="numeric" maxlength="4" id="pinSet" placeholder="····"></label><p class="note">Le code masque seulement l'affichage ; ce n'est pas un chiffrement.</p></details>
 </div>'''
 
 def render_now():
@@ -396,7 +423,7 @@ cover = A.COVER
 home = f'''<section class="cover"><div class="ckj">{cover["kanji"]}</div><div class="ck1">{esc(E.KICKER if MODE == 'allibert' else cover["kicker"])}</div><h1 class="ct">Japon <i>en hiver</i></h1><div class="cd">{esc(cover["dates"])}</div><p>{esc(cover["line"])}</p>
 <div class="stops">{"".join("<span>"+esc(s)+"</span>" for s in cover["stops"])}</div>
 <button class="btn today" id="todayBtn">{ico("days")} Aujourd'hui</button></section>'''
-brief = "".join(f'<details class="sub" data-s="info" data-title="{esc(a)}"><summary>{esc(a)}</summary><p>{E.BRIEF_OVERRIDES.get(a, b) if MODE == "allibert" else b}</p></details>' for a, b in A.OVERVIEW['brief'])
+brief = "".join(f'<details class="sub" data-s="info" data-title="{esc(a)}"><summary>{shi("info")}{esc(a)}</summary><p>{E.BRIEF_OVERRIDES.get(a, b) if MODE == "allibert" else b}</p></details>' for a, b in A.OVERVIEW['brief'])
 overview = f'<div class="pad"><div class="kicker">{esc(A.OVERVIEW["kicker"])}</div><h1>{esc(A.OVERVIEW["title"])}</h1><p class="intro">{A.OVERVIEW["intro"]}</p>{brief}</div>'
 chapters = "".join(render_chapter(ch) for ch in CHAPTERS)
 lodgings = "".join(render_lodging(ch) for ch in CHAPTERS)
@@ -597,6 +624,77 @@ html.big{font-size:118%} html.big body{font-size:17px} html.big .sec p{font-size
  .photos figure{flex:0 0 46%} .hero img{height:300px}
  #results{left:240px;right:320px} .search{padding-left:260px;padding-right:340px}
 }
+/* ---- v8 : système visuel unifié ---- */
+:root{--sp:16px;--r:12px;--r2:8px;
+ --c-prog:var(--theme);--b-prog:var(--tint);
+ --c-prat:#3f6212;--b-prat:#f1f7e6;
+ --c-table:#b91c1c;--b-table:#fbeeeb;
+ --c-rep:#92400e;--b-rep:#fbf1e3;
+ --c-traj:#334155;--b-traj:#e9edf3;
+ --c-coince:#b45309;--b-coince:#fdf0e0;
+ --c-opts:#57534e;--b-opts:#f0efed;
+ --c-wx:#0369a1;--b-wx:#e4f1fa;
+ --c-night:#7c2d12;--b-night:#f9ebe4;
+ --c-addr:#b91c1c;--b-addr:#fbeeeb;
+ --c-hist:#854d0e;--b-hist:#f8f0dc;
+ --c-loc:#3f6212;--b-loc:#f1f7e6;
+ --c-manger:#b91c1c;--b-manger:#fbeeeb;--c-cafe:#7c5a2e;--b-cafe:#f6efe6;--c-bain:#0369a1;--b-bain:#e4f1fa;--c-course:#3f6212;--b-course:#f1f7e6;--c-photo:#1c1917;--b-photo:#ecebe9;--c-papeterie:#6b21a8;--b-papeterie:#f3ebfa;--c-voir:#a16207;--b-voir:#faf2dc;--c-boutique:#9d174d;--b-boutique:#fbe9f1;
+ --c-info:#44403c;--b-info:#f0efed}
+.s-prog{--c:var(--c-prog);--b:var(--b-prog)} .s-prat{--c:var(--c-prat);--b:var(--b-prat)} .s-table{--c:var(--c-table);--b:var(--b-table)} .s-rep{--c:var(--c-rep);--b:var(--b-rep)} .s-traj{--c:var(--c-traj);--b:var(--b-traj)} .s-coince,.s-block{--c:var(--c-coince);--b:var(--b-coince)} .s-opts{--c:var(--c-opts);--b:var(--b-opts)} .s-wx{--c:var(--c-wx);--b:var(--b-wx)} .s-night,.s-hotel{--c:var(--c-night);--b:var(--b-night)} .s-addr{--c:var(--c-addr);--b:var(--b-addr)} .s-hist,.s-anec{--c:var(--c-hist);--b:var(--b-hist)} .s-loc{--c:var(--c-loc);--b:var(--b-loc)} .s-taste{--c:var(--c-table);--b:var(--b-table)}
+.s-manger{--c:var(--c-manger);--b:var(--b-manger)} .s-cafe{--c:var(--c-cafe);--b:var(--b-cafe)} .s-bain{--c:var(--c-bain);--b:var(--b-bain)} .s-course,.s-run{--c:var(--c-course);--b:var(--b-course)} .s-photo{--c:var(--c-photo);--b:var(--b-photo)} .s-papeterie{--c:var(--c-papeterie);--b:var(--b-papeterie)} .s-voir{--c:var(--c-voir);--b:var(--b-voir)} .s-boutique{--c:var(--c-boutique);--b:var(--b-boutique)}
+.s-papers,.s-conv,.s-phrases,.s-nums,.s-konbini,.s-pack,.s-morning,.s-journal,.s-settings,.s-info,.s-check,.s-yen{--c:var(--c-info);--b:var(--b-info)} .s-check{--c:var(--c-prat);--b:var(--b-prat)} .s-yen{--c:var(--c-rep);--b:var(--b-rep)} .s-morning{--c:var(--c-wx);--b:var(--b-wx)} .s-conv{--c:var(--c-rep);--b:var(--b-rep)}
+.shi{width:26px;height:26px;border-radius:8px;background:var(--b,var(--paper2));color:var(--c,var(--ink2));display:inline-flex;align-items:center;justify-content:center;flex:none} .shi .i{width:15px;height:15px;vertical-align:0}
+.sh{display:flex;align-items:center;gap:9px;margin:16px 0 8px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--c)} .sh>span:last-child{padding-top:1px}
+.sec{margin-bottom:4px} .sec .sh{margin-top:14px} .sec:first-child .sh,.photos+.sec .sh{margin-top:8px} .sec p{font-size:15.5px;line-height:1.65;color:var(--ink)}
+.callout{background:var(--b);border:0;border-radius:var(--r);padding:12px 14px 12px;margin:12px 0} .callout .sh{margin:0 0 6px} .callout .shi{background:#fff} .callout ul{margin:0;padding-left:18px} .callout li{margin-bottom:5px;font-size:14.5px;line-height:1.55} .callout p{margin:0;font-size:14.5px;line-height:1.55} .callout li:last-child{margin-bottom:0}
+.c-prat,.c-table,.c-rep,.c-wx,.c-night,.c-opts{--c:inherit}
+.callout.c-prat{--c:var(--c-prat);--b:var(--b-prat)} .callout.c-table{--c:var(--c-table);--b:var(--b-table)} .callout.c-rep{--c:var(--c-rep);--b:var(--b-rep)} .callout.c-wx{--c:var(--c-wx);--b:var(--b-wx)} .callout.c-night{--c:var(--c-night);--b:var(--b-night)}
+.callout.c-rep p{color:var(--ink2)}
+.night{border-left:0;border-radius:var(--r)} .night b{font-size:17px;margin-top:2px} .night .addr{font-size:12.5px;color:var(--ink2);margin:3px 0 8px} .night .jp{background:#fff} .night details.more summary{color:var(--c-night)} .night details.more p{font-size:14px}
+.wx{border-left:0;border-radius:var(--r)} .wxsun{font-size:14px;color:var(--ink);margin:0 0 4px} .wxbody small{font-size:12px}
+.pill{border-color:var(--rule2);color:var(--ink);background:#fff;font-weight:500;padding:6px 11px;min-height:30px} .pill .i{width:14px;height:14px;color:var(--ai)} .pill.alt{color:var(--ink2)} .pill.ghost{border-style:solid;color:var(--mute)} .callout .pill{border-color:transparent;box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.links{gap:6px;margin-top:8px}
+details.sub{border-radius:var(--r);margin:10px 0;box-shadow:none} details.sub>summary{padding:10px 0;gap:10px;font-size:14.5px} details.sub>summary::after{width:8px;height:8px;border-color:var(--rule2)} details.sub[open]>summary{border-bottom:1px solid var(--rule)} details.sub>*:not(summary){margin-top:10px}
+details.sub.c-coince{background:var(--b-coince);border-color:transparent} details.sub.c-coince>summary{color:var(--c-coince)} details.sub.c-coince .shi{background:#fff} details.sub.c-coince[open]>summary{border-bottom-color:rgba(180,83,9,.18)} details.sub.c-coince p{font-size:14.5px}
+details.sub.c-traj .shi,details.sub.c-opts .shi,details.sub .shi{background:var(--b)}
+.tool .sh,.tool .lbl{margin-top:10px}
+.lbl{color:var(--mute);letter-spacing:.12em;font-size:10.5px}
+/* journées */
+details.day{border-radius:var(--r);margin:12px 0;box-shadow:none;overflow:hidden}
+details.day>summary{padding:14px 14px 13px 12px;gap:14px;border-radius:0} details.day[open]>summary{border-radius:0}
+.dnum{color:var(--theme);font-size:28px;width:40px;padding-top:4px;font-variant-numeric:tabular-nums}
+.dow{color:var(--theme);font-size:10.5px} .dtt .ttl{font-size:17.5px;margin:3px 0 7px}
+.heads{gap:4px 6px} .hd{font-size:11.5px;color:var(--ink2);background:#fff;border:1px solid var(--rule);border-radius:999px;padding:2px 9px;line-height:1.5} .hd b{color:var(--theme);font-weight:600;letter-spacing:.04em;font-size:10px;text-transform:uppercase;margin-right:3px}
+details.day>summary .chev{margin-top:8px;color:var(--mute)}
+.dbody{padding:4px 14px 14px}
+.photos{margin:8px -14px 4px;padding:0 14px} .photos figcaption{font-size:11.5px}
+.traj{padding-bottom:4px} .tr{padding:8px 0} .tr:first-child{border-top:0} .tt{color:var(--c-traj);font-size:12.5px}
+.resa{font-size:9.5px;padding:2px 7px}
+.dayaddr{margin:14px 0 0} .dayaddr .sh{margin-bottom:2px} .dad{padding:9px 0;gap:12px} .dad .shi{width:30px;height:30px} .dad .dn b{font-weight:600}
+/* adresses */
+.gc{border-radius:var(--r);border-left:0;padding:12px 14px;margin-bottom:10px} .gc .gk{display:flex;align-items:center;gap:8px;color:var(--c);letter-spacing:.1em} .gc .gk .shi{width:24px;height:24px} .gc b{font-size:16px;margin:6px 0 3px} .gc p{font-size:14.5px} .gc .addr{font-size:12.5px;color:var(--ink2)} .gc .meta{color:var(--mute)}
+.gc.k-manger{--c:var(--c-manger);--b:var(--b-manger)} .gc.k-cafe{--c:var(--c-cafe);--b:var(--b-cafe)} .gc.k-bain{--c:var(--c-bain);--b:var(--b-bain)} .gc.k-course{--c:var(--c-course);--b:var(--b-course)} .gc.k-photo{--c:var(--c-photo);--b:var(--b-photo)} .gc.k-papeterie{--c:var(--c-papeterie);--b:var(--b-papeterie)} .gc.k-voir{--c:var(--c-voir);--b:var(--b-voir)} .gc.k-boutique{--c:var(--c-boutique);--b:var(--b-boutique)}
+.fchip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px} .fchip .i{width:14px;height:14px}
+.hotel{border-radius:var(--r);border-left:0;padding:12px 14px} .hotel .sh{margin:0 0 4px}
+.runl{border-radius:var(--r2);border-left:0;background:var(--b-course)}
+.tocl{border-radius:var(--r);border-left:0;padding:12px 14px} .tocl .kj{background:var(--tint);color:var(--theme);width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+/* chapitres */
+.chapter{border-bottom:0;margin-top:32px}
+.hero .htx{padding:14px 16px} .hero .reg{color:var(--theme)} .hero h2{font-weight:600;font-size:23px;letter-spacing:-.02em}
+.stats div{border-top:0;border-radius:var(--r2);background:var(--tint)} .stats b{font-size:21px;font-weight:600}
+.strip{border-radius:var(--r)}
+/* en-tête, outils, divers */
+.top button{color:var(--ink2);padding:6px 4px} .top button .i{width:20px;height:20px}
+.kicker{color:var(--mute)} h1{font-size:26px}
+.warnbox{background:var(--b-coince);border:0;border-radius:var(--r2);padding:10px 14px} .warnbox b{color:var(--c-coince)}
+.btn.ghost{border-color:var(--rule2);color:var(--ink);border-radius:10px;font-weight:500} .btn.ghost .i{color:var(--shu)}
+.ck{border-radius:var(--r)} .ck label.box{border-radius:7px}
+.now{border-radius:var(--r);box-shadow:none} .nowh .lbl{color:var(--mute)}
+.jp{border-radius:var(--r2)}
+.tl{border-radius:var(--r2)} .tld{color:var(--ink2)}
+.zone{color:var(--ink2)}
+.cover .stops span{border-radius:8px}
+.box{background:var(--paper2);border-radius:var(--r2)}
 '''
 
 JS = r'''
@@ -661,6 +759,8 @@ const toast=(m)=>{ const t=$('#toast'); t.textContent=m; t.classList.add('on'); 
 const LS={get:(k,d)=>{ try{ const v=localStorage.getItem(k); return v===null?d:JSON.parse(v);}catch(e){return d;} }, set:(k,v)=>{ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }};
 // service worker (seulement en https, GitHub Pages)
 if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+// recharger en forçant le réseau (vide le cache du service worker)
+const rb=$('#refreshBtn'); if(rb) rb.addEventListener('click',async()=>{ toast('Mise à jour…'); try{ if('caches' in window){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } if(navigator.serviceWorker){ const rs=await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(r=>r.unregister())); } }catch(e){} const u=new URL(location.href); u.searchParams.set('r',Date.now()); location.replace(u.toString()); });
 // copier l'adresse japonaise
 $$('[data-copy]').forEach(el=>el.addEventListener('click',()=>{ navigator.clipboard&&navigator.clipboard.writeText(el.dataset.copy).then(()=>toast('Adresse copiée')); }));
 // partager
@@ -766,7 +866,7 @@ def build():
     doc = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#fafaf9"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Japon"><link rel="apple-touch-icon" href="{{ICON180}}"><link rel="icon" href="{{ICON192}}"><link rel="manifest" href="{{MANIFEST}}">
 <title>Japon en hiver · {'guide Allibert' if MODE == 'allibert' else 'carnet v7'}</title><style>{css}</style></head><body>
-<header class="top"><span class="kj">冬</span><div class="brand"><b>Japon en hiver</b><small>26 déc. 2026 → 11 janv. 2027</small></div><div class="jst" id="jst"><b>--:--</b>heure du Japon</div><button id="searchBtn" aria-label="Rechercher">{ico("search")}</button></header>
+<header class="top"><span class="kj">冬</span><div class="brand"><b>Japon en hiver</b><small>26 déc. 2026 → 11 janv. 2027</small></div><div class="jst" id="jst"><b>--:--</b>heure du Japon</div><button id="refreshBtn" aria-label="Recharger la dernière version">{ico("refresh")}</button><button id="searchBtn" aria-label="Rechercher">{ico("search")}</button></header>
 <div class="search hidden" id="search"><div class="row"><input id="q" type="search" placeholder="Rechercher dans le carnet…" autocomplete="off"><button id="closeSearch" aria-label="Fermer">{ico("close")}</button></div></div>
 <div id="results" class="hidden"></div>
 <main>
