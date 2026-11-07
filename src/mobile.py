@@ -420,6 +420,15 @@ def render_maps():
                 out += f'<figure class="mapfig"><img src="{img(f, 1400, 72)}" alt="Plan" loading="lazy" data-zoom><figcaption>{c}</figcaption></figure>'
     return out + '</div>'
 
+def render_daynav():
+    out = ""
+    for ch in CHAPTERS:
+        out += f'<div class="dnch"><span class="kj">{ch["kanji"]}</span>{esc(ch["title"])}</div>'
+        for d in ch["days"]:
+            k = dkey(d)
+            out += f'<a class="dnr" href="#" data-day="d-{k}" data-date="{k}"><span class="dnn">{d["num"]}</span><span class="dnt"><b>{esc(d["title"])}</b><small>{esc(d["dow"].capitalize())}</small></span></a>'
+    return f'<div id="dn" class="hidden"><div class="cvbg" id="dnBg"></div><div class="cvsheet dnsheet" role="dialog" aria-label="Les jours du voyage"><div class="cvhead"><b>Les jours du voyage</b><button id="dnClose" aria-label="Fermer">{ico("close")}</button></div><div class="dnlist">{out}</div></div></div>'
+
 # --- assemblage ----------------------------------------------------------------
 cover = A.COVER
 home = f'''<section class="cover"><div class="ckj">{cover["kanji"]}</div><div class="ck1">{esc(E.KICKER if MODE == 'allibert' else cover["kicker"])}</div><h1 class="ct">Japon <i>en hiver</i></h1><div class="cd">{esc(cover["dates"])}</div><p>{esc(cover["line"])}</p>
@@ -486,6 +495,7 @@ $('#lbClose').addEventListener('click',()=>lb.classList.remove('on'));
 // état initial
 let tab='voyage'; try{ tab=localStorage.getItem('jp7.tab')||'voyage'; }catch(e){}
 show(views[tab]?tab:'voyage',true);
+window.__goTo=goTo; window.__todayId=todayId;
 })();
 
 // ---------- extras : outils, maintenant, grand écran ----------
@@ -495,6 +505,11 @@ const toast=(m)=>{ const t=$('#toast'); t.textContent=m; t.classList.add('on'); 
 const LS={get:(k,d)=>{ try{ const v=localStorage.getItem(k); return v===null?d:JSON.parse(v);}catch(e){return d;} }, set:(k,v)=>{ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }};
 // service worker (seulement en https, GitHub Pages)
 if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+// navigation rapide entre les jours
+const dn=$('#dn'); const dnOpen=()=>{ dn.classList.remove('hidden'); const t=dn.querySelector('.dnr.today'); if(t) t.scrollIntoView({block:'center'}); }; const dnCloseF=()=>dn.classList.add('hidden');
+$('#dnBtn').addEventListener('click',dnOpen); $('#dnClose').addEventListener('click',dnCloseF); $('#dnBg').addEventListener('click',dnCloseF);
+$$('.dnr').forEach(a=>{ if(window.__todayId && a.dataset.day===window.__todayId) a.classList.add('today'); a.addEventListener('click',e=>{ e.preventDefault(); dnCloseF(); window.__goTo('voyage',a.dataset.day,true); }); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') dnCloseF(); });
 // convertisseur rapide, accessible partout
 const cv=$('#cv'), cvY2=$('#cvY2'), cvE2=$('#cvE2'), cvBig=$('#cvBig');
 const fmt=(n,d)=>n.toLocaleString('fr-FR',{maximumFractionDigits:d});
@@ -615,7 +630,7 @@ def build():
     doc = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#fafaf9"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Japon"><link rel="apple-touch-icon" href="{{ICON180}}"><link rel="icon" href="{{ICON192}}"><link rel="manifest" href="{{MANIFEST}}">
 <title>Japon en hiver · {'guide Allibert' if MODE == 'allibert' else 'carnet v7'}</title><style>{css}</style></head><body>
-<header class="top"><span class="kj">冬</span><div class="brand"><b>Japon en hiver</b><small>26 déc. → 11 janv. 2027</small></div><div class="jst" id="jst"><b>--:--</b>heure du Japon</div><button id="cvBtn" aria-label="Convertisseur yens euros">{ico("yen")}</button><button id="refreshBtn" aria-label="Recharger la dernière version">{ico("refresh")}</button><button id="searchBtn" aria-label="Rechercher">{ico("search")}</button></header>
+<header class="top"><span class="kj">冬</span><div class="brand"><b>Japon en hiver</b><small>26 déc. → 11 janv. 2027</small></div><div class="jst" id="jst"><b>--:--</b>heure du Japon</div><button id="dnBtn" aria-label="Les jours du voyage">{ico("days")}</button><button id="cvBtn" aria-label="Convertisseur yens euros">{ico("yen")}</button><button id="refreshBtn" aria-label="Recharger la dernière version">{ico("refresh")}</button><button id="searchBtn" aria-label="Rechercher">{ico("search")}</button></header>
 <div class="search hidden" id="search"><div class="row"><input id="q" type="search" placeholder="Rechercher dans le carnet…" autocomplete="off"><button id="closeSearch" aria-label="Fermer">{ico("close")}</button></div></div>
 <div id="results" class="hidden"></div>
 <div class="app"><main>
@@ -635,6 +650,7 @@ def build():
 <div class="cvio"><label><span>Yens</span><input type="number" inputmode="numeric" id="cvY2" placeholder="1 000"></label><label><span>Euros</span><input type="number" inputmode="decimal" id="cvE2" placeholder="5,7"></label></div>
 <div class="cvbig" id="cvBig"></div>
 <p class="note">Taux de la Banque centrale européenne quand le réseau est là (mis à jour une fois par jour), sinon le dernier taux connu. Modifiable dans Outils.</p></div></div>
+{render_daynav()}
 <div id="toast"></div>
 <div id="lb"><button id="lbClose" aria-label="Fermer">{ico("close")}</button><img alt=""><div class="hint">Faites défiler pour explorer la carte</div></div>
 <script>{JS}</script></body></html>'''

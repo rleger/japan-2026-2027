@@ -51,7 +51,8 @@ mark{background:#fff1b8;color:inherit;border-radius:2px}
 /* ---------- barre haute ---------- */
 .top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px var(--gut);background:rgba(251,250,248,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
 .top .kj{font-family:var(--jp);font-size:17px;color:#fff;background:var(--shu);width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex:none;line-height:1;transform:rotate(-4deg)}
-.top .brand{flex:1;line-height:1.2} .top .brand b{display:block;font-size:15.5px} .top .brand small{font-size:12px;color:var(--mute);white-space:nowrap}
+.top .brand{flex:1;line-height:1.2} .top .brand b{display:block;font-size:15.5px;white-space:nowrap}
+@media(max-width:430px){.top .brand small{display:none} .top .brand b{font-size:15px} .top .kj{width:28px;height:28px;font-size:16px}} .top .brand small{font-size:12px;color:var(--mute);white-space:nowrap}
 .top .jst{text-align:right;line-height:1.15;font-size:10.5px;color:var(--mute);white-space:nowrap} .top .jst b{display:block;font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;font-weight:500}
 .top{gap:8px} .top button{padding:6px 2px;color:var(--ink2);display:flex} .top button .i{width:21px;height:21px} .top .brand{min-width:0} .top .brand small{overflow:hidden;text-overflow:ellipsis;display:block}
 .search{position:sticky;top:0;z-index:21;background:var(--paper);border-bottom:1px solid var(--rule);padding:calc(10px + env(safe-area-inset-top)) 14px 10px var(--gut)}
@@ -228,6 +229,16 @@ details.sub.c-traj,details.sub.c-opts{margin-top:14px}
 .cvbig{font-size:20px;font-weight:600;color:var(--ai);margin:12px 0 6px;min-height:28px;font-variant-numeric:tabular-nums}
 #cv .note{margin-top:4px}
 
+/* ---------- navigation rapide des jours ---------- */
+.dnsheet{max-height:82vh;display:flex;flex-direction:column;padding-bottom:calc(8px + env(safe-area-inset-bottom))} .dnlist{overflow:auto;margin:0 calc(-1 * var(--gut));padding:0 var(--gut) 10px}
+.dnch{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink2);margin:14px 0 4px;padding-bottom:4px;border-bottom:1px solid var(--rule)} .dnch .kj{font-family:var(--jp);font-size:14px;color:var(--ai)}
+.dnr{display:flex;align-items:center;gap:12px;padding:8px 10px 8px 9px;margin:0 -10px;border-left:3px solid transparent;border-radius:0 8px 8px 0;color:var(--ink)}
+.dnr .dnn{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--ai);color:var(--ai);font-size:13.5px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;font-variant-numeric:tabular-nums} .dnr .dnn sup{font-size:8px;vertical-align:top}
+.dnr .dnt{min-width:0} .dnr b{display:block;font-size:14.5px;line-height:1.25} .dnr small{display:block;font-size:12px;color:var(--mute)}
+.dnr.today{border-left-color:var(--shu);background:var(--shu-soft)} .dnr.today .dnn{background:var(--shu);border-color:var(--shu);color:#fff}
+.dnr:active{background:var(--ai-soft)}
+details.day.today{border-left:3px solid var(--shu);padding-left:12px;margin-left:calc(-1 * var(--gut));padding-left:calc(var(--gut) - 3px);padding-right:var(--gut);margin-right:calc(-1 * var(--gut));background:linear-gradient(90deg,var(--shu-soft),transparent 160px)}
+
 /* ---------- infos ---------- */
 .tbl{width:100%;font-size:13.5px;margin:6px 0 4px} .tbl th{font-size:12px;font-weight:600;text-align:left;padding:8px;background:#efeeec;color:var(--ink2);border-bottom:1px solid var(--rule2)} .tbl td{padding:8px;border-top:1px solid var(--rule);vertical-align:top} .tbl td:nth-child(n+2){white-space:nowrap;text-align:right} .tbl.cmp td:nth-child(n+2){white-space:normal;text-align:left;width:25%}
 .src li{padding:8px 0;border-bottom:1px solid var(--rule);font-size:14px}
@@ -270,5 +281,7 @@ html.big{font-size:118%} html.big body{font-size:17px} html.big .sec p{font-size
  #results{top:58px;left:calc(var(--L) + 284px);right:calc(var(--L) + 372px);max-width:840px;background:var(--paper);border:1px solid var(--rule);border-radius:14px;bottom:auto;max-height:calc(100vh - 80px);padding:4px var(--gut) 40px}
  .garea{padding-left:var(--gut);padding-right:var(--gut)}
  .intro{max-width:64ch}
+ details.day.today{margin-left:0;margin-right:0;padding-left:var(--rail);padding-right:0;border-left:0;background:none;box-shadow:inset 3px 0 0 var(--shu)}
+ .dnsheet{max-height:80vh}
  .cvsheet{left:50%;right:auto;bottom:auto;top:50%;transform:translate(-50%,-50%);width:520px;border-radius:16px;padding:18px 24px 22px;--gut:24px} .cvquick{grid-template-columns:repeat(6,1fr)}
 }
