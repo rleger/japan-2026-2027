@@ -605,7 +605,7 @@ def build():
 <header class="top"><span class="kj">冬</span><div class="brand"><b>Japon en hiver</b><small>26 déc. → 11 janv. 2027</small></div><div class="jst" id="jst"><b>--:--</b>heure du Japon</div><button id="refreshBtn" aria-label="Recharger la dernière version">{ico("refresh")}</button><button id="searchBtn" aria-label="Rechercher">{ico("search")}</button></header>
 <div class="search hidden" id="search"><div class="row"><input id="q" type="search" placeholder="Rechercher dans le carnet…" autocomplete="off"><button id="closeSearch" aria-label="Fermer">{ico("close")}</button></div></div>
 <div id="results" class="hidden"></div>
-<main>
+<div class="app"><main>
 <section class="view on" id="v-voyage">{home}{render_now() if MODE == 'allibert' else ''}<nav class="toc">{toc}</nav>{overview}{render_timeline()}{chapters}</section>
 <section class="view" id="v-todo">{render_checklist()}</section>
 {'<section class="view" id="v-guide">' + render_guide() + '</section>' if MODE == 'allibert' else '<section class="view" id="v-sleep"><div class="pad"><div class="kicker">OÙ DORMIR</div><h1>Les hébergements, étape par étape</h1><p class="intro">Prix Booking du 1er novembre 2026 pour deux adultes aux dates du voyage ; chaque nom ouvre Booking aux bonnes dates. Toutes les adresses ont une salle de bain privée, sauf mention contraire.</p></div>' + lodgings + '</section>'}
@@ -614,7 +614,7 @@ def build():
 {'' if MODE == 'allibert' else '<section class="view" id="v-maps">' + render_maps() + '</section>'}
 </main>
 <nav class="tabs"><button data-v="voyage" class="on"><span class="tk">旅</span><span class="tlab">Voyage</span></button>{'<button data-v="guide"><span class="tk">処</span><span class="tlab">Adresses</span></button>' if MODE == 'allibert' else '<button data-v="sleep"><span class="tk">宿</span><span class="tlab">Dormir</span></button>'}<button data-v="todo"><span class="tk">済</span><span class="tlab">À faire</span></button>{'<button data-v="tools"><span class="tk">具</span><span class="tlab">Outils</span></button>' if MODE == 'allibert' else ''}<button data-v="info"><span class="tk">案</span><span class="tlab">Infos</span></button>{'' if MODE == 'allibert' else '<button data-v="maps"><span class="tk">図</span><span class="tlab">Cartes</span></button>'}</nav>
-<aside id="lnav"><div class="lbrand"><span class="kj">冬</span><b>Japon en hiver</b></div><div class="lnavtabs"></div><div class="lnavdays"></div></aside><aside id="rside"></aside>
+<aside id="lnav"><div class="lbrand"><span class="kj">冬</span><b>Japon en hiver</b></div><div class="lnavtabs"></div><div class="lnavdays"></div></aside><aside id="rside"></aside></div>
 <div id="phrase" class="hidden"><button id="phClose" aria-label="Fermer">{ico("close")}</button><div class="phjp"></div><div class="phro"></div><div class="phfr"></div></div>
 <div id="toast"></div>
 <div id="lb"><button id="lbClose" aria-label="Fermer">{ico("close")}</button><img alt=""><div class="hint">Faites défiler pour explorer la carte</div></div>
