@@ -52,8 +52,8 @@ mark{background:#fff1b8;color:inherit;border-radius:2px}
 .top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px var(--gut);background:rgba(251,250,248,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
 .top .kj{font-family:var(--jp);font-size:17px;color:#fff;background:var(--shu);width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex:none;line-height:1;transform:rotate(-4deg)}
 .top .brand{flex:1;line-height:1.2} .top .brand b{display:block;font-size:15.5px} .top .brand small{font-size:12px;color:var(--mute);white-space:nowrap}
-.top .jst{text-align:right;line-height:1.15;font-size:11px;color:var(--mute)} .top .jst b{display:block;font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;font-weight:500}
-.top button{padding:6px 3px;color:var(--ink2);display:flex} .top button .i{width:21px;height:21px}
+.top .jst{text-align:right;line-height:1.15;font-size:10.5px;color:var(--mute);white-space:nowrap} .top .jst b{display:block;font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;font-weight:500}
+.top{gap:8px} .top button{padding:6px 2px;color:var(--ink2);display:flex} .top button .i{width:21px;height:21px} .top .brand{min-width:0} .top .brand small{overflow:hidden;text-overflow:ellipsis;display:block}
 .search{position:sticky;top:0;z-index:21;background:var(--paper);border-bottom:1px solid var(--rule);padding:calc(10px + env(safe-area-inset-top)) 14px 10px var(--gut)}
 .search .row{display:flex;gap:10px;align-items:center}
 .search input{flex:1;padding:10px 14px;border:1px solid var(--rule2);border-radius:10px;background:#fff} .search input:focus{outline:none;border-color:var(--ai)}
@@ -216,6 +216,18 @@ details.sub.c-traj,details.sub.c-opts{margin-top:14px}
 .sw{display:flex;align-items:center;gap:10px;font-size:14.5px;margin:10px 0} .sw input[type=password]{width:84px;font-size:16px;padding:5px 8px;border:1px solid var(--rule2);border-radius:6px;letter-spacing:.3em;background:#fff}
 #toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;padding:8px 14px;border-radius:999px;opacity:0;transition:all .25s;pointer-events:none;z-index:70} #toast.on{opacity:1;transform:translateX(-50%)}
 
+/* ---------- convertisseur rapide ---------- */
+#cv{position:fixed;inset:0;z-index:65} .cvbg{position:absolute;inset:0;background:rgba(23,22,26,.35)}
+.cvsheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:16px 16px 0 0;padding:14px var(--gut) calc(18px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.12)}
+.cvhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px} .cvhead b{font-size:17px} .cvhead button{display:flex;padding:6px;color:var(--ink2)}
+.cvrate{font-size:13px;color:var(--ink2);margin-bottom:12px}
+.cvquick{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}
+.cvquick button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 4px;border:1px solid var(--rule2);border-radius:10px;background:#fff;line-height:1.2} .cvquick button b{font-size:12.5px;color:var(--ink2);font-weight:500} .cvquick button span{font-size:15px;font-weight:600;color:var(--ai)}
+.cvquick button:active{background:var(--ai-soft)}
+.cvio{display:flex;gap:10px} .cvio label{flex:1} .cvio span{display:block;font-size:12.5px;font-weight:500;color:var(--ink2);margin-bottom:3px} .cvio input{width:100%;font-size:22px;font-weight:600;padding:10px 12px;border:1px solid var(--rule2);border-radius:10px;background:#fff;font-variant-numeric:tabular-nums} .cvio input:focus{outline:none;border-color:var(--ai)}
+.cvbig{font-size:20px;font-weight:600;color:var(--ai);margin:12px 0 6px;min-height:28px;font-variant-numeric:tabular-nums}
+#cv .note{margin-top:4px}
+
 /* ---------- infos ---------- */
 .tbl{width:100%;font-size:13.5px;margin:6px 0 4px} .tbl th{font-size:12px;font-weight:600;text-align:left;padding:8px;background:#efeeec;color:var(--ink2);border-bottom:1px solid var(--rule2)} .tbl td{padding:8px;border-top:1px solid var(--rule);vertical-align:top} .tbl td:nth-child(n+2){white-space:nowrap;text-align:right} .tbl.cmp td:nth-child(n+2){white-space:normal;text-align:left;width:25%}
 .src li{padding:8px 0;border-bottom:1px solid var(--rule);font-size:14px}
@@ -258,4 +270,5 @@ html.big{font-size:118%} html.big body{font-size:17px} html.big .sec p{font-size
  #results{top:58px;left:calc(var(--L) + 284px);right:calc(var(--L) + 372px);max-width:840px;background:var(--paper);border:1px solid var(--rule);border-radius:14px;bottom:auto;max-height:calc(100vh - 80px);padding:4px var(--gut) 40px}
  .garea{padding-left:var(--gut);padding-right:var(--gut)}
  .intro{max-width:64ch}
+ .cvsheet{left:50%;right:auto;bottom:auto;top:50%;transform:translate(-50%,-50%);width:520px;border-radius:16px;padding:18px 24px 22px;--gut:24px} .cvquick{grid-template-columns:repeat(6,1fr)}
 }

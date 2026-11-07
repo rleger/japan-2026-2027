@@ -54,8 +54,8 @@ mark{background:#fff1b8;color:inherit;border-radius:2px}
 .top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px var(--gut);background:rgba(251,250,248,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
 .top .kj{font-family:var(--jp);font-size:17px;color:#fff;background:var(--shu);width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex:none;line-height:1;transform:rotate(-4deg)}
 .top .brand{flex:1;line-height:1.2} .top .brand b{display:block;font-size:15.5px} .top .brand small{font-size:12px;color:var(--mute);white-space:nowrap}
-.top .jst{text-align:right;line-height:1.15;font-size:11px;color:var(--mute)} .top .jst b{display:block;font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;font-weight:500}
-.top button{padding:6px 3px;color:var(--ink2);display:flex} .top button .i{width:21px;height:21px}
+.top .jst{text-align:right;line-height:1.15;font-size:10.5px;color:var(--mute);white-space:nowrap} .top .jst b{display:block;font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;font-weight:500}
+.top{gap:8px} .top button{padding:6px 2px;color:var(--ink2);display:flex} .top button .i{width:21px;height:21px} .top .brand{min-width:0} .top .brand small{overflow:hidden;text-overflow:ellipsis;display:block}
 .search{position:sticky;top:0;z-index:21;background:var(--paper);border-bottom:1px solid var(--rule);padding:calc(10px + env(safe-area-inset-top)) 14px 10px var(--gut)}
 .search .row{display:flex;gap:10px;align-items:center}
 .search input{flex:1;padding:10px 14px;border:1px solid var(--rule2);border-radius:10px;background:#fff} .search input:focus{outline:none;border-color:var(--ai)}
@@ -218,6 +218,18 @@ details.sub.c-traj,details.sub.c-opts{margin-top:14px}
 .sw{display:flex;align-items:center;gap:10px;font-size:14.5px;margin:10px 0} .sw input[type=password]{width:84px;font-size:16px;padding:5px 8px;border:1px solid var(--rule2);border-radius:6px;letter-spacing:.3em;background:#fff}
 #toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;padding:8px 14px;border-radius:999px;opacity:0;transition:all .25s;pointer-events:none;z-index:70} #toast.on{opacity:1;transform:translateX(-50%)}
 
+/* ---------- convertisseur rapide ---------- */
+#cv{position:fixed;inset:0;z-index:65} .cvbg{position:absolute;inset:0;background:rgba(23,22,26,.35)}
+.cvsheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:16px 16px 0 0;padding:14px var(--gut) calc(18px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.12)}
+.cvhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px} .cvhead b{font-size:17px} .cvhead button{display:flex;padding:6px;color:var(--ink2)}
+.cvrate{font-size:13px;color:var(--ink2);margin-bottom:12px}
+.cvquick{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}
+.cvquick button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 4px;border:1px solid var(--rule2);border-radius:10px;background:#fff;line-height:1.2} .cvquick button b{font-size:12.5px;color:var(--ink2);font-weight:500} .cvquick button span{font-size:15px;font-weight:600;color:var(--ai)}
+.cvquick button:active{background:var(--ai-soft)}
+.cvio{display:flex;gap:10px} .cvio label{flex:1} .cvio span{display:block;font-size:12.5px;font-weight:500;color:var(--ink2);margin-bottom:3px} .cvio input{width:100%;font-size:22px;font-weight:600;padding:10px 12px;border:1px solid var(--rule2);border-radius:10px;background:#fff;font-variant-numeric:tabular-nums} .cvio input:focus{outline:none;border-color:var(--ai)}
+.cvbig{font-size:20px;font-weight:600;color:var(--ai);margin:12px 0 6px;min-height:28px;font-variant-numeric:tabular-nums}
+#cv .note{margin-top:4px}
+
 /* ---------- infos ---------- */
 .tbl{width:100%;font-size:13.5px;margin:6px 0 4px} .tbl th{font-size:12px;font-weight:600;text-align:left;padding:8px;background:#efeeec;color:var(--ink2);border-bottom:1px solid var(--rule2)} .tbl td{padding:8px;border-top:1px solid var(--rule);vertical-align:top} .tbl td:nth-child(n+2){white-space:nowrap;text-align:right} .tbl.cmp td:nth-child(n+2){white-space:normal;text-align:left;width:25%}
 .src li{padding:8px 0;border-bottom:1px solid var(--rule);font-size:14px}
@@ -260,9 +272,10 @@ html.big{font-size:118%} html.big body{font-size:17px} html.big .sec p{font-size
  #results{top:58px;left:calc(var(--L) + 284px);right:calc(var(--L) + 372px);max-width:840px;background:var(--paper);border:1px solid var(--rule);border-radius:14px;bottom:auto;max-height:calc(100vh - 80px);padding:4px var(--gut) 40px}
  .garea{padding-left:var(--gut);padding-right:var(--gut)}
  .intro{max-width:64ch}
+ .cvsheet{left:50%;right:auto;bottom:auto;top:50%;transform:translate(-50%,-50%);width:520px;border-radius:16px;padding:18px 24px 22px;--gut:24px} .cvquick{grid-template-columns:repeat(6,1fr)}
 }
 </style></head><body>
-<header class="top"><span class="kj">冬</span><div class="brand"><b>Japon en hiver</b><small>26 déc. → 11 janv. 2027</small></div><div class="jst" id="jst"><b>--:--</b>heure du Japon</div><button id="refreshBtn" aria-label="Recharger la dernière version"><svg class="i " viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button id="searchBtn" aria-label="Rechercher"><svg class="i " viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button></header>
+<header class="top"><span class="kj">冬</span><div class="brand"><b>Japon en hiver</b><small>26 déc. → 11 janv. 2027</small></div><div class="jst" id="jst"><b>--:--</b>heure du Japon</div><button id="cvBtn" aria-label="Convertisseur yens euros"><svg class="i " viewBox="0 0 24 24"><path d="M13.92 11H18v2h-4v2h4v2h-4v4h-4v-4H6v-2h4v-2H6v-2h4.08L5 3h3.5l3.5 7 3.5-7H19z"/></svg></button><button id="refreshBtn" aria-label="Recharger la dernière version"><svg class="i " viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg></button><button id="searchBtn" aria-label="Rechercher"><svg class="i " viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button></header>
 <div class="search hidden" id="search"><div class="row"><input id="q" type="search" placeholder="Rechercher dans le carnet…" autocomplete="off"><button id="closeSearch" aria-label="Fermer"><svg class="i " viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></div></div>
 <div id="results" class="hidden"></div>
 <div class="app"><main>
@@ -434,6 +447,12 @@ html.big{font-size:118%} html.big body{font-size:17px} html.big .sec p{font-size
 <nav class="tabs"><button data-v="voyage" class="on"><span class="tk">旅</span><span class="tlab">Voyage</span></button><button data-v="guide"><span class="tk">処</span><span class="tlab">Adresses</span></button><button data-v="todo"><span class="tk">済</span><span class="tlab">À faire</span></button><button data-v="tools"><span class="tk">具</span><span class="tlab">Outils</span></button><button data-v="info"><span class="tk">案</span><span class="tlab">Infos</span></button></nav>
 <aside id="lnav"><div class="lbrand"><span class="kj">冬</span><b>Japon en hiver</b></div><div class="lnavtabs"></div><div class="lnavdays"></div></aside><aside id="rside"></aside></div>
 <div id="phrase" class="hidden"><button id="phClose" aria-label="Fermer"><svg class="i " viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button><div class="phjp"></div><div class="phro"></div><div class="phfr"></div></div>
+<div id="cv" class="hidden"><div class="cvbg" id="cvBg"></div><div class="cvsheet" role="dialog" aria-label="Convertisseur"><div class="cvhead"><b>Yens en euros</b><button id="cvClose" aria-label="Fermer"><svg class="i " viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button></div>
+<div class="cvrate" id="cvRateLine">Taux : 1 € = 175 yens (≈ 1,0 €)</div>
+<div class="cvquick" id="cvQuickBtns"></div>
+<div class="cvio"><label><span>Yens</span><input type="number" inputmode="numeric" id="cvY2" placeholder="1 000"></label><label><span>Euros</span><input type="number" inputmode="decimal" id="cvE2" placeholder="5,7"></label></div>
+<div class="cvbig" id="cvBig"></div>
+<p class="note">Taux de la Banque centrale européenne quand le réseau est là (mis à jour une fois par jour), sinon le dernier taux connu. Modifiable dans Outils.</p></div></div>
 <div id="toast"></div>
 <div id="lb"><button id="lbClose" aria-label="Fermer"><svg class="i " viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button><img alt=""><div class="hint">Faites défiler pour explorer la carte</div></div>
 <script>
@@ -498,6 +517,19 @@ const toast=(m)=>{ const t=$('#toast'); t.textContent=m; t.classList.add('on'); 
 const LS={get:(k,d)=>{ try{ const v=localStorage.getItem(k); return v===null?d:JSON.parse(v);}catch(e){return d;} }, set:(k,v)=>{ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }};
 // service worker (seulement en https, GitHub Pages)
 if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+// convertisseur rapide, accessible partout
+const cv=$('#cv'), cvY2=$('#cvY2'), cvE2=$('#cvE2'), cvBig=$('#cvBig');
+const fmt=(n,d)=>n.toLocaleString('fr-FR',{maximumFractionDigits:d});
+const getRate=()=>parseFloat(LS.get('jp7.rate',175))||175;
+function cvRender(){ const r=getRate(); const live=LS.get('jp7.rateLive',null); $('#cvRateLine').textContent='Taux : 1 € = '+fmt(r,1)+' yens'+(live&&live.d?' (BCE, '+live.d+')':' (taux réglé à la main)'); $('#cvQuickBtns').innerHTML=[500,1000,2000,3000,5000,8000,10000,15000,20000,30000,50000].map(y=>'<button data-y="'+y+'"><b>'+fmt(y,0)+' ¥</b><span>'+fmt(y/r,y<2000?1:0)+' €</span></button>').join(''); $$('#cvQuickBtns button').forEach(b=>b.addEventListener('click',()=>{ cvY2.value=b.dataset.y; cvFromY(); })); const ri=$('#cvRate'); if(ri) ri.value=r; }
+function cvFromY(){ const r=getRate(); const y=parseFloat(cvY2.value); cvE2.value=isNaN(y)?'':(y/r).toFixed(y/r<20?1:0); cvBig.textContent=isNaN(y)?'':fmt(y,0)+' ¥ = '+fmt(y/r,y/r<20?1:0)+' €'; }
+function cvFromE(){ const r=getRate(); const e=parseFloat(cvE2.value); cvY2.value=isNaN(e)?'':Math.round(e*r); cvBig.textContent=isNaN(e)?'':fmt(e,1)+' € = '+fmt(Math.round(e*r),0)+' ¥'; }
+cvY2.addEventListener('input',cvFromY); cvE2.addEventListener('input',cvFromE);
+function cvOpen(){ cvRender(); cv.classList.remove('hidden'); setTimeout(()=>cvY2.focus(),50); } function cvCloseF(){ cv.classList.add('hidden'); }
+$('#cvBtn').addEventListener('click',cvOpen); $('#cvClose').addEventListener('click',cvCloseF); $('#cvBg').addEventListener('click',cvCloseF);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') cvCloseF(); });
+// taux du jour (BCE via frankfurter.app), au plus une fois par jour
+(async()=>{ const live=LS.get('jp7.rateLive',null); const today=new Date().toISOString().slice(0,10); if(live&&live.fetched===today) return; if(!navigator.onLine) return; try{ const j=await fetch('https://api.frankfurter.app/latest?from=EUR&to=JPY').then(r=>r.json()); const v=j&&j.rates&&j.rates.JPY; if(v){ LS.set('jp7.rateLive',{v:v,d:j.date,fetched:today}); LS.set('jp7.rate',Math.round(v*10)/10); const ri=$('#cvRate'); if(ri){ ri.value=Math.round(v*10)/10; ri.dispatchEvent(new Event('input')); } } }catch(e){} })();
 // recharger en forçant le réseau (vide le cache du service worker)
 const rb=$('#refreshBtn'); if(rb) rb.addEventListener('click',async()=>{ toast('Mise à jour…'); try{ if('caches' in window){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } if(navigator.serviceWorker){ const rs=await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(r=>r.unregister())); } }catch(e){} const u=new URL(location.href); u.searchParams.set('r',Date.now()); location.replace(u.toString()); });
 // copier l'adresse japonaise

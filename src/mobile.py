@@ -495,6 +495,19 @@ const toast=(m)=>{ const t=$('#toast'); t.textContent=m; t.classList.add('on'); 
 const LS={get:(k,d)=>{ try{ const v=localStorage.getItem(k); return v===null?d:JSON.parse(v);}catch(e){return d;} }, set:(k,v)=>{ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }};
 // service worker (seulement en https, GitHub Pages)
 if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+// convertisseur rapide, accessible partout
+const cv=$('#cv'), cvY2=$('#cvY2'), cvE2=$('#cvE2'), cvBig=$('#cvBig');
+const fmt=(n,d)=>n.toLocaleString('fr-FR',{maximumFractionDigits:d});
+const getRate=()=>parseFloat(LS.get('jp7.rate',175))||175;
+function cvRender(){ const r=getRate(); const live=LS.get('jp7.rateLive',null); $('#cvRateLine').textContent='Taux : 1 € = '+fmt(r,1)+' yens'+(live&&live.d?' (BCE, '+live.d+')':' (taux réglé à la main)'); $('#cvQuickBtns').innerHTML=[500,1000,2000,3000,5000,8000,10000,15000,20000,30000,50000].map(y=>'<button data-y="'+y+'"><b>'+fmt(y,0)+' ¥</b><span>'+fmt(y/r,y<2000?1:0)+' €</span></button>').join(''); $$('#cvQuickBtns button').forEach(b=>b.addEventListener('click',()=>{ cvY2.value=b.dataset.y; cvFromY(); })); const ri=$('#cvRate'); if(ri) ri.value=r; }
+function cvFromY(){ const r=getRate(); const y=parseFloat(cvY2.value); cvE2.value=isNaN(y)?'':(y/r).toFixed(y/r<20?1:0); cvBig.textContent=isNaN(y)?'':fmt(y,0)+' ¥ = '+fmt(y/r,y/r<20?1:0)+' €'; }
+function cvFromE(){ const r=getRate(); const e=parseFloat(cvE2.value); cvY2.value=isNaN(e)?'':Math.round(e*r); cvBig.textContent=isNaN(e)?'':fmt(e,1)+' € = '+fmt(Math.round(e*r),0)+' ¥'; }
+cvY2.addEventListener('input',cvFromY); cvE2.addEventListener('input',cvFromE);
+function cvOpen(){ cvRender(); cv.classList.remove('hidden'); setTimeout(()=>cvY2.focus(),50); } function cvCloseF(){ cv.classList.add('hidden'); }
+$('#cvBtn').addEventListener('click',cvOpen); $('#cvClose').addEventListener('click',cvCloseF); $('#cvBg').addEventListener('click',cvCloseF);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') cvCloseF(); });
+// taux du jour (BCE via frankfurter.app), au plus une fois par jour
+(async()=>{ const live=LS.get('jp7.rateLive',null); const today=new Date().toISOString().slice(0,10); if(live&&live.fetched===today) return; if(!navigator.onLine) return; try{ const j=await fetch('https://api.frankfurter.app/latest?from=EUR&to=JPY').then(r=>r.json()); const v=j&&j.rates&&j.rates.JPY; if(v){ LS.set('jp7.rateLive',{v:v,d:j.date,fetched:today}); LS.set('jp7.rate',Math.round(v*10)/10); const ri=$('#cvRate'); if(ri){ ri.value=Math.round(v*10)/10; ri.dispatchEvent(new Event('input')); } } }catch(e){} })();
 // recharger en forçant le réseau (vide le cache du service worker)
 const rb=$('#refreshBtn'); if(rb) rb.addEventListener('click',async()=>{ toast('Mise à jour…'); try{ if('caches' in window){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } if(navigator.serviceWorker){ const rs=await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(r=>r.unregister())); } }catch(e){} const u=new URL(location.href); u.searchParams.set('r',Date.now()); location.replace(u.toString()); });
 // copier l'adresse japonaise
@@ -602,7 +615,7 @@ def build():
     doc = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#fafaf9"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Japon"><link rel="apple-touch-icon" href="{{ICON180}}"><link rel="icon" href="{{ICON192}}"><link rel="manifest" href="{{MANIFEST}}">
 <title>Japon en hiver · {'guide Allibert' if MODE == 'allibert' else 'carnet v7'}</title><style>{css}</style></head><body>
-<header class="top"><span class="kj">冬</span><div class="brand"><b>Japon en hiver</b><small>26 déc. → 11 janv. 2027</small></div><div class="jst" id="jst"><b>--:--</b>heure du Japon</div><button id="refreshBtn" aria-label="Recharger la dernière version">{ico("refresh")}</button><button id="searchBtn" aria-label="Rechercher">{ico("search")}</button></header>
+<header class="top"><span class="kj">冬</span><div class="brand"><b>Japon en hiver</b><small>26 déc. → 11 janv. 2027</small></div><div class="jst" id="jst"><b>--:--</b>heure du Japon</div><button id="cvBtn" aria-label="Convertisseur yens euros">{ico("yen")}</button><button id="refreshBtn" aria-label="Recharger la dernière version">{ico("refresh")}</button><button id="searchBtn" aria-label="Rechercher">{ico("search")}</button></header>
 <div class="search hidden" id="search"><div class="row"><input id="q" type="search" placeholder="Rechercher dans le carnet…" autocomplete="off"><button id="closeSearch" aria-label="Fermer">{ico("close")}</button></div></div>
 <div id="results" class="hidden"></div>
 <div class="app"><main>
@@ -616,6 +629,12 @@ def build():
 <nav class="tabs"><button data-v="voyage" class="on"><span class="tk">旅</span><span class="tlab">Voyage</span></button>{'<button data-v="guide"><span class="tk">処</span><span class="tlab">Adresses</span></button>' if MODE == 'allibert' else '<button data-v="sleep"><span class="tk">宿</span><span class="tlab">Dormir</span></button>'}<button data-v="todo"><span class="tk">済</span><span class="tlab">À faire</span></button>{'<button data-v="tools"><span class="tk">具</span><span class="tlab">Outils</span></button>' if MODE == 'allibert' else ''}<button data-v="info"><span class="tk">案</span><span class="tlab">Infos</span></button>{'' if MODE == 'allibert' else '<button data-v="maps"><span class="tk">図</span><span class="tlab">Cartes</span></button>'}</nav>
 <aside id="lnav"><div class="lbrand"><span class="kj">冬</span><b>Japon en hiver</b></div><div class="lnavtabs"></div><div class="lnavdays"></div></aside><aside id="rside"></aside></div>
 <div id="phrase" class="hidden"><button id="phClose" aria-label="Fermer">{ico("close")}</button><div class="phjp"></div><div class="phro"></div><div class="phfr"></div></div>
+<div id="cv" class="hidden"><div class="cvbg" id="cvBg"></div><div class="cvsheet" role="dialog" aria-label="Convertisseur"><div class="cvhead"><b>Yens en euros</b><button id="cvClose" aria-label="Fermer">{ico("close")}</button></div>
+<div class="cvrate" id="cvRateLine">Taux : 1 € = 175 yens</div>
+<div class="cvquick" id="cvQuickBtns"></div>
+<div class="cvio"><label><span>Yens</span><input type="number" inputmode="numeric" id="cvY2" placeholder="1 000"></label><label><span>Euros</span><input type="number" inputmode="decimal" id="cvE2" placeholder="5,7"></label></div>
+<div class="cvbig" id="cvBig"></div>
+<p class="note">Taux de la Banque centrale européenne quand le réseau est là (mis à jour une fois par jour), sinon le dernier taux connu. Modifiable dans Outils.</p></div></div>
 <div id="toast"></div>
 <div id="lb"><button id="lbClose" aria-label="Fermer">{ico("close")}</button><img alt=""><div class="hint">Faites défiler pour explorer la carte</div></div>
 <script>{JS}</script></body></html>'''
