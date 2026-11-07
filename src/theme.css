@@ -52,7 +52,7 @@ mark{background:#fff1b8;color:inherit;border-radius:2px}
 .top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 14px 10px var(--gut);background:rgba(251,250,248,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
 .top .kj{font-family:var(--jp);font-size:17px;color:#fff;background:var(--shu);width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex:none;line-height:1;transform:rotate(-4deg)}
 .top .brand{flex:1;line-height:1.2} .top .brand b{display:block;font-size:15.5px;white-space:nowrap}
-@media(max-width:430px){.top .brand small{display:none} .top .brand b{font-size:15px} .top .kj{width:28px;height:28px;font-size:16px}} .top .brand small{font-size:12px;color:var(--mute);white-space:nowrap}
+@media(max-width:430px){header.top .brand small{display:none!important} .top .brand b{font-size:15px} .top .kj{width:28px;height:28px;font-size:16px}} .top .brand small{font-size:12px;color:var(--mute);white-space:nowrap}
 .top .jst{text-align:right;line-height:1.15;font-size:10.5px;color:var(--mute);white-space:nowrap} .top .jst b{display:block;font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;font-weight:500}
 .top{gap:8px} .top button{padding:6px 2px;color:var(--ink2);display:flex} .top button .i{width:21px;height:21px} .top .brand{min-width:0} .top .brand small{overflow:hidden;text-overflow:ellipsis;display:block}
 .search{position:sticky;top:0;z-index:21;background:var(--paper);border-bottom:1px solid var(--rule);padding:calc(10px + env(safe-area-inset-top)) 14px 10px var(--gut)}
