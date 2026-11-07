@@ -164,6 +164,9 @@ def render_day(ch, d):
         ok = (ch['key'], d['num'])
         if ok in E.PRATIQUE_OVERRIDES: d['pratique'] = E.PRATIQUE_OVERRIDES[ok]
         if ok in E.COINCE_OVERRIDES: d['coince'] = E.COINCE_OVERRIDES[ok]
+        if ok in getattr(E, 'HEAD_OVERRIDES', {}): d['head'] = E.HEAD_OVERRIDES[ok]
+        if ok in getattr(E, 'SECTION_OVERRIDES', {}): d['sections'] = E.SECTION_OVERRIDES[ok]
+        if ok in getattr(E, 'TRAJET_OVERRIDES', {}): d['trajet'] = E.TRAJET_OVERRIDES[ok]
     head = "".join(f'<span class="hd"><b>{esc(a)}</b> {esc(b)}</span>' for a, b in d.get('head', []))
     photos = ""
     plist = list(d.get('photos') or [])

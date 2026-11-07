@@ -346,3 +346,31 @@ ALLIBERT_PHOTOS = {
     "2027-01-10": [("allibert/a14.jpg", "Poupées daruma au Shōrinzan Daruma-ji (photo Allibert, Adobe Stock, James Davies)")],
 }
 COVER_PHOTO = ("allibert/alpes.jpg", "Jizō d'Okunoin, Kōya-san. Photo d'ouverture de la page Allibert.")
+
+
+# Journée guidée de Kyoto (7 janvier) : précision de Camille (Allibert) du 7 novembre.
+# « Pour la visite guidée de Kyoto, il faudra aller déposer vos bagages à l'hôtel d'abord, le guide vous attendra à la réception de l'hôtel à 10 h 00. Tout sera noté sur votre roadbook. »
+HEAD_OVERRIDES = {
+    ("kyoto", "7"): [("MARCHE", "journée guidée à pied, Fushimi Inari puis Higashiyama"), ("TRAJETS", "Osaka → Kyoto le matin, guide à l'hôtel à 10 h"), ("NUIT", "Kyoto")],
+}
+SECTION_OVERRIDES = {
+    ("kyoto", "7"): [
+        ("MATIN", "Train depuis Osaka vers Kyoto (billets dans le roadbook : shinkansen depuis Shin-Osaka, 15 min, ou train rapide JR depuis la gare d'Osaka, 30 min). Valises déposées à la réception du Richmond Hotel Premier Kyoto Ekimae, à quelques minutes à pied de la gare. <b>À 10 h 00, le guide francophone attend à la réception de l'hôtel</b> : c'est lui qui mène la journée, le détail du parcours sera dans le roadbook. Le programme ci-dessous est celui que nous souhaitons, à discuter avec lui au départ : Fushimi Inari et ses tunnels de torii, puis descente vers le Tōfuku-ji."),
+        ("APRÈS-MIDI", "Higashiyama : ▲ le Kiyomizu-dera et sa terrasse de bois sur pilotis, les ruelles pavées de Sannenzaka et Ninenzaka, le temple Kōdai-ji, le sanctuaire Yasaka. Le guide connaît les passages qui évitent la foule du Nouvel An."),
+        ("SOIR", "Gion à la tombée de la nuit, où l'on croise parfois une geiko. Dîner à Pontochō, ruelle de restaurants au bord de la rivière Kamo, ou dans une maison d'obanzai, la cuisine familiale de Kyoto."),
+    ],
+}
+TRAJET_OVERRIDES = {
+    ("kyoto", "7"): [
+        ("8 h 00", "Hôtel → gare", "The Gate Hotel Osaka by Hulic : gare d'Osaka à pied, ou Shin-Osaka en métro Midōsuji (2 stations depuis Umeda) selon le billet du roadbook", "15 à 20 min", "L"),
+        ("vers 8 h 30", "Osaka → Kyoto", "shinkansen Shin-Osaka → Kyoto 15 min, ou train rapide JR Osaka → Kyoto 30 min (toutes les 15 min)", "15 à 30 min", "O"),
+        ("vers 9 h 15", "Valises à la réception du Richmond Hotel Premier Kyoto Ekimae", "sortie Karasuma (nord) de la gare de Kyoto, quelques minutes à pied ; les chambres ne sont prêtes qu'en fin d'après-midi", "10 min", ""),
+        ("10 h 00", "Rendez-vous avec le guide francophone à la réception de l'hôtel", "journée guidée à pied et en transports en commun, programme détaillé dans le roadbook", "journée", "O"),
+    ],
+}
+PRATIQUE_OVERRIDES[("kyoto", "7")] = [
+    "Rendez-vous ferme : <b>10 h 00 à la réception du Richmond Hotel Premier Kyoto Ekimae</b>, valises déjà déposées. Partir d'Osaka avant 8 h 30 pour garder de la marge ; le numéro d'assistance Allibert est dans le roadbook si un train est manqué.",
+    "Demander au guide, dès le départ, ce que nous voulons voir en priorité (Fushimi Inari tôt, Higashiyama ensuite) et où il déjeune : c'est souvent la meilleure adresse de la journée.",
+    "Vêtements chauds et chaussures de marche : la journée se fait dehors, 10 à 12 km au total, et il fait 2 à 8 °C en janvier à Kyoto.",
+    "Kiyomizu-dera, Kōdai-ji et Fushimi Inari sont ouverts le 7 janvier ; les files du Nouvel An retombent après le 5.",
+]
