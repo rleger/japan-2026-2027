@@ -4,6 +4,7 @@ import base64, io, json, os, re, html as H
 from datetime import date, timedelta
 from PIL import Image
 import content_a as A, content_b as B, content_c as C, content_d as D, content_e as E
+import daymaps as DM
 try:
     import content_guide as G
 except ImportError:
@@ -194,9 +195,12 @@ def render_day(ch, d):
     if d.get('options'):
         opts = '<details class="sub c-opts"><summary>' + shi("opts") + 'Autres options et compléments</summary>' + "".join(f'<p><b>{esc(a)}</b> {b}</p>' for a, b in d['options']) + '</details>'
     stars = f'<span class="st">{d["stars"]}</span>' if d.get('stars') else ""
+    dmap = ""
+    if MODE == 'allibert' and k in DM.DAYS:
+        dmap = f'<div class="dmapw"><div class="dmap">{DM.day_svg(k)}</div><p class="dmcap">{esc(DM.DAYS[k]["label"])}</p></div>'
     return f'''<details class="day" id="d-{k}" data-date="{k}" data-s="day">
 <summary><div class="dnum">{d["num"]}</div><div class="dtt"><div class="dow">{esc(d["dow"])}</div><div class="ttl">{esc(d["title"])}{stars}</div><div class="heads">{head}</div></div>{ico("chev","chev")}</summary>
-<div class="dbody">{photos}{secs}{side}{traj}{coince}{opts}{render_weather(k)}{render_night(k)}{render_day_addresses(date.fromisoformat(k))}</div></details>'''
+<div class="dbody">{dmap}{photos}{secs}{side}{traj}{coince}{opts}{render_weather(k)}{render_night(k)}{render_day_addresses(date.fromisoformat(k))}</div></details>'''
 
 def render_strip(st):
     nodes, segs = st['nodes'], st['segs']
@@ -406,6 +410,15 @@ def render_tools():
 <details class="sub tool"><summary>{shi("settings")}Réglages</summary><label class="sw"><input type="checkbox" id="bigText"> Grand texte (pour Claudie)</label><label class="sw">Code Papiers (4 chiffres, vide = aucun) <input type="password" inputmode="numeric" maxlength="4" id="pinSet" placeholder="····"></label><p class="note">Le code masque seulement l'affichage ; ce n'est pas un chiffrement.</p></details>
 </div>'''
 
+def render_where():
+    chips = ""
+    for ch in CHAPTERS:
+        for d in ch["days"]:
+            k = dkey(d)
+            if k in DM.DAYS: chips += f'<button data-k="{k}" data-day="d-{k}">{d["num"]}</button>'
+    pts = json.dumps(DM.day_points(), ensure_ascii=False)
+    return f'<section class="where" id="where"><div class="whereh"><h2>Où serons-nous ?</h2><span class="note">toucher un jour</span></div><div class="dmap ov">{DM.overview_svg()}</div><div class="ovchips">{chips}</div><div class="ovinfo"><b id="ovPlace"></b><span id="ovLabel"></span><a href="#" id="ovOpen">Ouvrir la journée</a></div><script type="application/json" id="ovPts">{pts}</script></section>'
+
 def render_now():
     return '''<section class="now" id="now"><div class="nowh"><span class="lbl">Maintenant · heure du Japon</span><b id="nowClock">--:--</b></div><div id="nowBody" class="nowbody"><p class="note">Le voyage commence le 26 décembre 2026.</p></div></section>'''
 
@@ -508,6 +521,12 @@ const toast=(m)=>{ const t=$('#toast'); t.textContent=m; t.classList.add('on'); 
 const LS={get:(k,d)=>{ try{ const v=localStorage.getItem(k); return v===null?d:JSON.parse(v);}catch(e){return d;} }, set:(k,v)=>{ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }};
 // service worker (seulement en https, GitHub Pages)
 if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+// où serons-nous : carte d'ensemble
+const ov=$('#where'); if(ov){ const pts=JSON.parse($('#ovPts').textContent); const dot=$('#ovDot'), dot2=$('#ovDot2'); let cur=null;
+ function ovSet(k){ cur=k; const p=pts[k]; if(!p) return; dot.setAttribute('cx',p.x); dot.setAttribute('cy',p.y); dot2.setAttribute('cx',p.x); dot2.setAttribute('cy',p.y); $('#ovPlace').textContent=p.place; $('#ovLabel').textContent=p.label; $$('.ovchips button').forEach(b=>b.classList.toggle('on',b.dataset.k===k)); const b=document.querySelector('.ovchips button.on'); if(b) b.scrollIntoView({block:'nearest',inline:'center'}); }
+ $$('.ovchips button').forEach(b=>b.addEventListener('click',()=>ovSet(b.dataset.k)));
+ $('#ovOpen').addEventListener('click',e=>{ e.preventDefault(); if(cur) window.__goTo('voyage','d-'+cur,true); });
+ const t=window.__todayId? window.__todayId.slice(2):null; ovSet(pts[t]?t:'2026-12-27'); }
 // navigation rapide entre les jours
 const dn=$('#dn'); const dnOpen=()=>{ dn.classList.remove('hidden'); const t=dn.querySelector('.dnr.today'); if(t) t.scrollIntoView({block:'center'}); }; const dnCloseF=()=>dn.classList.add('hidden');
 $('#dnBtn').addEventListener('click',dnOpen); $('#dnClose').addEventListener('click',dnCloseF); $('#dnBg').addEventListener('click',dnCloseF);
@@ -594,7 +613,7 @@ renderNow(); setInterval(renderNow,60000);
 const desktop=()=>window.matchMedia('(min-width:900px)').matches;
 function buildLnav(){ const lt=$('.lnavtabs'); if(!lt) return; lt.innerHTML=''; $$('.tabs button').forEach(b=>{ const c=document.createElement('button'); c.innerHTML='<span class="tk">'+b.querySelector('.tk').textContent+'</span>'+b.querySelector('.tlab').textContent; c.dataset.v=b.dataset.v; c.className=b.classList.contains('on')?'on':''; c.addEventListener('click',()=>{ b.click(); buildLnav(); }); lt.appendChild(c); });
  const ld=$('.lnavdays'); ld.innerHTML=''; $$('.chapter').forEach(ch=>{ const a=document.createElement('a'); a.href='#'; a.className='chap'; a.textContent=ch.querySelector('h2').textContent; a.addEventListener('click',e=>{ e.preventDefault(); $('.tabs button[data-v=voyage]').click(); ch.scrollIntoView(); buildLnav(); }); ld.appendChild(a); ch.querySelectorAll('details.day').forEach(d=>{ const x=document.createElement('a'); x.href='#'; x.textContent=d.querySelector('.dow').textContent.toLowerCase()+' · '+d.querySelector('.ttl').textContent; if(d.classList.contains('today')) x.classList.add('today'); x.addEventListener('click',e=>{ e.preventDefault(); $('.tabs button[data-v=voyage]').click(); d.open=true; d.scrollIntoView(); buildLnav(); }); ld.appendChild(x); }); }); }
-function layout(){ if(desktop()){ dayEls.forEach(d=>d.open=true); buildLnav(); const rs=$('#rside'); const nowEl=$('#now'); if(rs && nowEl && !rs.contains(nowEl)){ rs.appendChild(nowEl); } if(rs && !rs.querySelector('.mapfig')){ const t=document.createElement('div'); t.className='rtitle'; t.textContent='Carte générale'; rs.appendChild(t); const mf=document.querySelector('#v-info .mapfig.big'); if(mf) rs.appendChild(mf.cloneNode(true)); } } }
+function layout(){ if(desktop()){ dayEls.forEach(d=>d.open=true); buildLnav(); const rs=$('#rside'); const nowEl=$('#now'); if(rs && nowEl && !rs.contains(nowEl)){ rs.appendChild(nowEl); } const wh=$('#where'); if(rs && wh && !rs.contains(wh)){ rs.appendChild(wh); } } }
 layout(); window.addEventListener('resize',layout);
 })();
 '''
@@ -629,7 +648,8 @@ def build():
     manifest_uri = "data:application/manifest+json;base64," + base64.b64encode(manifest.encode()).decode()
     def wf(n):
         with open(os.path.join(FONTS, n), "rb") as f: return "data:font/woff2;base64," + base64.b64encode(f.read()).decode()
-    css = CSS.replace("INTER400", wf("inter-latin-400-normal.woff2")).replace("INTER500", wf("inter-latin-500-normal.woff2")).replace("INTER600", wf("inter-latin-600-normal.woff2"))
+    with open(DM.base_jpeg(), "rb") as f: daymap = "data:image/jpeg;base64," + base64.b64encode(f.read()).decode()
+    css = CSS.replace("DAYMAP_RATIO", f"{DM.PX}/{DM.H}").replace("DAYMAP", daymap).replace("INTER400", wf("inter-latin-400-normal.woff2")).replace("INTER500", wf("inter-latin-500-normal.woff2")).replace("INTER600", wf("inter-latin-600-normal.woff2"))
     doc = f'''<!doctype html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#fafaf9"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Japon"><link rel="apple-touch-icon" href="{{ICON180}}"><link rel="icon" href="{{ICON192}}"><link rel="manifest" href="{{MANIFEST}}">
 <title>Japon en hiver · {'guide Allibert' if MODE == 'allibert' else 'carnet v7'}</title><style>{css}</style></head><body>
@@ -637,7 +657,7 @@ def build():
 <div class="search hidden" id="search"><div class="row"><input id="q" type="search" placeholder="Rechercher dans le carnet…" autocomplete="off"><button id="closeSearch" aria-label="Fermer">{ico("close")}</button></div></div>
 <div id="results" class="hidden"></div>
 <div class="app"><main>
-<section class="view on" id="v-voyage">{home}{render_now() if MODE == 'allibert' else ''}<nav class="toc">{toc}</nav>{overview}{render_timeline()}{chapters}</section>
+<section class="view on" id="v-voyage">{home}{render_now() if MODE == 'allibert' else ''}{render_where() if MODE == 'allibert' else ''}<nav class="toc">{toc}</nav>{overview}{render_timeline()}{chapters}</section>
 <section class="view" id="v-todo">{render_checklist()}</section>
 {'<section class="view" id="v-guide">' + render_guide() + '</section>' if MODE == 'allibert' else '<section class="view" id="v-sleep"><div class="pad"><div class="kicker">OÙ DORMIR</div><h1>Les hébergements, étape par étape</h1><p class="intro">Prix Booking du 1er novembre 2026 pour deux adultes aux dates du voyage ; chaque nom ouvre Booking aux bonnes dates. Toutes les adresses ont une salle de bain privée, sauf mention contraire.</p></div>' + lodgings + '</section>'}
 {'<section class="view" id="v-tools">' + render_tools() + '</section>' if MODE == 'allibert' else ''}
