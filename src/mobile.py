@@ -197,7 +197,9 @@ def render_day(ch, d):
     stars = f'<span class="st">{d["stars"]}</span>' if d.get('stars') else ""
     dmap = ""
     if MODE == 'allibert' and k in DM.DAYS:
-        dmap = f'<div class="dmapw"><div class="dmap">{DM.day_svg(k)}</div><p class="dmcap">{esc(DM.DAYS[k]["label"])}</p></div>'
+        dsvg, dsty = DM.day_svg(k); stay = DM.stay_of(k)
+        badge = f'<span class="dmst">{stay["n"]}</span>' if stay else ""
+        dmap = f'<div class="dmapw"><div class="dmap" style="{dsty}">{dsvg}</div><p class="dmcap">{badge}{esc(DM.DAYS[k]["label"])}<a href="#" class="dmall" data-ov="1">Vue d\'ensemble</a></p></div>'
     return f'''<details class="day" id="d-{k}" data-date="{k}" data-s="day">
 <summary><div class="dnum">{d["num"]}</div><div class="dtt"><div class="dow">{esc(d["dow"])}</div><div class="ttl">{esc(d["title"])}{stars}</div><div class="heads">{head}</div></div>{ico("chev","chev")}</summary>
 <div class="dbody">{dmap}{photos}{secs}{side}{traj}{coince}{opts}{render_weather(k)}{render_night(k)}{render_day_addresses(date.fromisoformat(k))}</div></details>'''
@@ -411,13 +413,21 @@ def render_tools():
 </div>'''
 
 def render_where():
-    chips = ""
+    mico = dict(train="train", bus="bus", car="car", plane="plane")
+    rows = ""
+    nums = {}
     for ch in CHAPTERS:
-        for d in ch["days"]:
-            k = dkey(d)
-            if k in DM.DAYS: chips += f'<button data-k="{k}" data-day="d-{k}">{d["num"]}</button>'
-    pts = json.dumps(DM.day_points(), ensure_ascii=False)
-    return f'<section class="where" id="where"><div class="whereh"><h2>Où serons-nous ?</h2><span class="note">toucher un jour</span></div><div class="dmap ov">{DM.overview_svg()}</div><div class="ovchips">{chips}</div><div class="ovinfo"><b id="ovPlace"></b><span id="ovLabel"></span><a href="#" id="ovOpen">Ouvrir la journée</a></div><script type="application/json" id="ovPts">{pts}</script></section>'
+        for d in ch["days"]: nums[dkey(d)] = d["num"]
+    for st in DM.STAYS:
+        mode, how = st["come"]
+        ref = E.HOTEL_BY_DATE.get(st["days"][0]); hotel = E.HOTELS[ref[0]][ref[1]][0] if ref else ""
+        chips = "".join(f'<button data-day="d-{k}" data-k="{k}">{nums.get(k, "")}</button>' for k in st["days"])
+        side = f'<small class="sside">{ico("plus")}{esc(st["side"])}</small>' if st.get("side") else ""
+        rows += f'<div class="pair"><div class="leg">{ico(mico[mode])}<span>{esc(how)}</span></div>'
+        rows += f'<div class="stay" data-n="{st["n"]}"><span class="sn">{st["n"]}</span><div class="sb"><div class="sl"><b>{esc(DM.P[st["key"]][0])}</b><span>{esc(st["dates"])} · {st["nights"]} nuit{"s" if st["nights"] > 1 else ""}</span></div><small class="sh2">{ico("bed")}{esc(hotel)}</small>{side}<div class="schips">{chips}</div></div></div></div>'
+    rows += f'<div class="leg">{ico("plane")}<span>{esc(DM.DEPART)}</span></div>'
+    legend = '<div class="ovleg"><span><i class="l-train"></i>train</span><span><i class="l-bus"></i>car</span><span><i class="l-car"></i>voiture</span><span><i class="l-ex"></i>excursion</span></div>'
+    return f'<section class="where" id="where"><div class="whereh"><h2>Le voyage en un coup d\'œil</h2></div><div class="wgrid"><div class="wmap"><div class="dmap ov">{DM.overview_svg()}</div>{legend}</div><div class="stays">{rows}</div></div></section>'
 
 def render_now():
     return '''<section class="now" id="now"><div class="nowh"><span class="lbl">Maintenant · heure du Japon</span><b id="nowClock">--:--</b></div><div id="nowBody" class="nowbody"><p class="note">Le voyage commence le 26 décembre 2026.</p></div></section>'''
@@ -443,7 +453,7 @@ def render_daynav():
         for d in ch["days"]:
             k = dkey(d)
             out += f'<a class="dnr" href="#" data-day="d-{k}" data-date="{k}"><span class="dnn">{d["num"]}</span><span class="dnt"><b>{esc(d["title"])}</b><small>{esc(d["dow"].capitalize())}</small></span></a>'
-    return f'<div id="dn" class="hidden"><div class="cvbg" id="dnBg"></div><div class="cvsheet dnsheet" role="dialog" aria-label="Les jours du voyage"><div class="cvhead"><b>Les jours du voyage</b><button id="dnClose" aria-label="Fermer">{ico("close")}</button></div><div class="dnlist">{out}</div></div></div>'
+    return f'<div id="dn" class="hidden"><div class="cvbg" id="dnBg"></div><div class="cvsheet dnsheet" role="dialog" aria-label="Les jours du voyage"><div class="cvhead"><b>Les jours du voyage</b><button id="dnClose" aria-label="Fermer">{ico("close")}</button></div><a href="#" class="dnov" data-ov="1">{ico("map")}Vue d\'ensemble : les 9 étapes sur la carte</a><div class="dnlist">{out}</div></div></div>'
 
 # --- assemblage ----------------------------------------------------------------
 cover = A.COVER
@@ -521,12 +531,15 @@ const toast=(m)=>{ const t=$('#toast'); t.textContent=m; t.classList.add('on'); 
 const LS={get:(k,d)=>{ try{ const v=localStorage.getItem(k); return v===null?d:JSON.parse(v);}catch(e){return d;} }, set:(k,v)=>{ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }};
 // service worker (seulement en https, GitHub Pages)
 if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
-// où serons-nous : carte d'ensemble
-const ov=$('#where'); if(ov){ const pts=JSON.parse($('#ovPts').textContent); const dot=$('#ovDot'), dot2=$('#ovDot2'); let cur=null;
- function ovSet(k){ cur=k; const p=pts[k]; if(!p) return; dot.setAttribute('cx',p.x); dot.setAttribute('cy',p.y); dot2.setAttribute('cx',p.x); dot2.setAttribute('cy',p.y); $('#ovPlace').textContent=p.place; $('#ovLabel').textContent=p.label; $$('.ovchips button').forEach(b=>b.classList.toggle('on',b.dataset.k===k)); const b=document.querySelector('.ovchips button.on'); if(b) b.scrollIntoView({block:'nearest',inline:'center'}); }
- $$('.ovchips button').forEach(b=>b.addEventListener('click',()=>ovSet(b.dataset.k)));
- $('#ovOpen').addEventListener('click',e=>{ e.preventDefault(); if(cur) window.__goTo('voyage','d-'+cur,true); });
- const t=window.__todayId? window.__todayId.slice(2):null; ovSet(pts[t]?t:'2026-12-27'); }
+// le voyage en un coup d'œil
+const ov=$('#where'); if(ov){
+ function stSel(n){ $$('#where .st').forEach(g=>g.classList.toggle('sel',g.dataset.n===String(n))); $$('#where .rt').forEach(p=>p.classList.toggle('sel',p.dataset.to===String(n))); $$('#where .stay').forEach(r=>r.classList.toggle('sel',r.dataset.n===String(n))); }
+ $$('#where .stay').forEach(r=>r.addEventListener('click',e=>{ if(e.target.closest('button')) return; stSel(r.dataset.n); }));
+ $$('#where .st').forEach(g=>g.addEventListener('click',()=>{ stSel(g.dataset.n); const r=document.querySelector('#where .stay[data-n="'+g.dataset.n+'"]'); if(r) r.scrollIntoView({block:'nearest',behavior:'smooth'}); }));
+ $$('#where .schips button').forEach(b=>b.addEventListener('click',()=>window.__goTo('voyage',b.dataset.day,true)));
+ const t=window.__todayId? window.__todayId.slice(2):null; const r0=t && document.querySelector('#where .schips button[data-k="'+t+'"]');
+ if(r0){ r0.classList.add('today'); stSel(r0.closest('.stay').dataset.n); } }
+document.addEventListener('click',e=>{ const a=e.target.closest('[data-ov]'); if(!a) return; e.preventDefault(); const dn=$('#dn'); if(dn) dn.classList.add('hidden'); const w=$('#where'); if(!w) return; if(window.matchMedia('(min-width:900px)').matches){ w.scrollIntoView({block:'start'}); w.classList.remove('flash'); void w.offsetWidth; w.classList.add('flash'); } else { window.__goTo('voyage','where',false); } });
 // navigation rapide entre les jours
 const dn=$('#dn'); const dnOpen=()=>{ dn.classList.remove('hidden'); const t=dn.querySelector('.dnr.today'); if(t) t.scrollIntoView({block:'center'}); }; const dnCloseF=()=>dn.classList.add('hidden');
 $('#dnBtn').addEventListener('click',dnOpen); $('#dnClose').addEventListener('click',dnCloseF); $('#dnBg').addEventListener('click',dnCloseF);
@@ -613,7 +626,7 @@ renderNow(); setInterval(renderNow,60000);
 const desktop=()=>window.matchMedia('(min-width:900px)').matches;
 function buildLnav(){ const lt=$('.lnavtabs'); if(!lt) return; lt.innerHTML=''; $$('.tabs button').forEach(b=>{ const c=document.createElement('button'); c.innerHTML='<span class="tk">'+b.querySelector('.tk').textContent+'</span>'+b.querySelector('.tlab').textContent; c.dataset.v=b.dataset.v; c.className=b.classList.contains('on')?'on':''; c.addEventListener('click',()=>{ b.click(); buildLnav(); }); lt.appendChild(c); });
  const ld=$('.lnavdays'); ld.innerHTML=''; $$('.chapter').forEach(ch=>{ const a=document.createElement('a'); a.href='#'; a.className='chap'; a.textContent=ch.querySelector('h2').textContent; a.addEventListener('click',e=>{ e.preventDefault(); $('.tabs button[data-v=voyage]').click(); ch.scrollIntoView(); buildLnav(); }); ld.appendChild(a); ch.querySelectorAll('details.day').forEach(d=>{ const x=document.createElement('a'); x.href='#'; x.textContent=d.querySelector('.dow').textContent.toLowerCase()+' · '+d.querySelector('.ttl').textContent; if(d.classList.contains('today')) x.classList.add('today'); x.addEventListener('click',e=>{ e.preventDefault(); $('.tabs button[data-v=voyage]').click(); d.open=true; d.scrollIntoView(); buildLnav(); }); ld.appendChild(x); }); }); }
-function layout(){ if(desktop()){ dayEls.forEach(d=>d.open=true); buildLnav(); const rs=$('#rside'); const nowEl=$('#now'); if(rs && nowEl && !rs.contains(nowEl)){ rs.appendChild(nowEl); } const wh=$('#where'); if(rs && wh && !rs.contains(wh)){ rs.appendChild(wh); } } }
+function layout(){ if(desktop()){ dayEls.forEach(d=>d.open=true); buildLnav(); const rs=$('#rside'); const nowEl=$('#now'); if(rs && nowEl && !rs.contains(nowEl)){ rs.appendChild(nowEl); } } }
 layout(); window.addEventListener('resize',layout);
 })();
 '''

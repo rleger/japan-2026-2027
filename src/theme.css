@@ -92,12 +92,6 @@ main>section.view{display:none} main>section.view.on{display:block}
 .now .links{margin-top:8px}
 
 /* ---------- cartes « où sommes-nous » ---------- */
-.dmap{position:relative;aspect-ratio:DAYMAP_RATIO;background:url(DAYMAP) center/100% 100% no-repeat;border-radius:10px;overflow:hidden;border:1px solid var(--rule)} .dmap svg{display:block;width:100%;height:100%}
-.dmap .lb{font-family:var(--ui);font-size:19px;font-weight:600;fill:var(--ink);paint-order:stroke;stroke:rgba(255,255,255,.9);stroke-width:5px;stroke-linejoin:round} .dmap .lbn{fill:var(--shu)} .dmap .lbo{fill:var(--mute);font-weight:500}
-.dmapw{margin:4px 0 12px} .dmcap{font-size:12.5px;color:var(--ink2);margin-top:6px}
-.where{margin:18px var(--gut) 0} .whereh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px} .whereh h2{font-size:19px}
-.ovchips{display:flex;gap:6px;overflow-x:auto;padding:10px 0 4px;-webkit-overflow-scrolling:touch;scrollbar-width:none} .ovchips::-webkit-scrollbar{display:none}
-.ovchips button{flex:none;min-width:38px;height:34px;padding:0 8px;border:1px solid var(--rule2);border-radius:9px;background:#fff;font-size:13.5px;font-weight:600;color:var(--ink2);font-variant-numeric:tabular-nums} .ovchips button sup{font-size:8px;vertical-align:top} .ovchips button.on{background:var(--shu);border-color:var(--shu);color:#fff}
 .ovinfo{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-top:6px;font-size:14px;color:var(--ink2)} .ovinfo b{color:var(--ink);font-size:15px} .ovinfo a{margin-left:auto;font-size:13.5px;font-weight:500}
 
 /* ---------- sommaire, frise ---------- */
@@ -248,6 +242,31 @@ details.sub.c-traj,details.sub.c-opts{margin-top:14px}
 .dnr:active{background:var(--ai-soft)}
 details.day.today{border-left:3px solid var(--shu);padding-left:12px;margin-left:calc(-1 * var(--gut));padding-left:calc(var(--gut) - 3px);padding-right:var(--gut);margin-right:calc(-1 * var(--gut));background:linear-gradient(90deg,var(--shu-soft),transparent 160px)}
 
+
+/* ---------- cartes : vue d'ensemble et carte du jour ---------- */
+.dmap{position:relative;aspect-ratio:DAYMAP_RATIO;background:url(DAYMAP) 0 0/100% 100% no-repeat;border-radius:10px;overflow:hidden;border:1px solid var(--rule)} .dmap svg{display:block;width:100%;height:100%}
+.dmap .lb{font-family:var(--ui);font-weight:600;fill:var(--ink);paint-order:stroke;stroke:rgba(255,255,255,.92);stroke-width:.24em;stroke-linejoin:round} .dmap .lbn{fill:var(--shu)} .dmap .lbo{fill:var(--mute);font-weight:500} .dmap .lbs{fill:var(--ink2);font-weight:500}
+.dmapw{margin:6px 0 14px} .dmcap{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.4}
+.dmst{width:22px;height:22px;border-radius:50%;background:var(--ai);color:#fff;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.dmall{margin-left:auto;font-size:12.5px;font-weight:500;white-space:nowrap}
+.ov .rt{fill:none;stroke:var(--ai);stroke-opacity:.5;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round} .ov .rt.side{stroke-opacity:.35;stroke-width:2.6} .ov .rt.sel{stroke:var(--shu);stroke-opacity:1;stroke-width:4.4}
+.ov .ex{fill:#fff;stroke:var(--ai);stroke-opacity:.6;stroke-width:2.4}
+.ov .st{cursor:pointer} .ov .st circle{fill:var(--ai);stroke:#fff;stroke-width:3} .ov .st text{fill:#fff;font-family:var(--ui);font-size:19px;font-weight:600;pointer-events:none} .ov .st.sel circle{fill:var(--shu);r:20px}
+.ov .lb{font-size:25px}
+.where{margin:22px var(--gut) 0} .whereh{margin-bottom:10px} .whereh h2{font-size:20px}
+.ovleg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink2);margin:8px 0 4px} .ovleg span{display:inline-flex;align-items:center;gap:6px} .ovleg i{display:inline-block;width:22px;height:0;border-top:2.5px solid var(--ai);opacity:.7} .ovleg .l-bus{border-top-style:dashed} .ovleg .l-car{border-top-style:dotted;border-top-width:3px} .ovleg .l-ex{width:9px;height:9px;border:2px solid var(--ai);border-radius:50%;opacity:.7}
+.stays{margin-top:6px}
+.leg{display:flex;align-items:flex-start;gap:10px;padding:6px 0 6px 6px;margin-left:13px;border-left:2px dotted var(--ai-mid);font-size:12.5px;color:var(--mute);line-height:1.4} .leg .i{width:15px;height:15px;color:var(--ai);opacity:.75;margin-top:1px} .leg span{padding-left:4px}
+.stay{display:flex;gap:12px;align-items:flex-start;padding:10px 10px 10px 0;border-radius:0 10px 10px 0;cursor:pointer}
+.stay .sn{width:28px;height:28px;border-radius:50%;background:var(--ai);color:#fff;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none;font-variant-numeric:tabular-nums}
+.stay .sb{flex:1;min-width:0} .stay .sl{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 10px} .stay .sl b{font-size:16px;letter-spacing:-.01em} .stay .sl span{font-size:13px;color:var(--ink2)}
+.stay small{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--mute);margin-top:3px} .stay small .i{width:14px;height:14px;opacity:.7}
+.schips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px} .schips button{min-width:34px;height:30px;padding:0 7px;border:1px solid var(--rule2);border-radius:8px;background:#fff;font-size:13px;font-weight:600;color:var(--ai);font-variant-numeric:tabular-nums} .schips button sup{font-size:8px;vertical-align:top} .schips button.today{background:var(--shu);border-color:var(--shu);color:#fff}
+.stay.sel{background:linear-gradient(90deg,var(--shu-soft),rgba(251,238,234,0) 85%);box-shadow:inset 3px 0 0 var(--shu);padding-left:9px;margin-left:-12px} .stay.sel .sn{background:var(--shu)}
+.dnov{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;padding:8px 0 4px} .dnov .i{width:17px;height:17px}
+@media(min-width:900px){ .where{margin-top:30px} .wmap .dmap{border-radius:12px} .ov .lb{font-size:16px} .ov .lbs{font-size:13.5px} .ov .st circle{r:12px;stroke-width:2.2} .ov .st.sel circle{r:14px} .ov .st text{font-size:13px} .ov .rt{stroke-width:2.4} .ov .rt.sel{stroke-width:3.4} .ov .ex{r:4.5px;stroke-width:2}
+ .stays{columns:2;column-gap:28px;margin-top:14px} .pair{break-inside:avoid} .dmapw .dmap{max-width:460px} }
+
 /* ---------- infos ---------- */
 .tbl{width:100%;font-size:13.5px;margin:6px 0 4px} .tbl th{font-size:12px;font-weight:600;text-align:left;padding:8px;background:#efeeec;color:var(--ink2);border-bottom:1px solid var(--rule2)} .tbl td{padding:8px;border-top:1px solid var(--rule);vertical-align:top} .tbl td:nth-child(n+2){white-space:nowrap;text-align:right} .tbl.cmp td:nth-child(n+2){white-space:normal;text-align:left;width:25%}
 .src li{padding:8px 0;border-bottom:1px solid var(--rule);font-size:14px}
@@ -278,7 +297,7 @@ html.big{font-size:118%} html.big body{font-size:17px} html.big .sec p{font-size
  .lnavtabs{display:grid;gap:2px;margin-bottom:22px} .lnavtabs button{display:flex;align-items:center;gap:12px;border-radius:8px;padding:9px 12px;font-size:14.5px;font-weight:500;color:var(--ink2);text-align:left} .lnavtabs button.on{background:#fff;color:var(--ai);box-shadow:0 0 0 1px var(--rule)} .lnavtabs .tk{font-family:var(--jp);font-size:16px;width:20px;text-align:center}
  .lnavdays a{display:block;padding:5px 12px;border-radius:6px;font-size:13px;color:var(--ink2);text-decoration:none;line-height:1.35} .lnavdays a.chap{font-weight:600;color:var(--ink);margin-top:14px;font-size:13.5px} .lnavdays a:hover{background:#eceae6} .lnavdays a.today{color:var(--shu);font-weight:600}
  #rside{display:block;grid-column:3;grid-row:1;position:sticky;top:82px;max-height:calc(100vh - 100px);overflow:auto;padding:0 0 30px}
- #rside .now{margin:0 0 18px} #rside .where{margin:0 0 18px} #rside .ovchips{flex-wrap:wrap;overflow:visible} #rside .ovchips button{min-width:34px;height:30px;font-size:12.5px;padding:0 6px} #rside .mapfig{margin:0 0 14px;background:#fff} #rside .rtitle{font-size:13px;font-weight:600;color:var(--ink2);margin:0 0 8px}
+ #rside .now{margin:0 0 18px} #rside .mapfig{margin:0 0 14px;background:#fff} #rside .rtitle{font-size:13px;font-weight:600;color:var(--ink2);margin:0 0 8px}
  .cover{padding:36px var(--gut) 32px;border-radius:14px 14px 0 0} .cover .ct,.cover .ct i{font-size:54px} .cover .ckj{right:var(--gut);top:36px;width:68px;height:68px;font-size:40px}
  .hero img{height:320px} .photos figure{flex:0 0 46%} .photos figure.sq{flex:0 0 34%} .coverph img{height:360px}
  details.day{padding-left:var(--rail)} details.day>summary{gap:10px}
