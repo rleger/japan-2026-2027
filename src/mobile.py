@@ -9,6 +9,21 @@ try:
     import content_guide as G
 except ImportError:
     G = None
+try:
+    import content_dj as DJ
+except ImportError:
+    DJ = None
+DJS = "Direction Japon HS n°2"
+if G is not None and DJ is not None:
+    G.GUIDE = list(G.GUIDE)
+    for _g in DJ.DJ_GUIDE:
+        _d = dict(_g); _d["src"] = "dj"
+        if _d.get("hours", "").lower().startswith("non indiqu"): _d["hours"] = "Horaires " + _d["hours"][0].lower() + _d["hours"][1:]
+        if _d.get("price"): _d["hours"] = (_d.get("hours", "") + (" ; " if _d.get("hours") else "") + _d["price"]).strip()
+        G.GUIDE.append(_d)
+    for _a in getattr(DJ, "ALREADY_IN_GUIDE", []):
+        for _g in G.GUIDE:
+            if _g["name"] == _a["existing"]: _g["djnote"] = (_a["page"], _a.get("adds", ""))
 MODE = 'allibert'
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -85,7 +100,7 @@ ICONS = dict(
     translate="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z",
 )
 # badge d'icône coloré : chaque famille d'information a sa couleur et son pictogramme
-SH = dict(prog="clock", prat="check", table="fork", rep="compass", traj="train", coince="warn", opts="plus", wx="sun", night="bed", addr="pin", hist="book", loc="people", taste="fork", anec="book",
+SH = dict(dj="book", prog="clock", prat="check", table="fork", rep="compass", traj="train", coince="warn", opts="plus", wx="sun", night="bed", addr="pin", hist="book", loc="people", taste="fork", anec="book",
           manger="fork", cafe="cup", bain="drop", course="run", photo="camera", papeterie="pen", voir="eye", boutique="bag", hotel="bed", run="run",
           papers="todo", conv="yen", phrases="translate", nums="phone", konbini="store", pack="bag", morning="sun", journal="pen", settings="tune", block="warn", info="info", check="check", yen="yen")
 def shi(kind): return f'<span class="shi s-{kind}">{ico(SH.get(kind, "info"))}</span>'
@@ -155,7 +170,7 @@ def render_day_addresses(d_date):
     items = [g for g in G.GUIDE if day_matches(g.get("day", ""), d_date)]
     if not items: return ""
     items.sort(key=lambda x: list(KINDS).index(x["kind"]) if x["kind"] in KINDS else 9)
-    rows = "".join(f'<a class="dad" href="#adresses" data-go="guide" data-target="g-{slug(g["name"])}">{shi(g["kind"])}<span class="dn"><b>{esc(g["name"])}</b><small>{esc(KINDS.get(g["kind"], (g["kind"], ""))[0])}{(" · " + esc(g["zone"])) if g.get("zone") else ""}</small></span>{ico("chev","chev")}</a>' for g in items)
+    rows = "".join(f'<a class="dad" href="#adresses" data-go="guide" data-target="g-{slug(g["name"])}">{shi(g["kind"])}<span class="dn"><b>{esc(g["name"])}</b><small>{esc(KINDS.get(g["kind"], (g["kind"], ""))[0])}{(" · " + esc(g["zone"])) if g.get("zone") else ""}{(" · " + DJS + ", p. " + str(g.get("page", ""))) if g.get("src") == "dj" else ""}</small></span>{ico("chev","chev")}</a>' for g in items)
     return f'<div class="dayaddr">{sh("addr", "Adresses du jour")}{rows}</div>'
 
 def render_day(ch, d):
@@ -202,7 +217,7 @@ def render_day(ch, d):
         dmap = f'<div class="dmapw"><div class="dmap" style="{dsty}">{dsvg}</div><p class="dmcap">{badge}{esc(DM.DAYS[k]["label"])}<a href="#" class="dmall" data-ov="1">Vue d\'ensemble</a></p></div>'
     return f'''<details class="day" id="d-{k}" data-date="{k}" data-s="day">
 <summary><div class="dnum">{d["num"]}</div><div class="dtt"><div class="dow">{esc(d["dow"])}</div><div class="ttl">{esc(d["title"])}{stars}</div><div class="heads">{head}</div></div>{ico("chev","chev")}</summary>
-<div class="dbody">{dmap}{photos}{secs}{side}{traj}{coince}{opts}{render_weather(k)}{render_night(k)}{render_day_addresses(date.fromisoformat(k))}</div></details>'''
+<div class="dbody">{dmap}{photos}{secs}{side}{render_dj_day(k)}{traj}{coince}{opts}{render_weather(k)}{render_night(k)}{render_day_addresses(date.fromisoformat(k))}</div></details>'''
 
 def render_strip(st):
     nodes, segs = st['nodes'], st['segs']
@@ -244,9 +259,31 @@ def guide_link(ch):
     out = "".join(f'<a class="btn ghost" href="#adresses" data-go="guide" data-target="area-{slug(a)}">{ico("pin")} Adresses : {esc(a)}</a>' for a in areas if any(g["area"] == a for g in G.GUIDE))
     return out
 
+def dj_src(g):
+    if g.get("src") == "dj":
+        return f'<div class="djsrc">{ico("book")}<span>Source : {DJS}, p. {g.get("page", "")}</span></div>'
+    if g.get("djnote"):
+        pg, adds = g["djnote"]
+        return f'<div class="djsrc">{ico("book")}<span>Aussi dans {DJS}, p. {pg}{(" : " + esc(adds)) if adds else ""}</span></div>'
+    return ""
+
+def render_dj_day(k):
+    if DJ is None: return ""
+    notes = [n for n in DJ.DJ_DAY_NOTES if n["date"] == k]
+    if not notes: return ""
+    body = "".join(f'<div class="djn"><b>{esc(n["title"])}</b><p>{esc(n["text"])} <span class="djp">p. {n["page"]}</span></p></div>' for n in notes)
+    return f'<div class="callout c-dj">{sh("dj", "Lu dans " + DJS)}{body}</div>'
+
+def render_dj_chapter(key):
+    if DJ is None: return ""
+    notes = DJ.DJ_CHAPTER.get(key, [])
+    if not notes: return ""
+    body = "".join(f'<div class="djn"><b>{esc(n["title"])}</b><p>{esc(n["text"])} <span class="djp">p. {n["page"]}</span></p></div>' for n in notes)
+    return f'<details class="sub c-djs" data-s="hist" data-title="Lu dans {DJS}"><summary>{shi("dj")}Lu dans {DJS}</summary>{body}<p class="note">Résumés de la rédaction de ce guide ; numéros de page du magazine.</p></details>'
+
 def render_guide():
     if not G: return '<div class="pad"><p class="note">Adresses en préparation.</p></div>'
-    chips = "".join(f'<button class="fchip" data-k="{k}">{ico(SH[k])}{v[0]}</button>' for k, v in KINDS.items())
+    chips = "".join(f'<button class="fchip" data-k="{k}">{ico(SH[k])}{v[0]}</button>' for k, v in KINDS.items()) + (f'<button class="fchip djf" data-k="dj">{ico("book")}Direction Japon</button>' if DJ else "")
     out = f'''<div class="pad"><div class="kicker">LE GUIDE</div><h1>Adresses, étape par étape</h1><p class="intro">Restaurants, cafés, bains, boutiques photo et choses à voir, dans l'ordre du voyage. Chaque fiche ouvre Google Maps ; les horaires du Nouvel An sont donnés quand ils sont connus, sinon « inconnu » : vérifier la veille.</p>
 <div class="filters"><button class="fchip on" data-k="all">Tout</button>{chips}</div></div>'''
     for area in AREA_ORDER:
@@ -266,7 +303,7 @@ def render_guide():
             if g.get("hours") and g["hours"].lower() != "inconnu": meta.append(esc(g["hours"]))
             if g.get("booking") and g["booking"].lower() != "inconnu": meta.append(esc(g["booking"]))
             if g.get("day"): meta.append("Idéal : " + esc(g["day"]))
-            cards += f'''<div class="gc k-{k}" id="g-{slug(g["name"])}" data-k="{k}" data-s="guide" data-title="{esc(g["name"])}"><div class="gk">{shi(k)}<span>{kv[0]}{(" · " + esc(g["zone"])) if g.get("zone") else ""}</span></div><b>{esc(g["name"])}</b><p>{esc(g["what"])}</p>{('<div class="addr">' + esc(g["address"]) + '</div>') if g.get("address") else ""}{('<div class="meta">' + " · ".join(meta) + '</div>') if meta else ""}<div class="links">{links}</div></div>'''
+            cards += f'''<div class="gc k-{k}" id="g-{slug(g["name"])}" data-k="{k}" data-src="{g.get("src", "")}" data-s="guide" data-title="{esc(g["name"])}"><div class="gk">{shi(k)}<span>{kv[0]}{(" · " + esc(g["zone"])) if g.get("zone") else ""}</span></div><b>{esc(g["name"])}</b><p>{esc(g["what"])}</p>{('<div class="addr">' + esc(g["address"]) + '</div>') if g.get("address") else ""}{('<div class="meta">' + " · ".join(meta) + '</div>') if meta else ""}{dj_src(g)}<div class="links">{links}</div></div>'''
         out += f'<section class="garea" id="area-{slug(area)}"><h2>{esc(area)}<small>{len(items)} adresses</small></h2>{cards}</section>'
     return out
 
@@ -294,6 +331,7 @@ def render_chapter(ch):
 <div class="stats">{stats}</div>
 <details class="sub" data-s="hist" data-title="{esc(ch["title"])} : un peu d'histoire"><summary>{shi("hist")}Un peu d'histoire</summary><p>{ch["history"]}</p></details>
 {locals_html}
+{render_dj_chapter(key)}
 {mp}{strips}
 <div class="days">{days}</div>
 {'' if MODE == 'allibert' else f'<a class="btn ghost" href="#sleep/{key}" data-go="sleep" data-target="lg-{key}">{ico("bed")} Où dormir : {esc(ch["lodging"]["title"])}</a>'}
@@ -503,7 +541,7 @@ $$('#v-sleep .lodge').forEach(d=>add(d,'Dormir',d.dataset.title,'sleep'));
 $$('#v-guide .gc').forEach(d=>add(d,'Adresse · '+d.closest('.garea').querySelector('h2').firstChild.textContent,d.dataset.title,'guide'));
 $$('#v-voyage .night[data-s]').forEach(d=>add(d,'Hôtel',d.dataset.title,'voyage'));
 // filtres du guide
-$$('.fchip').forEach(b=>b.addEventListener('click',()=>{ $$('.fchip').forEach(x=>x.classList.toggle('on',x===b)); const k=b.dataset.k; $$('.gc').forEach(c=>c.classList.toggle('hidden',k!=='all'&&c.dataset.k!==k)); $$('.zone').forEach(z=>{ let vis=false, n=z.nextElementSibling; while(n && !n.classList.contains('zone')){ if(n.classList.contains('gc') && !n.classList.contains('hidden')) vis=true; n=n.nextElementSibling; } z.classList.toggle('hidden',!vis); }); $$('.garea').forEach(a=>a.classList.toggle('hidden',!a.querySelector('.gc:not(.hidden)'))); }));
+$$('.fchip').forEach(b=>b.addEventListener('click',()=>{ $$('.fchip').forEach(x=>x.classList.toggle('on',x===b)); const k=b.dataset.k; $$('.gc').forEach(c=>c.classList.toggle('hidden',k!=='all'&&(k==='dj'?c.dataset.src!=='dj':c.dataset.k!==k))); $$('.zone').forEach(z=>{ let vis=false, n=z.nextElementSibling; while(n && !n.classList.contains('zone')){ if(n.classList.contains('gc') && !n.classList.contains('hidden')) vis=true; n=n.nextElementSibling; } z.classList.toggle('hidden',!vis); }); $$('.garea').forEach(a=>a.classList.toggle('hidden',!a.querySelector('.gc:not(.hidden)'))); }));
 $$('#v-info details.sub[data-s]').forEach(d=>add(d,d.dataset.s==='mode'?'Mode d\'emploi':'Infos',d.dataset.title,'info'));
 let uid=0; idx.forEach(x=>{ if(!x.el.id) x.el.id='s'+(uid++); });
 const sbox=$('#search'), sin=$('#q'), res=$('#results');
